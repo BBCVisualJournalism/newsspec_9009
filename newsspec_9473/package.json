@@ -1,0 +1,13 @@
+{
+  "name": "jihadiMonthDataTask",
+  "version": "0.0.1",
+  "description": "Part of the jihadi month project - input csv file (global attacks) and outputs data as a local json file as well as editing a google spreadsheet for translations of free text elements",
+  "author": {
+    "name": "bongoYo",
+    "email": "richard.bangay@bbc.co.uk"
+  },
+  "devDependencies": {
+    "csv-parse": "~0.0.6",
+    "google-spreadsheets": "~0.3.0"
+  }
+}

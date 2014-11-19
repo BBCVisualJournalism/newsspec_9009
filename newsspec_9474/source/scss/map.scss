@@ -1,0 +1,28 @@
+.mapHolder {
+	position:relative;
+	width:100%;
+	height:0;
+	padding-bottom: 71.72131147541%;
+
+	canvas {
+		position:absolute;
+		top:0;
+		left:0;
+		width:100%;
+		height:100%;
+	}
+
+	.hideCanvas {
+		opacity: 0;
+	}
+
+	.mapBottomBar {
+		z-index:2;
+		position:absolute;
+		bottom:0;
+		left:0;
+		width:100%;
+		height:100px;
+		background: rgba(0,0,0,0.1);
+	}
+}

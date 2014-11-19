@@ -1,0 +1,13 @@
+@mixin box-sizing() {
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+@mixin opacity($val) {
+	/* IE 8 */
+	$ieval: ($val * 100);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=#{$ieval})";
+
+	/* good browsers */
+	opacity: $val;
+}
