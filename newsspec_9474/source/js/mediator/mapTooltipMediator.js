@@ -54,9 +54,40 @@ define(function (require) {
             percentOfAttacksFigure = percentOfAttacksFigure.substr(0, percentOfAttacksFigure.indexOf('.') + 2);
             this.fourthFigureEl.html(percentOfAttacksFigure + '%');
 
+            var mapHolderWidth = news.$('.mapHolder')[0].clientWidth, tooltipWidth = this.holderEl[0].clientWidth, tooltipHeight = this.holderEl[0].clientHeight;
+
+            var leftArrowPos = {
+                top: position.y - (tooltipHeight >> 1),
+                left: position.x + 16
+            };
+
+            console.log('mapHolderWidth = ', mapHolderWidth);
+
+            if (leftArrowPos.top >= 0 && leftArrowPos.left <= (mapHolderWidth - (tooltipWidth + 16))) {
+                this.positionTooltip(leftArrowPos);
+                console.log('leftArrowPos.left = ', leftArrowPos.left);
+                console.log('(mapHolderWidth - (tooltipWidth + 16)) = ', (mapHolderWidth - (tooltipWidth + 16)));
+                console.log('tooltipWidth = ', tooltipWidth);
+                console.log('left arrow rule applies');
+                return;
+            }
+
+            var rightArrowPos = {
+                top: position.y - (tooltipHeight >> 1),
+                left: position.x - (tooltipWidth + 16)
+            };
+
+            if (rightArrowPos.top >= 0 && rightArrowPos.left >= 0) {
+                console.log('right arrow rule applies');
+                this.positionTooltip(rightArrowPos);
+                return;
+            }
+        },
+
+        positionTooltip: function (pos) {
             this.holderEl.css({
-                top: position.y + 'px',
-                left: position.x + 'px'
+                top: pos.top + 'px',
+                left: pos.left + 'px'
             });
         },
 
