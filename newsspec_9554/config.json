@@ -1,0 +1,12 @@
+{
+  "debug":          "false",
+  "whichEnv":       "local",
+  "parent_project_number": "9009",
+  "project_number": "9554",
+  "year":           "2014",
+  "imageWidths":    ["320", "640", "1024"],
+  "services": {
+    "default": "english",
+    "others": ["mundo", "arabic"]
+  }
+}

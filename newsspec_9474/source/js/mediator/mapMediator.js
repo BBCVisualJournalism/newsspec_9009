@@ -44,17 +44,34 @@ define(function (require) {
             .defer(d3.json, 'assets/countries_data.json')
             .await(this.mapAssetsLoaded.bind(this));
 
+        /********************************************************
+            * LISTENERS AND HANDLERS
+        ********************************************************/
         d3.select(this.holderEl[0])
-            .on('click', this.handleMapClick.bind(this));
+                    .on('click', this.handleMapClick.bind(this));
+
+        news.pubsub.on('hideTooltip', this.pauseClickEventListener.bind(this));
     };
 
     MapMediator.prototype = {
+
+        pauseClickEventListener: function () {
+            
+            d3.select(this.holderEl[0])
+                    .on('click', null);
+
+            setTimeout(function () {
+                d3.select(this.holderEl[0])
+                    .on('click', this.handleMapClick.bind(this));
+            }.bind(this), 100);
+
+        },
 
         mapAssetsLoaded: function (error, world, incidentsData, countriesData) {
 
             var land = topojson.feature(world, world.objects.worldmap), ocean = {type: "Sphere"};
 
-            this.mapCtx.strokeStyle = '#BABABA';
+            this.mapCtx.strokeStyle = '#999999';
             this.mapCtx.lineWidth = 0.2;
 
             this.mapCtx.fillStyle = 'rgba(255,255,255,0)';
@@ -83,7 +100,6 @@ define(function (require) {
 
                 this.drawIncidents(incidentsData[key], indidentCanvasCtx);
 
-                // incidentCanvas.node()
                 setTimeout(this.showDayIncidents, 500 + (itt * 100), [incidentCanvas.node()]);
                 itt ++;
 
@@ -124,11 +140,11 @@ define(function (require) {
                 ctx.beginPath();
                 this.path({type: "GeometryCollection", geometries: [circle]});
                 
-                ctx.strokeStyle = 'rgba(200,0,0,.5)';
-                ctx.lineWidth = 0.2;
+                ctx.strokeStyle = 'rgba(255,255,255,.6)';
+                ctx.lineWidth = 0.5;
                 ctx.stroke();
 
-                ctx.fillStyle = "rgba(200,0,0,.1)";
+                ctx.fillStyle = "rgba(222,88,87,.4)";
                 ctx.fill();
 
             }
@@ -146,7 +162,7 @@ define(function (require) {
                 * The x position of the canvas click would give you the left bounds array range, then add
                 * to that the width of the largest attck in the data set to get the right bounds array range
             **********************/
-            var a, arrLength = this.incidentsArrSortedXPos.length;
+            var a, arrLength = this.incidentsArrSortedXPos.length, chosenIncident = 0, smallestDistance = 99999;
             for (a = 0; a < arrLength; a++) {
                 var incidentObj = this.incidentsArrSortedXPos[a];
 
@@ -157,14 +173,19 @@ define(function (require) {
                 var distance = Math.sqrt( xs + ys );
 
                 if (distance <= incidentObj.circleRadius) {
-                    var incidentHitReportNo = incidentObj.report_number;
 
-                    var countryName = this.countriesData.incidentLookup[incidentHitReportNo];
-                    var countryData = this.countriesData.countries[countryName];
-
-                    news.pubsub.emit('showTooltip', [countryName, countryData, {x:incidentObj.centerX * mapScaleVal, y:incidentObj.centerY * mapScaleVal}]);
-                    break;
+                    if (distance < smallestDistance) {
+                        smallestDistance = distance;
+                        chosenIncident = incidentObj;
+                    }
                 }
+            }
+
+            if (chosenIncident) {
+                var countryName = this.countriesData.incidentLookup[chosenIncident.report_number];
+                var countryData = this.countriesData.countries[countryName];
+
+                news.pubsub.emit('showTooltip', [countryName, countryData, {x:chosenIncident.centerX * mapScaleVal, y:chosenIncident.centerY * mapScaleVal}]);
             }
         },
 

@@ -27,6 +27,10 @@
 							'headline',
 							'bbc_link'];
 
+	var parentProjectDirectoryPath = __dirname.split('/');
+	parentProjectDirectoryPath.pop();
+	parentProjectDirectoryPath = parentProjectDirectoryPath.join('/');
+
 	/**********************
 		* Check the csv file path has been passed
 	**********************/
@@ -135,7 +139,7 @@
 				/**********************
 					* output the global map object to json!
 				**********************/
-				fs.writeFile('./global_map_data.json', JSON.stringify(globalMapDatesObj), {encoding:'utf8'}, function (err) {
+				fs.writeFile(parentProjectDirectoryPath + '/newsspec_9474/source/assets' + '/global_map_data.json', JSON.stringify(globalMapDatesObj), {encoding:'utf8'}, function (err) {
 					if (err) {
 						throw err;
 					}
@@ -195,7 +199,8 @@
 				/**********************
 					* output the global map object to json!
 				**********************/
-				fs.writeFile('./countries_data.json', JSON.stringify(countriesOutputObj), {encoding:'utf8'}, function (err) {
+				var outputString = JSON.stringify(countriesOutputObj);
+				fs.writeFile(parentProjectDirectoryPath + '/newsspec_9474/source/assets' + '/countries_data.json', outputString, {encoding:'utf8'}, function (err) {
 					if (err) {
 						throw err;
 					}
