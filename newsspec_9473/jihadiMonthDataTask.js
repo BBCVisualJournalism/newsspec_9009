@@ -166,15 +166,25 @@
 							officials_killed:	0,
 							children_killed:	0,
 							attacks_number: 	0, 
-							report_numbers:		[]
+							report_numbers:		[],
+							group_totals: {}
 						};
-						countriesObj[countryName].total_killed += parseInt(rowArr[10], 10);
-						countriesObj[countryName].jihadis_killed += parseInt(rowArr[11], 10);
-						countriesObj[countryName].civilians_killed += parseInt(rowArr[12], 10);
-						countriesObj[countryName].military_killed += parseInt(rowArr[13], 10);
-						countriesObj[countryName].police_killed += parseInt(rowArr[14], 10);
-						countriesObj[countryName].officials_killed += parseInt(rowArr[15], 10);
-						countriesObj[countryName].children_killed += parseInt(rowArr[16], 10);
+						countriesObj[countryName].total_killed += parseInt(rowArr[10], 10) || 0;
+						countriesObj[countryName].jihadis_killed += parseInt(rowArr[11], 10) || 0;
+						countriesObj[countryName].civilians_killed += parseInt(rowArr[12], 10) || 0;
+						countriesObj[countryName].military_killed += parseInt(rowArr[13], 10) || 0;
+						countriesObj[countryName].police_killed += parseInt(rowArr[14], 10) || 0;
+						countriesObj[countryName].officials_killed += parseInt(rowArr[15], 10) || 0;
+						countriesObj[countryName].children_killed += parseInt(rowArr[16], 10) || 0;
+
+						var groupName = (rowArr[19]!=='') ? rowArr[19] : 'Unknown';
+
+						/* If this is the first time the group appeared, init total to 0 */
+						if(!countriesObj[countryName].group_totals[groupName]){
+							countriesObj[countryName].group_totals[groupName] = 0;
+						}
+						/* Add the groups total */
+						countriesObj[countryName].group_totals[groupName] += parseInt(rowArr[10], 10);
 
 						countriesObj[countryName].attacks_number += 1;
 						countriesObj[countryName].report_numbers.push(parseInt(rowArr[0], 10));
@@ -197,10 +207,21 @@
 				countriesOutputObj.countries = countriesObj;
 				countriesOutputObj.incidentLookup = countryLookup;
 				/**********************
-					* output the global map object to json!
+					* output the global map object to json (newsspec_9474)!
 				**********************/
 				var outputString = JSON.stringify(countriesOutputObj);
 				fs.writeFile(parentProjectDirectoryPath + '/newsspec_9474/source/assets' + '/countries_data.json', outputString, {encoding:'utf8'}, function (err) {
+					if (err) {
+						throw err;
+					}
+					console.log('saved the countries_data json file');
+				});
+
+				/**********************
+					* output the global map object to json (newsspec_9554)!
+				**********************/
+				var outputString = JSON.stringify(countriesOutputObj);
+				fs.writeFile(parentProjectDirectoryPath + '/newsspec_9554/source/assets' + '/countries_data.json', outputString, {encoding:'utf8'}, function (err) {
 					if (err) {
 						throw err;
 					}
