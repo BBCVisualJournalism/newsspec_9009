@@ -165,17 +165,28 @@
 							police_killed:		0,
 							officials_killed:	0,
 							children_killed:	0,
+							unknown_killed:  	0,
 							attacks_number: 	0, 
 							report_numbers:		[],
 							group_totals: {}
 						};
-						countriesObj[countryName].total_killed += parseInt(rowArr[10], 10) || 0;
+
+						var totalKilled = parseInt(rowArr[10], 10) || 0;
+
+						countriesObj[countryName].total_killed += totalKilled;
 						countriesObj[countryName].jihadis_killed += parseInt(rowArr[11], 10) || 0;
 						countriesObj[countryName].civilians_killed += parseInt(rowArr[12], 10) || 0;
 						countriesObj[countryName].military_killed += parseInt(rowArr[13], 10) || 0;
 						countriesObj[countryName].police_killed += parseInt(rowArr[14], 10) || 0;
 						countriesObj[countryName].officials_killed += parseInt(rowArr[15], 10) || 0;
 						countriesObj[countryName].children_killed += parseInt(rowArr[16], 10) || 0;
+
+						/* Calculate how many unkown deaths */
+						var unknownKilled =  totalKilled - countriesObj[countryName].jihadis_killed;
+						unknownKilled = unknownKilled - countriesObj[countryName].civilians_killed - countriesObj[countryName].military_killed;
+						unknownKilled = unknownKilled - countriesObj[countryName].police_killed - countriesObj[countryName].officials_killed;
+
+						countriesObj[countryName].unknown_killed += unknownKilled;
 
 						var groupName = (rowArr[19]!=='') ? rowArr[19].trim() : 'Unknown';
 

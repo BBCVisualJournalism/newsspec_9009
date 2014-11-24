@@ -5,9 +5,18 @@
     		<option>Afghanistan</option>
     	</select>
     	<div class="charts-wrapper">
+
+	    	<div class="group-chart">
+	    		<h4>Jihadist Group</h4>
+	    		<div class="group-chart--items"></div>
+	    	</div>
+
 	    	<div class="deaths-chart">
-	    		<h4>Deaths</h4>
-    			<ul class="deaths-chart--labels" style="width: 95px;">
+	    		<div class="deaths-chart--header">
+	    			<%= include('../assets/people.svg') %>
+	    			<h4>Deaths</h4>
+	    		</div>
+    			<ul class="deaths-chart--labels">
     				<li>Civilians</li>
     				<li>Military</li>
     				<li>Police</li>
@@ -24,6 +33,14 @@
     					<li class="deaths-chart--axis_4">600</li>
     					<li class="deaths-chart--axis_5">800</li>
     				</ul>
+    				<div class="deaths-chart--bars">
+    					<div class="deaths-chart--bar" style="width: 50%; height: 25px; margin-top: 16px"></div>
+    					<div class="deaths-chart--bar" style="width: 70%; height: 25px; margin-top: 16px"></div>
+    					<div class="deaths-chart--bar" style="width: 35%; height: 25px; margin-top: 16px"></div>
+    					<div class="deaths-chart--bar" style="width: 90%; height: 25px; margin-top: 16px"></div>
+    					<div class="deaths-chart--bar" style="width: 100%; height: 25px; margin-top: 16px"></div>
+    					<div class="deaths-chart--bar" style="width: 100%; height: 25px; margin-top: 16px"></div>
+    				</div>
     				<div class="deaths-chart--bg">
     					<div class="deaths-chart--bg-section"></div>
     					<div class="deaths-chart--bg-section"></div>
@@ -32,11 +49,15 @@
     				</div>
     			</div>
 	    	</div>
-
-	    	<div class="group-chart">
-	    		<h4>Jihadist Group</h4>
-	    		<div class="group-chart--items"></div>
+	    	<div class="top-methods">
+				<h4>Top methods</h4>
+				<ol class="top-methods--list">
+					<li><strong>40% </strong>Bomb / Explosions</li>		
+					<li><strong>35% </strong>Shooting</li>		
+					<li><strong>30% </strong>Ambush</li>		
+				</ol>	    		
 	    	</div>
+
 	    </div>
     </div>
 

@@ -1,16 +1,23 @@
 .deaths-chart{
-	clear: both;
-	float: left;
-	width: 100%;
+	display: none;
+	margin-right: 280px;
 
-	h4{
-		font: bold Arial 24px;
-		color: $mainTextColor;
+
+	.deaths-chart--header{
+		h4{
+			display: inline-block;
+			margin: 0.3em 0 0 0.5em;
+			font: bold 24px Arial;
+			vertical-align: top;
+			color: $mainTextColor;
+		}
 	}
+
 
 	.deaths-chart--labels{
 		float: left;
 		display: block;
+		width: 95px;
 		margin: 30px 0 0 0;
 		padding: 0;
 		list-style: none;
@@ -60,6 +67,7 @@
 		}
 
 		.deaths-chart--bg{
+			z-index: 1;
 			position: absolute;
 			top: 30px;
 			left: 0;
@@ -73,6 +81,27 @@
 				border-left: 1px solid #aeaeae;  
 				border-top: 1px solid #aeaeae;  
 				border-bottom: 1px solid #aeaeae;  
+			}
+
+			.deaths-chart--bg-section__last{
+				border-right: 1px solid #aeaeae;  
+			}
+
+		}
+
+		.deaths-chart--bars{
+			z-index: 20;
+			position: absolute;
+			top: 30px;
+			left: 0;
+			bottom: 0;
+			right: 8%;
+
+			.deaths-chart--bar{
+ 				background-color: #006767;
+			}
+			.deaths-chart--bar:hover{
+ 				background-color: #009999;
 			}
 
 			.deaths-chart--bg-section__last{

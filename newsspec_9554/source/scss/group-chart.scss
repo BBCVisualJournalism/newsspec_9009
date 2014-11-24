@@ -1,9 +1,10 @@
 .group-chart{
-	float: left;
+	float: right;
 	width: 270px;
 
 	h4{
-		font: bold Arial 24px;
+		margin-top: 0;
+		font: bold 24px Arial;
 		color: $mainTextColor;
 	}
 

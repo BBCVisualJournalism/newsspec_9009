@@ -57,7 +57,7 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine', 'lib/v
             /* Calculate the size of the chart without whitespace */
             var chartsHeight = this.chartHeight - (groupCount * 20);
 
-            $.each(this.dataCollection, function (groupName, noKillings) {
+            news.$.each(this.dataCollection, function (groupName, noKillings) {
                 var percent = self.getPercentageFor(noKillings),
                     rowData = {
                         percent: percent,
@@ -94,6 +94,7 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine', 'lib/v
                 count++;
             });
 
+            news.pubsub.emit('groupChart:drawn', this.$el);
         },
 
         drawWith: function (data) {
