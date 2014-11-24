@@ -1,0 +1,31 @@
+.group-chart{
+	float: left;
+	width: 270px;
+
+	h4{
+		font: bold Arial 24px;
+		color: $mainTextColor;
+	}
+
+	.group-chart--items{
+		.group-chart--row{
+			overflow: hidden;
+
+			.group-chart--bar{
+				margin: 10px 0;
+				width: 130px;
+				float: left;
+			}
+
+			.group-chart--label{
+				padding: 0;
+				float: left;
+				display: block;
+				margin: 5px 0 5px 20px;
+				width: 120px;
+				font: 18px Arial;
+			}
+
+		}
+	}
+}

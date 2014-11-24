@@ -1,9 +1,53 @@
 <%= include('includes/top.tmpl') %>
 
     <div class="main">
-    	<div class="tempShareToolsHolder"></div>
-    	<p style="color: white; position: absolute; margin: 1em;">iFS 1.4</p>
-        <div class="delayed-image-load" data-src="<%= pathStatic %>/<%= vocab_dir %>/img/320/testcard.jpg" data-width="320" style="width: 100%;"></div>
+    	<select class="county-select">
+    		<option>Afghanistan</option>
+    	</select>
+    	<div class="charts-wrapper">
+	    	<div class="deaths-chart">
+	    		<h4>Deaths</h4>
+    			<ul class="deaths-chart--labels" style="width: 95px;">
+    				<li>Civilians</li>
+    				<li>Military</li>
+    				<li>Police</li>
+    				<li>Officials</li>
+    				<li>Jihadi</li>
+    				<li>Unknown</li>
+    			</ul>
+
+    			<div class="deaths-chart--chart-area" style="margin-left: 115px;">
+    				<ul class="deaths-chart--axis">
+    					<li class="deaths-chart--axis_1">0</li>
+    					<li class="deaths-chart--axis_2">200</li>
+    					<li class="deaths-chart--axis_3">400</li>
+    					<li class="deaths-chart--axis_4">600</li>
+    					<li class="deaths-chart--axis_5">800</li>
+    				</ul>
+    				<div class="deaths-chart--bg">
+    					<div class="deaths-chart--bg-section"></div>
+    					<div class="deaths-chart--bg-section"></div>
+    					<div class="deaths-chart--bg-section"></div>
+    					<div class="deaths-chart--bg-section deaths-chart--bg-section__last"></div>
+    				</div>
+    			</div>
+	    	</div>
+
+	    	<div class="group-chart">
+	    		<h4>Jihadist Group</h4>
+	    		<div class="group-chart--items"></div>
+	    	</div>
+	    </div>
     </div>
+
+	<script type="text/html" id="group_chart_tmpl">
+    <div class="group-chart--row">
+        <div class="group-chart--bar"></div>
+        <span class="group-chart--label">
+            <strong><~%= percent %~>%</strong> 
+            <~%= name %~> 
+        </span>
+    </div>	
+	</script>	
 
 <%= include('includes/bottom.tmpl') %>

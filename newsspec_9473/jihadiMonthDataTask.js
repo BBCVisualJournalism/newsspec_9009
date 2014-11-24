@@ -177,7 +177,7 @@
 						countriesObj[countryName].officials_killed += parseInt(rowArr[15], 10) || 0;
 						countriesObj[countryName].children_killed += parseInt(rowArr[16], 10) || 0;
 
-						var groupName = (rowArr[19]!=='') ? rowArr[19] : 'Unknown';
+						var groupName = (rowArr[19]!=='') ? rowArr[19].trim() : 'Unknown';
 
 						/* If this is the first time the group appeared, init total to 0 */
 						if(!countriesObj[countryName].group_totals[groupName]){

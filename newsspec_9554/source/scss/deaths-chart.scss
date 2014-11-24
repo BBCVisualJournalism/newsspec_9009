@@ -1,0 +1,84 @@
+.deaths-chart{
+	clear: both;
+	float: left;
+	width: 100%;
+
+	h4{
+		font: bold Arial 24px;
+		color: $mainTextColor;
+	}
+
+	.deaths-chart--labels{
+		float: left;
+		display: block;
+		margin: 30px 0 0 0;
+		padding: 0;
+		list-style: none;
+
+		li{
+			text-align: right;
+			display: block;
+			margin: 20px 0;
+			font: normal 18px Arial;
+		}
+	}
+
+	.deaths-chart--chart-area{
+		position: relative;
+		margin-right: 20px;
+		height: 300px;
+
+		.deaths-chart--axis{
+			position: relative;
+			display: block;
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			overflow: visible;
+			white-space: nowrap;
+
+			.deaths-chart--axis_1{
+				left: 0;
+			}
+			.deaths-chart--axis_2{
+				left: 21%;
+			}
+			.deaths-chart--axis_3{
+				left: 44%;
+			}
+			.deaths-chart--axis_4{
+				left: 66%;
+			}
+			.deaths-chart--axis_5{
+				left: 89%;
+			}
+
+			li{
+				position: absolute;
+				display: block;
+			}
+		}
+
+		.deaths-chart--bg{
+			position: absolute;
+			top: 30px;
+			left: 0;
+			bottom: 0;
+			right: 0;
+
+			.deaths-chart--bg-section{
+				width: 23%;
+				float: left;
+				height: 100%;
+				border-left: 1px solid #aeaeae;  
+				border-top: 1px solid #aeaeae;  
+				border-bottom: 1px solid #aeaeae;  
+			}
+
+			.deaths-chart--bg-section__last{
+				border-right: 1px solid #aeaeae;  
+			}
+
+		}
+	}
+}
