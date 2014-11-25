@@ -3,7 +3,7 @@
 	width: 270px;
 
 	h4{
-		margin-top: 0;
+		margin: 0 0 8px;
 		font: bold 24px Arial;
 		color: $mainTextColor;
 	}
@@ -14,6 +14,7 @@
 
 			.group-chart--bar{
 				margin: 10px 0;
+				margin: 0;
 				width: 130px;
 				float: left;
 			}

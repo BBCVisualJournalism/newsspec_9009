@@ -6,7 +6,8 @@ module.exports = function (grunt) {
     // *************************************************************************
 
     var amdModulePaths = {
-        'pubsub': './lib/vendors/jquery/pubsub'
+        'pubsub': './lib/vendors/jquery/pubsub',
+        'text': './lib/vendors/text'
     };
 
     // *************************************************************************

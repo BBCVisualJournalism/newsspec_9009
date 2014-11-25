@@ -12,7 +12,7 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine', 'lib/v
         this.totalDeaths = 0;
         this.chartTmpl = 'group_chart_tmpl';
         this.chartColors = ['#C3D699', '#95BA4D', '#689C00', '#50762C', '#374D1F'];
-        this.chartHeight = 365;
+        this.chartHeight = 485;
 
 
         /********************************************************
@@ -94,7 +94,8 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine', 'lib/v
                 count++;
             });
 
-            news.pubsub.emit('groupChart:drawn', this.$el);
+            news.pubsub.emit('groupChart:drawn');
+            
         },
 
         drawWith: function (data) {

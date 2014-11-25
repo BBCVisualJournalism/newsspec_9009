@@ -18,14 +18,14 @@
 		float: left;
 		display: block;
 		width: 95px;
-		margin: 30px 0 0 0;
+		margin: 35px 0 0 0;
 		padding: 0;
 		list-style: none;
 
 		li{
 			text-align: right;
 			display: block;
-			margin: 20px 0;
+			margin: 6px 0 12px 0;
 			font: normal 18px Arial;
 		}
 	}
@@ -33,7 +33,6 @@
 	.deaths-chart--chart-area{
 		position: relative;
 		margin-right: 20px;
-		height: 300px;
 
 		.deaths-chart--axis{
 			position: relative;
@@ -98,10 +97,9 @@
 			right: 8%;
 
 			.deaths-chart--bar{
+				width: 0;
  				background-color: #006767;
-			}
-			.deaths-chart--bar:hover{
- 				background-color: #009999;
+ 				margin: 6px 0 12px 0;
 			}
 
 			.deaths-chart--bg-section__last{
