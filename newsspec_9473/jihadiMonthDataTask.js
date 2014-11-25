@@ -156,7 +156,7 @@
 					var rowArr = output[a];
 					var incidentNum = parseInt(rowArr[0], 10);
 					if (!isNaN(incidentNum)) {
-						var countryName = rowArr[4];
+						var countryName = rowArr[4].trim();
 						countriesObj[countryName] = countriesObj[countryName] || {
 							total_killed:		0,
 							jihadis_killed:		0,

@@ -31,12 +31,25 @@ define(['lib/news_special/bootstrap', 'groupChartController', 'deathsChartContro
             this.$el.on('change', this.updateCountry.bind(this));
         },
 
-        loadCountryList: function () {
-            var self = this;
-            this.$el.empty();
-            this.$el.append('<option value="overview" selected="selected">Overview</option>');
+        orderCountries: function (countries) {
+            var orderedCountries = [];
+            for (var country in countries){
+                orderedCountries.push(country);
+            }
+            orderedCountries.sort();
+                        
+            return orderedCountries;
+        },
 
-            news.$.each(this.countryData, function (countryName) {
+        loadCountryList: function () {
+            var self = this,
+                sortedCountries = this.orderCountries(this.countryData);
+            this.$el.empty();
+            this.$el.append('<option value="overview" selected="selected">All ' + (sortedCountries.length - 1) + ' countries</option>');
+
+
+
+            news.$.each(sortedCountries, function (index, countryName) {
                 if (countryName !== 'overview') {
                     self.$el.append('<option>' + countryName + '</option>');
                 }

@@ -13,6 +13,7 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine'], funct
         this.$el = news.$('.deaths-chart');
         this.$groupChartEl = news.$('.group-chart .group-chart--items');
         this.$topMethodsEl = news.$('.top-methods');
+        this.$totalDeaths = this.$el.find('.deaths-chart--total-deaths');
         this.$chartArea = this.$el.find('.deaths-chart--chart-area');
         this.$axis = this.$el.find('.deaths-chart--axis li');
         this.$barsHolderEl = this.$el.find('.deaths-chart--bars');
@@ -53,10 +54,26 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine'], funct
             return this;
         },
 
+        getBarValues: function () {
+            return [this.model['civilians_killed'], this.model['military_killed'], this.model['police_killed'],
+                    this.model['officials_killed'], this.model['jihadis_killed'], this.model['unknown_killed']];
+        },
+
+        setTotalDeaths: function () {
+            var barValues = this.getBarValues(),
+                total = 0;
+
+            for(var i = 0; i < barValues.length; i++){
+                total += barValues[i];
+            }
+
+            this.$totalDeaths.text(total);
+        },
+
         setBarValues: function (maxAxis) {
-            var barValues = [this.model['civilians_killed'], this.model['military_killed'], this.model['police_killed'],
-                            this.model['officials_killed'], this.model['jihadis_killed'], this.model['unknown_killed']];
-            
+            var barValues = this.getBarValues();
+
+
             for (var i = 0; i < barValues.length; i++) {
                 var $bar = news.$(this.$barEls[i]),
                     widthPercent = (barValues[i] / maxAxis * 100);
@@ -92,6 +109,8 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine'], funct
         draw: function (object) {
             var scale = this.setAxisScale(),
                 maxAxis = scale[scale.length - 1];
+
+            this.setTotalDeaths();
                 
             this.setBarValues(maxAxis);
 

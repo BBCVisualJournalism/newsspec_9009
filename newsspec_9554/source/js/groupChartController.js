@@ -42,22 +42,73 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine', 'lib/v
             return Math.round(noKillings / this.totalDeaths * 100);
         },
 
+        groupSmallGroups: function (data) {
+            var self = this,
+                returnData = {};
+
+            news.$.each(data, function (groupName, noKillings) {
+                if (self.getPercentageFor(noKillings) <= 5) {
+                    if(!returnData.Other){
+                        returnData.Other = 0;
+                    }
+                    returnData.Other += noKillings;
+                } else {
+                    returnData[groupName] = noKillings;
+                }
+            });
+
+            return returnData;
+        },
+
+        orderGroups: function (data) {
+            var orderedData = [];
+            for (var groupName in data){
+                orderedData.push({group: groupName, noKillings: data[groupName]});
+            }
+            orderedData.sort(function(a, b) {
+                /* Order Unknown last, and other second to last */
+                if(a.group === 'Unknown'){
+                    return 1;
+                }
+                if(a.group === 'Other'){
+                    if(b.group === 'Unknown'){
+                        return -1;
+                    }else{
+                        return 1;
+                    }
+                }
+
+                /* Order rest by their no killings */
+                return b.noKillings - a.noKillings
+            });
+            
+            return orderedData;
+        },
+
         draw: function () {
             var self = this,
-                count = 0;
+                count = 0,
+                combindedData = this.groupSmallGroups(this.dataCollection),
+                orderedData = this.orderGroups(combindedData);
 
             this.$el.empty();
 
             /* Count the number of groups */
             var groupCount = 0;
-            for (var k in this.dataCollection) {
+            for (var k in orderedData) {
                 ++groupCount;
             }
 
             /* Calculate the size of the chart without whitespace */
             var chartsHeight = this.chartHeight - (groupCount * 20);
 
-            news.$.each(this.dataCollection, function (groupName, noKillings) {
+            //news.$.each(orderedData, function (groupName, noKillings) {
+
+            for(var x = 0; x < orderedData.length; x++){
+
+                var groupName = orderedData[x].group;
+                    noKillings = orderedData[x].noKillings;
+
                 var percent = self.getPercentageFor(noKillings),
                     rowData = {
                         percent: percent,
@@ -92,10 +143,41 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine', 'lib/v
                 }
 
                 count++;
-            });
+            }
 
             news.pubsub.emit('groupChart:drawn');
-            
+
+            this.animate();
+        },
+
+        animate: function () {
+
+            $('.group-chart--row').each(function () {
+
+                var $chartLabel = news.$(this).find('.group-chart--label'), 
+                    $bar = news.$(this).find('.group-chart--bar');
+
+                var labelTopMargin = parseInt($chartLabel.css('margin-top'), 10),
+                    labelBottomMargin = parseInt($chartLabel.css('margin-bottom'), 10),
+                    barTopMargin = parseInt($bar.css('margin-top'), 10),
+                    barBottomMargin = parseInt($bar.css('margin-bottom'), 10);
+
+                $chartLabel.hide();
+                $chartLabel.css('margin-top', 0);
+                $chartLabel.css('margin-bottom', 0);
+                $bar.css('margin-top', 0);
+                $bar.css('margin-bottom', 0);
+
+                $bar.animate({ marginTop: barTopMargin, marginBottom: barBottomMargin}, 300);
+                $chartLabel.animate({ marginTop: labelTopMargin, marginBottom: labelBottomMargin}, 300);
+
+                $chartLabel.fadeIn(700);
+
+
+
+            });
+
+                
         },
 
         drawWith: function (data) {
