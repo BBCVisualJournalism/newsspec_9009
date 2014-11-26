@@ -18,7 +18,7 @@ define(function (require) {
         this.proj                       =           d3.geo.mercator()
                                                         .translate([(this.canvasWidth / 8), (this.canvasHeight / 1.55)]);
 
-        this.mapScale = 350;
+        this.mapScale                   =           350;
 
         this.proj.scale(this.mapScale);
         this.path                       =           d3.geo.path()
@@ -94,13 +94,18 @@ define(function (require) {
                 var incidentCanvas = d3.select(this.holderEl[0]).append("canvas")
                     .attr("width", this.canvasWidth)
                     .attr("height", this.canvasHeight)
-                    .attr("class", 'hideCanvas mapDayCanvasAnim');
+                    .attr("class", 'visibilityHidden mapDayCanvasAnim');
 
                 var indidentCanvasCtx = incidentCanvas.node().getContext("2d");
 
                 this.drawIncidents(incidentsData[key], indidentCanvasCtx);
 
-                setTimeout(this.showDayIncidents, 500 + (itt * 100), [incidentCanvas.node()]);
+                /*******************
+                    * the delay numbers in the following setTimeout call controls the speed at which the 
+                    * animation of the days incidents appears, you'll also want to check out the speed
+                    * of the opacity css transition in animations.scss: .mapDayCanvasAnim
+                *******************/
+                setTimeout(this.showDayIncidents.bind(this), 500 + (itt * 200), incidentCanvas.node(), incidentsData[key]);
                 itt ++;
 
             }
@@ -113,11 +118,26 @@ define(function (require) {
             this.countriesData = countriesData;
         },
 
-        showDayIncidents: function (dayCanvas) {
-            news.$(dayCanvas).removeClass('hideCanvas');
+        showDayIncidents: function (dayCanvas, incidentsArr) {            
+
+            var $dayCanvas = news.$(dayCanvas);
+            $dayCanvas.removeClass('visibilityHidden');
+            $dayCanvas.addClass('hideCanvas');
+
+            /*******************
+                * add an event listener so when the canvas opacity
+                * gets to 0 then you add the 'hideMe' class back or
+                * remove the element completely depending on performance
+            *******************/
+            $dayCanvas.one("webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend",
+            function(e) {
+                news.$(e.target).addClass('hideMe');
+            });
+
+            this.drawIncidents(incidentsArr, this.mapCtx, 1);
         },
 
-        drawIncidents: function (incidentsArr, ctx) {
+        drawIncidents: function (incidentsArr, ctx, isFinalColor) {
             this.path.context(ctx)({type: "Sphere"});
 
             var a, incidentsLength = incidentsArr.length;
@@ -144,7 +164,12 @@ define(function (require) {
                 ctx.lineWidth = 0.5;
                 ctx.stroke();
 
-                ctx.fillStyle = "rgba(222,88,87,.4)";
+                if (isFinalColor) {
+                    ctx.fillStyle = "rgba(222,88,87,.4)";   
+                }
+                else {
+                    ctx.fillStyle = "rgba(100,19,14,.6)";
+                }
                 ctx.fill();
 
             }
