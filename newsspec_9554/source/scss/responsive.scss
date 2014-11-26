@@ -1,0 +1,49 @@
+@include respondMinMax(480px, false){
+	.top-methods .top-methods--list li{
+		float: left;
+		width: 33%;
+	}
+
+	.group-chart .group-chart--items .group-chart--row{
+		width: 340px;
+
+		.group-chart--bar{
+			width: 200px;
+		}
+	}
+}
+
+@include respondMinMax(768px, false){
+	.top-methods{
+		margin: 0 280px 0 100px;
+
+		.top-methods--list li strong{
+			font-size: 48px;
+		}
+	}
+
+	.group-chart{
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: 270px;
+
+		h4{
+			text-align: left;
+		}
+
+		.group-chart--items .group-chart--row .group-chart--bar{
+			width: 130px;
+		}
+	}
+
+	.deaths-chart{
+		margin-right: 280px;
+	}
+}
+
+@include respondMinMax(900px, false){
+	.top-methods .top-methods--list li strong{
+		font-size: 56px;
+	}
+}

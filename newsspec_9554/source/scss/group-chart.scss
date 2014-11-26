@@ -1,18 +1,20 @@
 .group-chart{
-	position: absolute;
-	top: 0;
-	right: 0;
-	width: 270px;
+	display: block;
+	margin: 20px auto;
+	width: 100%;
 
 	h4{
 		margin: 0 0 8px;
 		font: bold 24px Arial;
 		color: $mainTextColor;
+		text-align: center;
 	}
 
 	.group-chart--items{
 		.group-chart--row{
 			overflow: hidden;
+			margin: 0 auto;
+			width: 270px;
 
 			.group-chart--bar{
 				margin: 10px 0;

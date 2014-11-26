@@ -13,7 +13,8 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine'], funct
         this.animationTime = 1200;
 
         this.$el = news.$('.deaths-chart');
-        this.$groupChartEl = news.$('.group-chart .group-chart--items');
+        this.$groupChartEl = news.$('.group-chart');
+        this.$groupChartItemsEl = this.$groupChartEl.find('.group-chart--items');
         this.$topMethodsEl = news.$('.top-methods');
         this.$totalDeaths = this.$el.find('.deaths-chart--total-deaths');
         this.$chartArea = this.$el.find('.deaths-chart--chart-area');
@@ -32,6 +33,10 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine'], funct
     DeathsChartController.prototype = {
 
         init: function () {
+
+            news.$.fn.percWidth = function(){
+              return this.outerWidth() / this.parent().outerWidth() * 100;
+            }
 
 			/***************************
                 * LISTENERS
@@ -102,8 +107,17 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine'], funct
             
          */
         setDimensions: function () {
-            var fullElementHeight = this.$groupChartEl.height(),
-                chartAreaHeight = fullElementHeight - this.$topMethodsEl.outerHeight(true);
+            var chartAreaHeight = 0;
+
+            console.log(this.$groupChartEl.css('position'));
+
+            /* If we're on a larger device, calculate the chart height from groupschart */
+            if (this.$groupChartEl.css('position') === 'absolute') {
+                var fullElementHeight = this.$groupChartItemsEl.height();
+                chartAreaHeight = fullElementHeight - this.$topMethodsEl.outerHeight(true) + 40;
+            } else {
+                chartAreaHeight = 210;
+            }
 
             this.$chartArea.height(chartAreaHeight);
 
@@ -124,7 +138,7 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine'], funct
                     var $label = news.$(this),
                         $bar = $label.prev('.deaths-chart--bar'),
                         yPos = (index * (barHeight + barMargins)) + (barHeight / 2) - 5,
-                        xPos = $bar.width() + 5;
+                        xPos = $bar.percWidth() + '%';
 
                     $label.css('top', yPos);
                     $label.css('left', xPos);

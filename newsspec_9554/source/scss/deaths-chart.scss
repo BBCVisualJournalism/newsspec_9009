@@ -1,7 +1,5 @@
 .deaths-chart{
 	display: none;
-	margin-right: 280px;
-
 
 	.deaths-chart--header{
 		h4{
@@ -33,6 +31,7 @@
 	.deaths-chart--chart-area{
 		position: relative;
 		margin-right: 20px;
+		margin-left: 115px;
 
 		.deaths-chart--axis{
 			position: relative;
@@ -108,6 +107,7 @@
 				display: none;
 				position: absolute;
 				font: bold 18px Arial;
+				padding-left: 10px;
 				color: #006767;
 			}
 
