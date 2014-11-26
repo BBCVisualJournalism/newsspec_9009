@@ -10,6 +10,8 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine'], funct
         this.model = null;
         this.isOverview = false;
 
+        this.animationTime = 1200;
+
         this.$el = news.$('.deaths-chart');
         this.$groupChartEl = news.$('.group-chart .group-chart--items');
         this.$topMethodsEl = news.$('.top-methods');
@@ -18,6 +20,7 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine'], funct
         this.$axis = this.$el.find('.deaths-chart--axis li');
         this.$barsHolderEl = this.$el.find('.deaths-chart--bars');
         this.$barEls = this.$el.find('.deaths-chart--bars .deaths-chart--bar');
+        this.$barLabelEls = this.$el.find('.deaths-chart--bars .deaths-chart--bar-label');
         this.$labelEls = this.$el.find('.deaths-chart--labels li');
 
         /********************************************************
@@ -63,7 +66,7 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine'], funct
             var barValues = this.getBarValues(),
                 total = 0;
 
-            for(var i = 0; i < barValues.length; i++){
+            for (var i = 0; i < barValues.length; i++) {
                 total += barValues[i];
             }
 
@@ -72,13 +75,19 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine'], funct
 
         setBarValues: function (maxAxis) {
             var barValues = this.getBarValues();
+            var barAmimationTime = this.animationTime / 2;
 
 
             for (var i = 0; i < barValues.length; i++) {
                 var $bar = news.$(this.$barEls[i]),
+                    $label = news.$(this.$barLabelEls[i]),
                     widthPercent = (barValues[i] / maxAxis * 100);
 
-                $bar.animate({ width: widthPercent + '%'}, 500);
+                $bar.animate({ width: widthPercent + '%'}, barAmimationTime);
+
+                /* If bar value is greater than 0, show the label */
+                var labelText = (barValues[i] > 0) ? barValues[i] : '';
+                $label.text(labelText);
             }
 
 
@@ -93,22 +102,45 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine'], funct
             
          */
         setDimensions: function () {
-            var fullElementHeight = this.$groupChartEl.height() - 30,
+            var fullElementHeight = this.$groupChartEl.height(),
                 chartAreaHeight = fullElementHeight - this.$topMethodsEl.outerHeight(true);
 
             this.$chartArea.height(chartAreaHeight);
 
             var barsHolderHeight = this.$barsHolderEl.outerHeight(true),
-                barMargins = parseInt(news.$(this.$barEls[0]).css('margin-bottom'), 10),
+                barMargins = parseInt(news.$(this.$barEls[0]).css('margin-bottom'), 10) + parseInt(news.$(this.$barEls[0]).css('margin-top'), 10),
                 barHeight = (this.$barsHolderEl.height() - (barMargins * this.$barEls.length)) / this.$barEls.length;
 
             this.$barEls.height(barHeight);
             this.$labelEls.height(barHeight);
+
+            var self = this;
+            var barAmimationTime = this.animationTime / 2,
+                labelAnimationTime = this.animationTime - barAmimationTime;
+
+            setTimeout(function () {
+                /* Position bar labels */
+                self.$barLabelEls.each(function (index) {
+                    var $label = news.$(this),
+                        $bar = $label.prev('.deaths-chart--bar'),
+                        yPos = (index * (barHeight + barMargins)) + (barHeight / 2) - 5,
+                        xPos = $bar.width() + 5;
+
+                    $label.css('top', yPos);
+                    $label.css('left', xPos);
+                });
+
+                self.$barLabelEls.fadeIn(labelAnimationTime);
+
+            }, barAmimationTime);
+
         },
 
         draw: function (object) {
             var scale = this.setAxisScale(),
                 maxAxis = scale[scale.length - 1];
+
+            this.$barLabelEls.hide();
 
             this.setTotalDeaths();
                 

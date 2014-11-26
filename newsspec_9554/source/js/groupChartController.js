@@ -48,7 +48,7 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine', 'lib/v
 
             news.$.each(data, function (groupName, noKillings) {
                 if (self.getPercentageFor(noKillings) <= 5) {
-                    if(!returnData.Other){
+                    if (!returnData.Other) {
                         returnData.Other = 0;
                     }
                     returnData.Other += noKillings;
@@ -62,24 +62,24 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine', 'lib/v
 
         orderGroups: function (data) {
             var orderedData = [];
-            for (var groupName in data){
+            for (var groupName in data) {
                 orderedData.push({group: groupName, noKillings: data[groupName]});
             }
-            orderedData.sort(function(a, b) {
+            orderedData.sort(function (a, b) {
                 /* Order Unknown last, and other second to last */
-                if(a.group === 'Unknown'){
+                if (a.group === 'Unknown') {
                     return 1;
                 }
-                if(a.group === 'Other'){
-                    if(b.group === 'Unknown'){
+                if (a.group === 'Other') {
+                    if (b.group === 'Unknown') {
                         return -1;
-                    }else{
+                    } else {
                         return 1;
                     }
                 }
 
                 /* Order rest by their no killings */
-                return b.noKillings - a.noKillings
+                return b.noKillings - a.noKillings;
             });
             
             return orderedData;
@@ -104,9 +104,9 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine', 'lib/v
 
             //news.$.each(orderedData, function (groupName, noKillings) {
 
-            for(var x = 0; x < orderedData.length; x++){
+            for (var x = 0; x < orderedData.length; x++) {
 
-                var groupName = orderedData[x].group;
+                var groupName = orderedData[x].group,
                     noKillings = orderedData[x].noKillings;
 
                 var percent = self.getPercentageFor(noKillings),
@@ -154,7 +154,7 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine', 'lib/v
 
             $('.group-chart--row').each(function () {
 
-                var $chartLabel = news.$(this).find('.group-chart--label'), 
+                var $chartLabel = news.$(this).find('.group-chart--label'),
                     $bar = news.$(this).find('.group-chart--bar');
 
                 var labelTopMargin = parseInt($chartLabel.css('margin-top'), 10),
@@ -168,10 +168,10 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine', 'lib/v
                 $bar.css('margin-top', 0);
                 $bar.css('margin-bottom', 0);
 
-                $bar.animate({ marginTop: barTopMargin, marginBottom: barBottomMargin}, 300);
-                $chartLabel.animate({ marginTop: labelTopMargin, marginBottom: labelBottomMargin}, 300);
+                $bar.animate({ marginTop: barTopMargin, marginBottom: barBottomMargin}, 600);
+                $chartLabel.animate({ marginTop: labelTopMargin, marginBottom: labelBottomMargin}, 600);
 
-                $chartLabel.fadeIn(700);
+                $chartLabel.fadeIn(1200);
 
 
 

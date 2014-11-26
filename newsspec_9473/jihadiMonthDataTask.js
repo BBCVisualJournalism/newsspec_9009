@@ -168,7 +168,8 @@
 							unknown_killed:  	0,
 							attacks_number: 	0, 
 							report_numbers:		[],
-							group_totals: {}
+							group_totals: {},
+							method_totals: {}
 						};
 
 						countriesObj['overview'] = countriesObj['overview'] || {
@@ -182,7 +183,8 @@
 							unknown_killed:  	0,
 							attacks_number: 	0, 
 							report_numbers:		[],
-							group_totals: {}
+							group_totals: {},
+							method_totals: {}
 						};
 
 						var totalKilled = parseInt(rowArr[10], 10) || 0,
@@ -219,18 +221,30 @@
 						countriesObj[countryName].unknown_killed += unknownKilled;
 						countriesObj['overview'].unknown_killed += unknownKilled;
 
-						var groupName = (rowArr[19]!=='') ? rowArr[19].trim() : 'Unknown';
+						var groupName = (rowArr[19]!=='') ? rowArr[19].trim() : 'Unknown',
+							method = (rowArr[9]!=='') ? rowArr[9].trim() : 'Unknown';
 
+						/***** ADD GROUP TOTALS ****/
 						/* If this is the first time the group appeared, init total to 0 */
-						if(!countriesObj[countryName].group_totals[groupName]){
-							countriesObj[countryName].group_totals[groupName] = 0;
-						}
-						if(!countriesObj['overview'].group_totals[groupName]){
-							countriesObj['overview'].group_totals[groupName] = 0;
-						}
+						countriesObj[countryName].group_totals[groupName] = countriesObj[countryName].group_totals[groupName] || 0;
+						countriesObj['overview'].group_totals[groupName] = countriesObj['overview'].group_totals[groupName] || 0;
 						/* Add the groups total */
 						countriesObj[countryName].group_totals[groupName] += parseInt(rowArr[10], 10);
 						countriesObj['overview'].group_totals[groupName] += parseInt(rowArr[10], 10);
+
+						/****** ADD METHODS *******/
+						/* If this is the first time the method appeared, init total to 0 */
+						countriesObj[countryName].method_totals[method] = countriesObj[countryName].method_totals[method] || 0;
+						countriesObj['overview'].method_totals[method] = countriesObj['overview'].method_totals[method] || 0;
+
+						/* Add the groups total */
+						countriesObj[countryName].method_totals[method] += parseInt(rowArr[10], 10);
+						countriesObj['overview'].method_totals[method] += parseInt(rowArr[10], 10);
+
+
+
+
+
 
 						countriesObj[countryName].attacks_number += 1;
 						countriesObj[countryName].report_numbers.push(parseInt(rowArr[0], 10));

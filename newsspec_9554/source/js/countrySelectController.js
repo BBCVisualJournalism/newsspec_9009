@@ -1,4 +1,4 @@
-define(['lib/news_special/bootstrap', 'groupChartController', 'deathsChartController', 'text!../assets/countries_data.json', 'lib/vendors/bind-polyfill'], function (news, GroupChartController, DeathsChartController, data) {
+define(['lib/news_special/bootstrap', 'topMethodsController', 'groupChartController', 'deathsChartController', 'text!../assets/countries_data.json', 'lib/vendors/bind-polyfill'], function (news, TopMethodsController, GroupChartController, DeathsChartController, data) {
 
     'use strict';
 
@@ -8,6 +8,7 @@ define(['lib/news_special/bootstrap', 'groupChartController', 'deathsChartContro
             * VARIABLES
         ********************************************************/
         this.$el = news.$('.county-select');
+        this.topMethodsController = new TopMethodsController();
         this.groupChartController = new GroupChartController();
         this.deathsChartController = new DeathsChartController();
         this.countryData = null;
@@ -33,7 +34,7 @@ define(['lib/news_special/bootstrap', 'groupChartController', 'deathsChartContro
 
         orderCountries: function (countries) {
             var orderedCountries = [];
-            for (var country in countries){
+            for (var country in countries) {
                 orderedCountries.push(country);
             }
             orderedCountries.sort();
@@ -59,10 +60,12 @@ define(['lib/news_special/bootstrap', 'groupChartController', 'deathsChartContro
         updateCountry: function () {
             var selectedCountry = this.countryData[this.$el.val()];
             
+            this.topMethodsController.setData(selectedCountry.method_totals);
             this.groupChartController.setData(selectedCountry.total_killed, selectedCountry.group_totals);
             this.deathsChartController.setData(selectedCountry, (this.$el.val() === 'overview'));
 
 
+            this.topMethodsController.draw();
             this.groupChartController.draw();
             /* Death chart will be drawn automatically after the group has been drawn, via a pubsub */
         }

@@ -97,9 +97,18 @@
 			right: 8%;
 
 			.deaths-chart--bar{
+				clear: left;
+				float: left;
 				width: 0;
  				background-color: #006767;
- 				margin: 6px 0 12px 0;
+ 				margin: 6px 0;
+			}
+
+			.deaths-chart--bar-label{
+				display: none;
+				position: absolute;
+				font: bold 18px Arial;
+				color: #006767;
 			}
 
 			.deaths-chart--bg-section__last{
