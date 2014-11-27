@@ -1,4 +1,4 @@
-define(['lib/news_special/bootstrap', 'topMethodsController', 'groupChartController', 'deathsChartController', 'text!../assets/countries_data.json', 'lib/vendors/bind-polyfill'], function (news, TopMethodsController, GroupChartController, DeathsChartController, data) {
+define(['lib/news_special/bootstrap', 'topMethodsController', 'groupChartController', 'deathsChartController', 'dataController', 'lib/vendors/bind-polyfill'], function (news, TopMethodsController, GroupChartController, DeathsChartController, DataController) {
 
     'use strict';
 
@@ -8,6 +8,7 @@ define(['lib/news_special/bootstrap', 'topMethodsController', 'groupChartControl
             * VARIABLES
         ********************************************************/
         this.$el = news.$('.county-select');
+        this.dataController = new DataController();
         this.topMethodsController = new TopMethodsController();
         this.groupChartController = new GroupChartController();
         this.deathsChartController = new DeathsChartController();
@@ -17,12 +18,13 @@ define(['lib/news_special/bootstrap', 'topMethodsController', 'groupChartControl
             * INIT STUFF
         ********************************************************/
         this.init();
+
     };
 
     CountrySelectController.prototype = {
 
         init: function () {
-            this.countryData = JSON.parse(data).countries;
+            this.countryData = this.dataController.getTranslated();
             this.loadCountryList();
             this.updateCountry();
 
@@ -45,10 +47,6 @@ define(['lib/news_special/bootstrap', 'topMethodsController', 'groupChartControl
         loadCountryList: function () {
             var self = this,
                 sortedCountries = this.orderCountries(this.countryData);
-            this.$el.empty();
-            this.$el.append('<option value="overview" selected="selected">All ' + (sortedCountries.length - 1) + ' countries</option>');
-
-
 
             news.$.each(sortedCountries, function (index, countryName) {
                 if (countryName !== 'overview') {

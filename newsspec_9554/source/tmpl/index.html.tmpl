@@ -1,8 +1,8 @@
 <%= include('includes/top.tmpl') %>
-
     <div class="main <%= is_rtl %>">
     	<select class="county-select">
-        <!-- Countries list loaded here -->
+        <option value="overview" selected="selected"><%= interactive_cta2 %></option>
+            <!-- Countries list loaded here -->
     	</select>
     	<div class="charts-wrapper">
 
@@ -70,5 +70,9 @@
         </span>
     </div>	
 	</script>	
+
+    <script>
+    window.vocbas = <%= include('../vocabs/' + vocab_dir + '.json') %>;
+    </script>
 
 <%= include('includes/bottom.tmpl') %>

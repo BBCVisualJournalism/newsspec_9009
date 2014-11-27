@@ -34,9 +34,9 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine'], funct
 
         init: function () {
 
-            news.$.fn.percWidth = function(){
-              return this.outerWidth() / this.parent().outerWidth() * 100;
-            }
+            news.$.fn.percWidth = function () {
+                return this.outerWidth() / this.parent().outerWidth() * 100;
+            };
 
 			/***************************
                 * LISTENERS

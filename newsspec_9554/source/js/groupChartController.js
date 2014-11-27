@@ -1,4 +1,4 @@
-define(['lib/news_special/bootstrap', 'lib/news_special/template_engine', 'lib/vendors/bind-polyfill'], function (news, tmpl) {
+define(['lib/news_special/bootstrap', 'lib/news_special/template_engine', 'dataController', 'lib/vendors/bind-polyfill'], function (news, tmpl, DataController) {
 
     'use strict';
 
@@ -8,8 +8,10 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine', 'lib/v
             * VARIABLES
         ********************************************************/
         this.$el = news.$('.group-chart--items');
+        this.dataController = new DataController();
         this.dataCollection = null;
         this.totalDeaths = 0;
+        this.unknownAndOtherText = null;
         this.chartTmpl = 'group_chart_tmpl';
         this.chartColors = ['#C3D699', '#95BA4D', '#689C00', '#50762C', '#374D1F'];
         this.chartHeight = 485;
@@ -24,11 +26,11 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine', 'lib/v
     GroupChartController.prototype = {
 
         init: function () {
-
-			/***************************
-                * LISTENERS
+            /***************************
+                * VARS
             ***************************/
-            news.pubsub.on('groupChart:drawWith', this.drawWith.bind(this));
+            this.unknownAndOtherText = this.dataController.getUnknownAndOtherText();
+
         },
 
         setData: function (totalDeaths, dataCollection) {
@@ -86,6 +88,9 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine', 'lib/v
         },
 
         draw: function () {
+
+            console.log(this.unknownAndOtherText);
+
             var self = this,
                 count = 0,
                 combindedData = this.groupSmallGroups(this.dataCollection),
@@ -179,11 +184,6 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine', 'lib/v
 
                 
         },
-
-        drawWith: function (data) {
-            this.setData(data.totalDeaths, data.collection);
-            this.draw();
-        }
 
     };
 
