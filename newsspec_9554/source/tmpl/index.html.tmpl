@@ -1,6 +1,6 @@
 <%= include('includes/top.tmpl') %>
 
-    <div class="main">
+    <div class="main <%= is_rtl %>">
     	<select class="county-select">
         <!-- Countries list loaded here -->
     	</select>
@@ -9,15 +9,15 @@
 	    	<div class="deaths-chart">
 	    		<div class="deaths-chart--header">
 	    			<%= include('../assets/people.svg') %>
-	    			<h4>Deaths: <span class="deaths-chart--total-deaths"></span></h4>
+	    			<h4><%= interactive_cta3 %> <span class="deaths-chart--total-deaths"></span></h4>
 	    		</div>
     			<ul class="deaths-chart--labels">
-    				<li>Civilians</li>
-    				<li>Military</li>
-    				<li>Police</li>
-    				<li>Officials</li>
-    				<li>Jihadists</li>
-    				<li>Unknown</li>
+    				<li><%= deaths_civilians %></li>
+                    <li><%= deaths_military %></li>
+                    <li><%= deaths_police %></li>
+    				<li><%= deaths_official %></li>
+                    <li><%= deaths_jihadis %></li>
+    				<li><%= deaths_other %></li>
     			</ul>
 
     			<div class="deaths-chart--chart-area">
@@ -45,7 +45,7 @@
     			</div>
 	    	</div>
 	    	<div class="top-methods">
-				<h4>Most frequent types of attack</h4>
+				<h4><%= interactive_cta5 %></h4>
 				<ol class="top-methods--list">
 					<li></li>		
 					<li></li>		
@@ -54,7 +54,7 @@
 	    	</div>
 
             <div class="group-chart">
-                <h4>Proportion killed by group</h4>
+                <h4><%= interactive_cta4 %></h4>
                 <div class="group-chart--items"></div>
             </div>
 

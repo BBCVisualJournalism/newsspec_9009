@@ -32,8 +32,12 @@
 			text-align: left;
 		}
 
-		.group-chart--items .group-chart--row .group-chart--bar{
-			width: 130px;
+		.group-chart--items .group-chart--row{
+			width: 270px;
+			
+			.group-chart--bar{
+				width: 130px;
+			}
 		}
 	}
 

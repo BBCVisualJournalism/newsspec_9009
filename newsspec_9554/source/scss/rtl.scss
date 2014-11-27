@@ -1,0 +1,82 @@
+
+.rtl{
+	direction: rtl;
+	
+	.charts-wrapper{
+		direction: initial;
+	}
+
+	.group-chart{
+		direction: rtl;
+
+		.group-chart--items .group-chart--row{
+			.group-chart--bar{
+				float: right;
+			}
+
+			.group-chart--label{
+				float: right;
+				padding-right: 10px;
+			}
+		}
+	}
+
+	.deaths-chart{
+		direction: rtl;
+
+		.deaths-chart--chart-area{
+			margin-right: 0;
+		}
+
+		.deaths-chart--header{ 
+			direction: rtl;
+			margin: 0 35px 10px 0;
+			text-align: right;
+
+			h4{
+				direction: rtl;
+			}
+		}
+	}
+
+	.top-methods{
+			margin-right: 0;
+
+		h4{
+			margin-right: 35px;
+			text-align: right;
+		}
+	}
+}
+
+@include respondMinMax(480px, false){
+	.rtl{
+		.top-methods .top-methods--list li{
+			float: right;
+		}
+	}
+}
+
+@include respondMinMax(768px, false){
+	.rtl{
+		.top-methods{
+			margin-left: 300px;
+		}
+
+		.group-chart{
+			width: 270px;
+			margin: 0;
+			top: 0;
+			left: 0;
+
+			h4{
+				text-align: right;
+			}
+
+		}
+
+		.deaths-chart{
+			margin: 0 0 0 300px;
+		}
+	}
+}

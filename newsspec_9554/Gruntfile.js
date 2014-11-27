@@ -7,7 +7,7 @@ module.exports = function (grunt) {
                 'domainStatic': 'http://static.local.bbc.co.uk:1033'
             }
         };
-        var environmentFilePath = '../../env.json';
+        var environmentFilePath = '../../../env.json';
         if (grunt.file.exists(environmentFilePath)) {
             env = grunt.file.readJSON(environmentFilePath);
         }
