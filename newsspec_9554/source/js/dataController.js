@@ -39,6 +39,18 @@ define(['lib/news_special/bootstrap', 'text!../assets/countries_data.json'], fun
             return translateMethods;
         },
 
+        translateGroups: function (groups) {
+            var self = this,
+                translateGroups = {};
+
+            news.$.each(groups, function(group, total) {
+                var translatedGroupName = self.vocabs[group];
+                translateGroups[translatedGroupName] = total;
+            });
+
+            return translateGroups;
+        },
+
         getTranslated: function () {
             var self = this,
                 translatedData = {};
@@ -47,7 +59,10 @@ define(['lib/news_special/bootstrap', 'text!../assets/countries_data.json'], fun
 
             news.$.each(this.data, function(country, countryData) {
                 var translatedCountryData = countryData;
+
                 translatedCountryData.method_totals = self.translateMethods(countryData.method_totals);
+
+                translatedCountryData.group_totals = self.translateGroups(countryData.group_totals);
 
                 translatedData[self.translateCountry(country)] = translatedCountryData;
             });

@@ -50,10 +50,10 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine', 'dataC
 
             news.$.each(data, function (groupName, noKillings) {
                 if (self.getPercentageFor(noKillings) <= 5) {
-                    if (!returnData.Other) {
-                        returnData.Other = 0;
+                    if (!returnData[self.unknownAndOtherText.other]) {
+                        returnData[self.unknownAndOtherText.other] = 0;
                     }
-                    returnData.Other += noKillings;
+                    returnData[self.unknownAndOtherText.other] += noKillings;
                 } else {
                     returnData[groupName] = noKillings;
                 }
@@ -63,17 +63,18 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine', 'dataC
         },
 
         orderGroups: function (data) {
-            var orderedData = [];
+            var orderedData = []
+                self = this;
             for (var groupName in data) {
                 orderedData.push({group: groupName, noKillings: data[groupName]});
             }
             orderedData.sort(function (a, b) {
                 /* Order Unknown last, and other second to last */
-                if (a.group === 'Unknown') {
+                if (a.group === self.unknownAndOtherText.unknown) {
                     return 1;
                 }
-                if (a.group === 'Other') {
-                    if (b.group === 'Unknown') {
+                if (a.group === self.unknownAndOtherText.other) {
+                    if (b.group === self.unknownAndOtherText.unknown) {
                         return -1;
                     } else {
                         return 1;
@@ -88,8 +89,6 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine', 'dataC
         },
 
         draw: function () {
-
-            console.log(this.unknownAndOtherText);
 
             var self = this,
                 count = 0,
