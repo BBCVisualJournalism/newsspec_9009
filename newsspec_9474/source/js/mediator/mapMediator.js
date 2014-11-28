@@ -66,9 +66,28 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'lib/vend
 
         },
 
+        countObjectProps: function (object) {
+            var count = 0;
+            for(var i in object){
+                count++;
+            }
+            return count;
+        },
+
         mapAssetsLoaded: function (error, world, incidentsData, countriesData) {
 
+            console.log(incidentsData);
             console.log(countriesData);
+
+            this.mapBottomBar.setData({
+                days: this.countObjectProps(incidentsData),
+                countries: this.countObjectProps(countriesData.countries) -1,
+                attacks: countriesData.countries.overview.attacks_number,
+                deaths: countriesData.countries.overview.total_killed
+            });
+
+           //news.pubsub.emit('map:finishedAnimation');
+
 
             var land = topojson.feature(world, world.objects.worldmap), ocean = {type: "Sphere"};
 
@@ -106,7 +125,7 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'lib/vend
                     * animation of the days incidents appears, you'll also want to check out the speed
                     * of the opacity css transition in animations.scss: .mapDayCanvasAnim
                 *******************/
-                setTimeout(this.showDayIncidents.bind(this), 500 + (itt * 200), incidentCanvas.node(), incidentsData[key]);
+                setTimeout(this.showDayIncidents.bind(this), 500 + (itt * 300), incidentCanvas.node(), incidentsData[key]);
                 itt ++;
                 this.dayCanvasCount++;
 
@@ -137,7 +156,7 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'lib/vend
                 news.$(e.target).remove();
                 self.dayCanvasCount--;
                 if(self.dayCanvasCount == 0){
-                    console.log('animation finished');
+                    news.pubsub.emit('map:finishedAnimation');
                 }
             });
 
