@@ -109,8 +109,6 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine'], funct
         setDimensions: function () {
             var chartAreaHeight = 0;
 
-            console.log(this.$groupChartEl.css('position'));
-
             /* If we're on a larger device, calculate the chart height from groupschart */
             if (this.$groupChartEl.css('position') === 'absolute') {
                 var fullElementHeight = this.$groupChartItemsEl.height();

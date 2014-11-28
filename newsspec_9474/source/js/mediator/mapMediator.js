@@ -1,4 +1,4 @@
-define(['lib/news_special/bootstrap', 'lib/vendors/mapping/d3.v3.min', 'queue', 'lib/vendors/mapping/topojson'], function (news, d3, queue, topojson) {
+define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'lib/vendors/mapping/d3.v3.min', 'queue', 'lib/vendors/mapping/topojson'], function (news, MapBottomBar, d3, queue, topojson) {
 
     'use strict';
 
@@ -22,6 +22,10 @@ define(['lib/news_special/bootstrap', 'lib/vendors/mapping/d3.v3.min', 'queue', 
 
         this.incidentsArrSortedXPos     =           [];
         this.countriesData              =           undefined;
+
+        this.dayCanvasCount             =           0;
+
+        this.mapBottomBar               =           new MapBottomBar();
 
 
         /********************************************************
@@ -64,6 +68,8 @@ define(['lib/news_special/bootstrap', 'lib/vendors/mapping/d3.v3.min', 'queue', 
 
         mapAssetsLoaded: function (error, world, incidentsData, countriesData) {
 
+            console.log(countriesData);
+
             var land = topojson.feature(world, world.objects.worldmap), ocean = {type: "Sphere"};
 
             this.mapCtx.strokeStyle = '#999999';
@@ -102,6 +108,7 @@ define(['lib/news_special/bootstrap', 'lib/vendors/mapping/d3.v3.min', 'queue', 
                 *******************/
                 setTimeout(this.showDayIncidents.bind(this), 500 + (itt * 200), incidentCanvas.node(), incidentsData[key]);
                 itt ++;
+                this.dayCanvasCount++;
 
             }
 
@@ -114,6 +121,7 @@ define(['lib/news_special/bootstrap', 'lib/vendors/mapping/d3.v3.min', 'queue', 
         },
 
         showDayIncidents: function (dayCanvas, incidentsArr) {            
+            var self = this;
 
             var $dayCanvas = news.$(dayCanvas);
             $dayCanvas.removeClass('visibilityHidden');
@@ -126,7 +134,11 @@ define(['lib/news_special/bootstrap', 'lib/vendors/mapping/d3.v3.min', 'queue', 
             *******************/
             $dayCanvas.one("webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend",
             function(e) {
-                news.$(e.target).addClass('hideMe');
+                news.$(e.target).remove();
+                self.dayCanvasCount--;
+                if(self.dayCanvasCount == 0){
+                    console.log('animation finished');
+                }
             });
 
             this.drawIncidents(incidentsArr, this.mapCtx, 1);
@@ -142,7 +154,12 @@ define(['lib/news_special/bootstrap', 'lib/vendors/mapping/d3.v3.min', 'queue', 
 
                 var circle = d3.geo.circle().angle(Math.sqrt(Number(incidentInfoObj.total_killed))/2).origin([Number(incidentInfoObj.longitude), Number(incidentInfoObj.latitude)])();
 
-                var circleBounds = this.path.bounds(circle), circleLeft = circleBounds[0][0], circleRight = circleBounds[1][0], circleTop = circleBounds[0][1], circleBottom = circleBounds[1][1];
+                var circleBounds = this.path.bounds(circle), 
+                    circleLeft = circleBounds[0][0], 
+                    circleRight = circleBounds[1][0], 
+                    circleTop = circleBounds[0][1], 
+                    circleBottom = circleBounds[1][1];
+                    
                 var circleCenter = {x: circleLeft + ((circleRight - circleLeft) * 0.5), y: circleTop +((circleBottom - circleTop) * 0.5)}, circleRadius = (circleRight - circleLeft) * 0.5;
                 
                 this.incidentsArrSortedXPos.push({
@@ -171,7 +188,9 @@ define(['lib/news_special/bootstrap', 'lib/vendors/mapping/d3.v3.min', 'queue', 
         },
 
         handleMapClick: function () {
-            var mousePos = d3.mouse(this.holderEl[0]), mapScaleVal = 976 / news.$('.mapHolder')[0].clientWidth;
+            var mousePos = d3.mouse(this.holderEl[0]), 
+                mapScaleVal = 976 / news.$('.mapHolder')[0].clientWidth;
+
             var canvasXPos = (mousePos[0] * mapScaleVal), canvasYPos = (mousePos[1] * mapScaleVal);
 
             //loop through all the incidents and see if the mouse click was inside any of the circles

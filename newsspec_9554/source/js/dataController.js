@@ -16,7 +16,6 @@ define(['lib/news_special/bootstrap', 'text!../assets/countries_data.json'], fun
         },
 
         getUnknownAndOtherText: function () {
-            console.log(this);
             return {
                 unknown: this.vocabs['group_unknown'],
                 other: this.vocabs['group_other']
