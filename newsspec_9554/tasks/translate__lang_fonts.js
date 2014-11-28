@@ -6,6 +6,8 @@ module.exports = function (grunt) {
         "bengali": "standard",
         "portuguese": "standard",
         "english": "standard",
+        "dummy": "standard",
+        "dummyrtl": "standard",
         "gahuza": "standard",
         "hausa": "standard",
         "indonesia": "standard",

@@ -1,11 +1,6 @@
-define(function (require) {
+define(['lib/news_special/bootstrap', 'lib/vendors/mapping/d3.v3.min', 'queue', 'lib/vendors/mapping/topojson'], function (news, d3, queue, topojson) {
 
     'use strict';
-
-    var news = require('lib/news_special/bootstrap');
-    var d3 = require('d3');
-    var queue = require('queue');
-    var topojson = require('lib/vendors/mapping/topojson');
 
     var MapMediator = function () {
 
@@ -14,7 +9,7 @@ define(function (require) {
         ********************************************************/
         this.holderEl                   =           news.$('.mapHolder');
         this.canvasWidth                =           976;
-        this.canvasHeight               =           700;
+        this.canvasHeight               =           553;
         this.proj                       =           d3.geo.mercator()
                                                         .translate([(this.canvasWidth / 8), (this.canvasHeight / 1.55)]);
 

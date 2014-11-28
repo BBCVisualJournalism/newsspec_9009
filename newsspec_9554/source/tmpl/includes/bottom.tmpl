@@ -21,11 +21,6 @@
                     done = true;
                     require.config(settings.requireConfig);
                     require([settings.moduleToStartApp], function () {
-
-                        define('vocabs', function () {
-                            return <%= include('../vocabs/' + vocab_dir + '.json') %>;
-                        });
-
                         require(['app'], function (app) {
                             app.init();
                         });

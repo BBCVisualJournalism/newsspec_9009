@@ -63,7 +63,7 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine', 'dataC
         },
 
         orderGroups: function (data) {
-            var orderedData = []
+            var orderedData = [],
                 self = this;
             for (var groupName in data) {
                 orderedData.push({group: groupName, noKillings: data[groupName]});
@@ -182,7 +182,7 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine', 'dataC
             });
 
                 
-        },
+        }
 
     };
 

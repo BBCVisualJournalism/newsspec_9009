@@ -7,7 +7,7 @@ module.exports = function (grunt) {
 
     var amdModulePaths = {
         'pubsub': './lib/vendors/jquery/pubsub',
-        'd3': './lib/vendors/mapping/d3.v3.min',
+        'lib/vendors/mapping/d3.v3.min': 'empty:',
         'queue': './lib/vendors/mapping/queue.v1.min'
     };
 
