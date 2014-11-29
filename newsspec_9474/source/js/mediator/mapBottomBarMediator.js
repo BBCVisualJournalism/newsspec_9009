@@ -47,11 +47,8 @@ define(function (require) {
             $element.fadeIn(fadeInTime, function () {
                 var count = 0,
                     refreshTime = numberRollTime / speedVar,
-                    incrementValue = total / refreshTime; /* This is wrong, fix me on monday */
-
-                console.log('refresh time ' + refreshTime);
-                console.log('incrementValue ' + incrementValue);
-
+                    incrementValue = total / speedVar; 
+                    
                 var timeInterval = setInterval(function () {
                     count++;
                     var numberValue = Math.floor(incrementValue * count);
