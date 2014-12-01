@@ -1,4 +1,4 @@
-define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'lib/vendors/mapping/d3.v3.min', 'queue', 'lib/vendors/mapping/topojson'], function (news, MapBottomBar, d3, queue, topojson) {
+define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'mediator/miniMapMediator', 'lib/vendors/mapping/d3.v3.min', 'queue', 'lib/vendors/mapping/topojson'], function (news, MapBottomBar, MiniMap, d3, queue, topojson) {
 
     'use strict';
 
@@ -26,6 +26,14 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'lib/vend
         this.dayCanvasCount             =           0;
 
         this.mapBottomBar               =           new MapBottomBar();
+
+        this.iraqMapEl                  =           news.$('.mini-map__iraq');
+        this.afgahnMapEl                =           news.$('.mini-map__afgahn');
+        this.nigeriaMapEl               =           news.$('.mini-map__nigeria');
+
+        this.iraqMap                    =           null;
+        this.afgahnMap                  =           null;
+        this.nigeriaMap                 =           null;
 
 
         /********************************************************
@@ -76,8 +84,9 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'lib/vend
 
         mapAssetsLoaded: function (error, world, incidentsData, countriesData) {
 
-            console.log(incidentsData);
-            console.log(countriesData);
+            this.iraqMap = new MiniMap(this.iraqMapEl, 'irq_syr', 1350);
+            this.afgahnMap = new MiniMap(this.afgahnMapEl, 'afg_pak', 950);
+            this.nigeriaMap = new MiniMap(this.nigeriaMapEl, 'nga', 1350);
 
             this.mapBottomBar.setData({
                 days: this.countObjectProps(incidentsData),
@@ -85,8 +94,6 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'lib/vend
                 attacks: countriesData.countries.overview.attacks_number,
                 deaths: countriesData.countries.overview.total_killed
             });
-
-           //news.pubsub.emit('map:finishedAnimation');
 
 
             var land = topojson.feature(world, world.objects.worldmap), ocean = {type: "Sphere"};
@@ -155,7 +162,7 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'lib/vend
             function(e) {
                 news.$(e.target).remove();
                 self.dayCanvasCount--;
-                if(self.dayCanvasCount == 0){
+                if(self.dayCanvasCount == 3){
                     news.pubsub.emit('map:finishedAnimation');
                 }
             });
@@ -199,10 +206,34 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'lib/vend
                     ctx.fillStyle = "rgba(222,88,87,.4)";   
                 }
                 else {
+                    this.drawMiniMapIncident(incidentInfoObj);
                     ctx.fillStyle = "rgba(100,19,14,.6)";
                 }
                 ctx.fill();
 
+            }
+        },
+
+        drawMiniMapIncident: function (incident) {
+
+            var miniMap = null;
+
+            switch (incident.country) {
+                case 'AFG':
+                case 'PAK':
+                    miniMap = this.afgahnMap;
+                    break;
+                case 'SYR':
+                case 'IRQ':
+                    miniMap = this.iraqMap;
+                    break;
+                case 'NGA':
+                    miniMap = this.nigeriaMap;
+                    break;
+            }
+
+            if (miniMap) {
+                miniMap.drawIncident(incident);
             }
         },
 

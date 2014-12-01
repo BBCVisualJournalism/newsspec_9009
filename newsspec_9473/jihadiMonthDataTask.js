@@ -100,9 +100,10 @@
 						var rowOutputObj = globalMapDataObj[incidentNum];
 						var b, collumsLength = csvProperHeaders.length;
 						for (b = 1; b < collumsLength; b++) {
-							if (b == 7 || b == 8 || b == 10) {
+							if (b == 4 || b == 7 || b == 8 || b == 10) {
 								/**********************
 									* only add the following preoperties the row object:
+										* country (4)
 										* latitude (7)
 										* longitude (8)
 										* total_killed (10)
@@ -131,6 +132,7 @@
 						
 					dateObj.push({
 						report_number: key,
+						country: outputJSON[key].country,
 						latitude: outputJSON[key].latitude.replace(/[^0-9.-]/g, ''),
 						longitude: outputJSON[key].longitude.replace(/[^0-9.-]/g, ''),
 						total_killed: outputJSON[key].total_killed

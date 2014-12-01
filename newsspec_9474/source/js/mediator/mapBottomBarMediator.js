@@ -39,8 +39,6 @@ define(function (require) {
             /* Speedbar determines how often the number increases */
             var speedVar = (total < 50) ? total : 50;
 
-            console.log($element);
-
             var numberRollTime = (2 / 3) * this.statAnimationTime,
                 fadeInTime = this.statAnimationTime - numberRollTime;
 
@@ -78,7 +76,7 @@ define(function (require) {
 
                     self.animateDigit(self.statAttacks , self.model.attacks, function () {
 
-                        self.animateDigit(self.statDeaths , self.model.deaths, null);
+                        self.animateDigit(self.statDeaths , self.model.deaths);
 
                     });
 
