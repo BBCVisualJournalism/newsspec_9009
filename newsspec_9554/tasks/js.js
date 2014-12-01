@@ -20,15 +20,6 @@ module.exports = function (grunt) {
         }]
     });
 
-    grunt.config(['copy', 'assetsAll'], {
-        files: [{
-            expand: true,
-            cwd:    'source/assets/',
-            src:    ['**'],
-            dest:   'content/<%= config.services.default %>/assets/'
-        }]
-    });
-
     grunt.config(['clean', 'allJs'], {
         src: ['content/<%= config.services.default %>/js']
     });
@@ -55,5 +46,5 @@ module.exports = function (grunt) {
     grunt.config(['concurrent', 'js'], {
         tasks: ['jshint', 'requirejs:jquery1', 'requirejs:jquery2']
     });
-    grunt.registerTask('js', ['clean:allJs', 'overrideImagerImageSizes', 'concurrent:js', 'copyRequiredJs', 'copy:assetsAll']);
+    grunt.registerTask('js', ['clean:allJs', 'overrideImagerImageSizes', 'concurrent:js', 'copyRequiredJs']);
 };

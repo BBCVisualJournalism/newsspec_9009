@@ -35,6 +35,7 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'lib/vend
         queue()
             .defer(d3.json, 'assets/' + this.countryJson + '.json')
             .defer(d3.json, 'assets/countries_data.json')
+            .defer(d3.json, 'assets/incidents.json')
             .await(this.mapAssetsLoaded.bind(this));
 
         /********************************************************
@@ -61,9 +62,10 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'lib/vend
             this.path = d3.geo.path().projection(this.proj);
         },
 
-        mapAssetsLoaded: function (error, country, countriesData) {
+        mapAssetsLoaded: function (error, country, countriesData, incidentsData) {
 
             this.countriesData = countriesData;
+            this.incidentsData = incidentsData;
 
             var countryProp = (this.countryJson !== 'afg_pak') ? this.countryJson : 'AFG_PAK';
             var land = topojson.feature(country, country.objects[countryProp]), ocean = {type: "Sphere"};
@@ -177,8 +179,7 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'lib/vend
             }
 
             if (chosenIncident) {
-                console.log(chosenIncident);
-                console.log(this.countriesData.incidentLookup[chosenIncident.report_number]);
+                console.log(this.incidentsData[chosenIncident.report_number]);
 
                 //news.pubsub.emit('showTooltip', [countryName, countryData, {x:chosenIncident.centerX * mapScaleVal, y:chosenIncident.centerY * mapScaleVal}]);
             }

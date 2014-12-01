@@ -51,7 +51,10 @@
                 config.paths.jquery = './lib/vendors/jquery/' + jqueryVersion;
                 config.paths.app    = './app';
                 moduleToStartApp    = '<%= pathStatic %>/<%= vocab_dir %>/js/app.js';
+            }else{
+                config.paths = {};
             }
+            
             config.paths['lib/vendors/mapping/d3.v3.min'] = 'lib/vendors/mapping/d3.v3.min';
             return {
                 requireConfig: config,

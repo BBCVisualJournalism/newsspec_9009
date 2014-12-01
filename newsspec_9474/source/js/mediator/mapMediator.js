@@ -274,7 +274,7 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'mediator
                 var countryName = this.countriesData.incidentLookup[chosenIncident.report_number];
                 var countryData = this.countriesData.countries[countryName];
 
-                news.pubsub.emit('showTooltip', [countryName, countryData, {x:chosenIncident.centerX * mapScaleVal, y:chosenIncident.centerY * mapScaleVal}]);
+                news.pubsub.emit('showTooltip', [countryName, countryData, {x:chosenIncident.centerX / mapScaleVal, y:chosenIncident.centerY / mapScaleVal}]);
             }
         },
 

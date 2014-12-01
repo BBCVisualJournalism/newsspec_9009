@@ -85,36 +85,6 @@
 				}
 
 				/**********************
-					* output the global map to json!
-					*
-					* lets construct the global map object with only the properties that it needs
-					*
-					* then we'll output the results to a json file locally
-				**********************/
-				var globalMapDataObj = {};
-				for (a = 1; a < rowsLength; a++) {
-					var rowArr = output[a];
-					var incidentNum = parseInt(rowArr[0], 10);
-					if (!isNaN(incidentNum)) {
-						globalMapDataObj[incidentNum] = {};
-						var rowOutputObj = globalMapDataObj[incidentNum];
-						var b, collumsLength = csvProperHeaders.length;
-						for (b = 1; b < collumsLength; b++) {
-							if (b == 4 || b == 7 || b == 8 || b == 10) {
-								/**********************
-									* only add the following preoperties the row object:
-										* country (4)
-										* latitude (7)
-										* longitude (8)
-										* total_killed (10)
-								**********************/
-								// rowOutputObj[output[0][b]] = rowArr[b];
-								rowOutputObj[output[0][b]] = rowArr[b].replace(/[^0-9.-]/g, '');
-							}
-						}
-					}
-				}
-				/**********************
 					* output the global map object to json!
 				**********************/
 				// fs.writeFile('./globalMapData.json', JSON.stringify(globalMapDataObj), {encoding:'utf8'}, function (err) {
@@ -146,6 +116,31 @@
 						throw err;
 					}
 					console.log('saved the global_map_data sorted by date json file');
+				});
+
+
+				/**********************
+					* output the incidents object to json!
+				**********************/
+
+				var incidentsObj = {};
+				for (var key in outputJSON) {
+					var rowObj = outputJSON[key];
+					incidentsObj[key] = {
+						date: rowObj.date_of_incident,
+						total_killed: rowObj.total_killed.trim(),
+						type_of_attack: rowObj.type_of_attack.trim(),
+						group_responsible: rowObj.group_responsible.trim(),
+					};
+				}
+				/**********************
+					* output the global map object to json!
+				**********************/
+				fs.writeFile(parentProjectDirectoryPath + '/newsspec_9474/source/assets' + '/incidents.json', JSON.stringify(incidentsObj), {encoding:'utf8'}, function (err) {
+					if (err) {
+						throw err;
+					}
+					console.log('saved the incidents json file');
 				});
 
 
