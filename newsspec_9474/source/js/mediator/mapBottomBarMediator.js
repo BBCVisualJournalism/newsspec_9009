@@ -70,20 +70,23 @@ define(function (require) {
 
             var self = this;
 
-            self.animateDigit(self.statDays , self.model.days, function () {
+            self.el.fadeIn('fast', function () {
 
-                self.animateDigit(self.statCountries , self.model.countries, function () {
+                self.animateDigit(self.statDays , self.model.days, function () {
 
-                    self.animateDigit(self.statAttacks , self.model.attacks, function () {
+                    self.animateDigit(self.statCountries , self.model.countries, function () {
 
-                        self.animateDigit(self.statDeaths , self.model.deaths);
+                        self.animateDigit(self.statAttacks , self.model.attacks, function () {
+
+                            self.animateDigit(self.statDeaths , self.model.deaths);
+
+                        });
 
                     });
 
                 });
 
             });
-            
         }
 
     };

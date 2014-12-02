@@ -29,6 +29,7 @@ define(function (require) {
     var news = require('lib/news_special/bootstrap');
     var MapMediator = require('mediator/mapMediator');
     var MapTooltipMediator = require('mediator/mapTooltipMediator');
+    var MiniMapTooltipMediator = require('mediator/miniMapTooltipMediator');
 
     return {
         init: function () {
@@ -42,6 +43,7 @@ define(function (require) {
             ***************************/
             this.mapMediator = new MapMediator();
             this.mapTooltipMediator = new MapTooltipMediator();
+            this.miniMapTooltipMediator = new MiniMapTooltipMediator();
         }
     };
 

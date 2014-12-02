@@ -4,21 +4,20 @@ define(function (require) {
 
     var news = require('lib/news_special/bootstrap');
 
-    var MapTooltipMediator = function () {
+    var MiniMapTooltipMediator = function () {
 
         /********************************************************
             * VARIABLES
         ********************************************************/
-        this.holderEl = news.$('.mapTooltipHolder');
-        this.mapHolderEl = news.$('.mapHolder')[0];
-        this.tooltipCloseBtnEl = this.holderEl.find('.mapTooltipClose');
+        this.holderEl = news.$('.miniMapTooltipHolder');
+        this.mapHolderEl = news.$('.mini-maps')[0];
+        this.tooltipCloseBtnEl = this.holderEl.find('.miniMapTooltipClose');
         this.tooltipTitleEl = this.holderEl.find('h2');
-        this.figureHolders = this.holderEl.find('.tooltipFigureHolder');
-        
-        this.firstFigureEl = news.$(this.figureHolders[0]).find('h3');
-        this.seondFigureEl = news.$(this.figureHolders[1]).find('h4');
-        this.thirdFigureEl = news.$(this.figureHolders[2]).find('h3');
-        this.fourthFigureEl = news.$(this.figureHolders[3]).find('h4');
+
+        this.dateText = this.holderEl.find('.date');
+        this.killedText = this.holderEl.find('.killed');
+        this.typeText = this.holderEl.find('.type');
+        this.groupText = this.holderEl.find('.group');
 
         this.arrowLeft = this.holderEl.find('.arrow-left');
         this.arrowRight = this.holderEl.find('.arrow-right');
@@ -29,8 +28,8 @@ define(function (require) {
         /********************************************************
             * INIT STUFF
         ********************************************************/
-        news.pubsub.on('showTooltip', this.showTooltip.bind(this));
-        news.pubsub.on('showMiniMapTooltip', this.hide.bind(this));
+        news.pubsub.on('showMiniMapTooltip', this.showTooltip.bind(this));
+        news.pubsub.on('showTooltip', this.hide.bind(this));
 
         /********************************************************
             * MOUSE LISTENERS
@@ -39,27 +38,25 @@ define(function (require) {
         
     };
 
-    MapTooltipMediator.prototype = {
+    MiniMapTooltipMediator.prototype = {
 
-        showTooltip: function (countryName, data, position) {
+        showTooltip: function (data, mapEl, mapPosition) {
+
+            var mapElPosition = mapEl.find('.miniMapCanvases').position(),
+                position = {x: (mapPosition.x + mapElPosition.left), y: (mapPosition.y + mapElPosition.top)};
+
+            this.dateText.text(data.date);
+            this.killedText.text(data.total_killed);
+            this.typeText.text(data.type_of_attack);
+            this.groupText.text(data.group_responsible);
+
 
             this.holderEl.removeClass('hideMe');
-
-            this.tooltipTitleEl.html(countryName);
-
-            this.firstFigureEl.html(data.total_killed);
-
-            var percentOfDeathsFigure = '' + (((data.total_world_killed_percent * 10) << 0) * 0.1);
-            percentOfDeathsFigure = percentOfDeathsFigure.substr(0, percentOfDeathsFigure.indexOf('.') + 2);
-            this.seondFigureEl.html(percentOfDeathsFigure + '%');
-
-            this.thirdFigureEl.html(data.attacks_number);
-
-            var percentOfAttacksFigure = '' + (((data.total_world_attacks_percent * 10) << 0) * 0.1);
-            percentOfAttacksFigure = percentOfAttacksFigure.substr(0, percentOfAttacksFigure.indexOf('.') + 2);
-            this.fourthFigureEl.html(percentOfAttacksFigure + '%');
            
-            var mapHolderWidth = this.mapHolderEl.clientWidth, mapHolderHeight = this.mapHolderEl.clientHeight, tooltipWidth = this.holderEl[0].clientWidth, tooltipHeight = this.holderEl[0].clientHeight;
+            var mapHolderWidth = this.mapHolderEl.clientWidth, 
+                mapHolderHeight = this.mapHolderEl.clientHeight, 
+                tooltipWidth = this.holderEl[0].clientWidth, 
+                tooltipHeight = this.holderEl[0].clientHeight;
 
             this.arrowLeft.addClass('hideMe');
             this.arrowRight.addClass('hideMe');
@@ -75,7 +72,7 @@ define(function (require) {
                 left: position.x + 16
             };
 
-            if (leftArrowPos.top >= 0 && leftArrowPos.left <= (mapHolderWidth - (tooltipWidth + 16))) {
+            if (leftArrowPos.top >= 0 && leftArrowPos.top <= (mapHolderHeight - (tooltipHeight + 16)) && leftArrowPos.left <= (mapHolderWidth - (tooltipWidth + 16))) {
                 this.positionTooltip(leftArrowPos);
                 this.arrowLeft.removeClass('hideMe');
                 return;
@@ -90,7 +87,7 @@ define(function (require) {
                 left: position.x - (tooltipWidth + 16)
             };
 
-            if (rightArrowPos.top >= 0 && rightArrowPos.left >= 0) {
+            if (rightArrowPos.top >= 0 && rightArrowPos.top <= (mapHolderHeight - (tooltipHeight + 16)) && rightArrowPos.left >= 0) {
                 this.positionTooltip(rightArrowPos);
                 this.arrowRight.removeClass('hideMe');
                 return;
@@ -104,6 +101,7 @@ define(function (require) {
                 top: position.y + 16,
                 left: position.x - (tooltipWidth >> 1)
             };
+
 
             if (topArrowPos.top >= 0 && topArrowPos.top <= (mapHolderHeight - (tooltipHeight + 16)) && topArrowPos.left >= 0 && topArrowPos.left <= (mapHolderWidth - (tooltipWidth + 16))) {
                 this.positionTooltip(topArrowPos);
@@ -128,9 +126,8 @@ define(function (require) {
 
             /********************************************************
                 * Ahh! ... the toltip won't fit on the screen with 
-                * the arrow pointing at the incident, we'll have to 
-                * postion the tooltip somewhere generic like the top
-                * left hand corner, or not show it at all 
+                * the arrow pointing at the incident. Will position 
+                where it was last placed.
             ********************************************************/
         },
 
@@ -161,6 +158,6 @@ define(function (require) {
 
     };
 
-    return MapTooltipMediator;
+    return MiniMapTooltipMediator;
 
 });

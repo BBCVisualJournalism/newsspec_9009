@@ -1,4 +1,7 @@
 .mini-maps{
+	position: relative;
+	overflow: hidden;
+
 	h4{
 		color: #404040;
 		font: bold 20px Arial;
@@ -11,8 +14,19 @@
 		margin: 0;
 		float: left;
 
-		canvas{
-			width: 100%;
+		.miniMapCanvases{
+			position: relative;
+			height:0;
+			padding-bottom: 110%;
+			
+			canvas{
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+
+			}
 		}
+
 	}
 }

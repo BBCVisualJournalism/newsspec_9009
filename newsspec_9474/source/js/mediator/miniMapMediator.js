@@ -2,13 +2,15 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'lib/vend
 
     'use strict';
 
-    var MiniMapMediator = function (el, countryJson, scale) {
+    var MiniMapMediator = function (el, countryLabels, countryJson, scale) {
 
         /********************************************************
             * VARIABLES
         ********************************************************/
         this.el                         =           el;
-        this.countryJson               =           countryJson;   
+        this.canvasHolder               =           el.find('.miniMapCanvases');
+        this.countryLabels              =           countryLabels;  
+        this.countryJson                =           countryJson;   
         this.scale                      =           scale;   
 
         this.canvasWidth                =           325;
@@ -22,12 +24,19 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'lib/vend
         /********************************************************
             * INIT STUFF
         ********************************************************/
-        this.mapCanvas                  =           d3.select(this.el[0]).append("canvas")
+        this.mapCanvas                  =           d3.select(this.canvasHolder[0]).append("canvas")
+                                                        .attr("class", 'miniMapCanvas')
+                                                        .attr("width", this.canvasWidth)
+                                                        .attr("height", this.canvasHeight);
+
+        this.mapLabels                  =           d3.select(this.canvasHolder[0]).append("canvas")
+                                                        .attr("class", 'miniMapLabels')
                                                         .attr("width", this.canvasWidth)
                                                         .attr("height", this.canvasHeight);
 
         this.mapCtx                     =           this.mapCanvas.node().getContext("2d");
-
+        this.mapLabelsCtx               =           this.mapLabels.node().getContext("2d");
+        this.land                       =           undefined;
         this.mapJsonLoaded              =           false;
         this.countriesData              =           undefined;
         this.incidentQueue              =           [];
@@ -54,13 +63,13 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'lib/vend
             var center = d3.geo.centroid(land),
                 offset = [this.canvasWidth/2, this.canvasHeight/2];
 
-            console.log(center);
+            
 
             this.proj = d3.geo.mercator().scale(this.scale).center(center).translate(offset);
 
-            // create the path
             this.path = d3.geo.path().projection(this.proj);
         },
+
 
         mapAssetsLoaded: function (error, country, countriesData, incidentsData) {
 
@@ -68,10 +77,11 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'lib/vend
             this.incidentsData = incidentsData;
 
             var countryProp = (this.countryJson !== 'afg_pak') ? this.countryJson : 'AFG_PAK';
-            var land = topojson.feature(country, country.objects[countryProp]), ocean = {type: "Sphere"};
+            this.land = topojson.feature(country, country.objects[countryProp]);
+            var ocean = {type: "Sphere"};
 
 
-            this.initMap(land);
+            this.initMap(this.land);
 
             this.mapCtx.strokeStyle = '#999999';
             this.mapCtx.lineWidth = 0.2;
@@ -83,15 +93,29 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'lib/vend
 
             this.mapCtx.fillStyle = '#DBDADA';
             this.mapCtx.beginPath();
-            this.path.context(this.mapCtx)(land);
+            this.path.context(this.mapCtx)(this.land);
             this.mapCtx.fill();
             this.mapCtx.stroke();
 
             this.mapJsonLoaded = true;
 
+            this.drawCountryLabels();
+
             /* Draw all queued incidents */
             for (var i = 0; i < this.incidentQueue.length; i++) {
                 this.drawIncident(this.incidentQueue[i]);
+            }
+        },
+
+        drawCountryLabels: function () {
+            for (var i = 0; i < this.land.features.length; i++) {
+                var featureCenter = this.proj(d3.geo.centroid(this.land.features[i]));
+
+                this.mapLabelsCtx.font = 'bold 18px Arial';
+                this.mapLabelsCtx.fillStyle = '#404040'; 
+                var countyText = this.countryLabels[i];
+                this.mapLabelsCtx.fillText(countyText , (featureCenter[0] - (this.mapLabelsCtx.measureText(countyText).width / 2)), featureCenter[1]);
+
             }
         },
 
@@ -102,7 +126,7 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'lib/vend
             }else{
                 this.path.context(this.mapCtx)({type: "Sphere"});
 
-                var circle = d3.geo.circle().angle(Math.sqrt(Number(incident.total_killed))/ (10 - ((500 / this.scale) * 10)) ).origin([Number(incident.longitude), Number(incident.latitude)])();
+                var circle = d3.geo.circle().angle(Math.sqrt(Number(incident.total_killed))/ (12 - ((500 / this.scale) * 10)) ).origin([Number(incident.longitude), Number(incident.latitude)])();
 
                 var circleBounds = this.path.bounds(circle), 
                     circleLeft = circleBounds[0][0], 
@@ -147,8 +171,6 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'lib/vend
             var mousePos = d3.mouse(this.el.find('canvas')[0]), 
                 mapScaleVal = this.canvasWidth / this.el[0].clientWidth;
 
-                console.log(mousePos);
-
             var canvasXPos = (mousePos[0] * mapScaleVal), canvasYPos = (mousePos[1] * mapScaleVal);
 
             //loop through all the incidents and see if the mouse click was inside any of the circles
@@ -179,9 +201,7 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'lib/vend
             }
 
             if (chosenIncident) {
-                console.log(this.incidentsData[chosenIncident.report_number]);
-
-                //news.pubsub.emit('showTooltip', [countryName, countryData, {x:chosenIncident.centerX * mapScaleVal, y:chosenIncident.centerY * mapScaleVal}]);
+                news.pubsub.emit('showMiniMapTooltip', [this.incidentsData[chosenIncident.report_number], this.el, {x:chosenIncident.centerX / mapScaleVal, y:chosenIncident.centerY / mapScaleVal}]);
             }
         }
 

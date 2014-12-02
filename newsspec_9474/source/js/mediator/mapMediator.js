@@ -84,9 +84,9 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'mediator
 
         mapAssetsLoaded: function (error, world, incidentsData, countriesData) {
 
-            this.iraqMap = new MiniMap(this.iraqMapEl, 'irq_syr', 1350);
-            this.afgahnMap = new MiniMap(this.afgahnMapEl, 'afg_pak', 950);
-            this.nigeriaMap = new MiniMap(this.nigeriaMapEl, 'nga', 1350);
+            this.iraqMap = new MiniMap(this.iraqMapEl, ['Iraq', 'Syria'], 'irq_syr', 1350);
+            this.afgahnMap = new MiniMap(this.afgahnMapEl, ['Pakistan', 'Afgahnistan'], 'afg_pak', 950);
+            this.nigeriaMap = new MiniMap(this.nigeriaMapEl, ['Nigeria'], 'nga', 1350);
 
             this.mapBottomBar.setData({
                 days: this.countObjectProps(incidentsData),
