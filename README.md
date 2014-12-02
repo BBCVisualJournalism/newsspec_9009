@@ -11,3 +11,4 @@ This is the parent project for the three main modules that make up the jihadi mo
 
 * Make QA changes to interactive panel
 * Add D3 into minifier
+* Remove Queue from mediators and use text plugin instead

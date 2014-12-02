@@ -1,4 +1,5 @@
-define(function (require) {
+define(['lib/news_special/bootstrap', 'mediator/mapMediator', 'mediator/mapTooltipMediator', 'mediator/miniMapTooltipMediator', 'dataController'],
+    function (news, MapMediator, MapTooltipMediator, MiniMapTooltipMediator, DataController) {
 
     'use strict';
 
@@ -23,27 +24,22 @@ define(function (require) {
         };
     }
 
-    /***************************
-        Variables
-    ***************************/
-    var news = require('lib/news_special/bootstrap');
-    var MapMediator = require('mediator/mapMediator');
-    var MapTooltipMediator = require('mediator/mapTooltipMediator');
-    var MiniMapTooltipMediator = require('mediator/miniMapTooltipMediator');
-
     return {
         init: function () {
 
-            news.pubsub.emit('istats', ['app-initiated', 'newsspec-nonuser', true]);
-
-            news.sendMessageToremoveLoadingImage();
 
             /***************************
                 mediator store
             ***************************/
+            this.dataController = new DataController();
+
+            console.log(this.dataController.getTranslatedGlobalMap());
+
             this.mapMediator = new MapMediator();
             this.mapTooltipMediator = new MapTooltipMediator();
             this.miniMapTooltipMediator = new MiniMapTooltipMediator();
+
+            news.sendMessageToremoveLoadingImage();
         }
     };
 

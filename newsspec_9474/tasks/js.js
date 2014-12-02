@@ -20,8 +20,16 @@ module.exports = function (grunt) {
         }]
     });
 
-
     grunt.config(['copy', 'assetsAll'], {
+        files: [{
+            expand: true,
+            cwd:    'source/js/lib/vendors/mapping/',
+            src:    ['**'],
+            dest:   'content/<%= config.services.default %>/js/lib/vendors/mapping/'
+        }]
+    });
+
+    grunt.config(['copy', 'd3'], {
         files: [{
             expand: true,
             cwd:    'source/assets/',
@@ -29,7 +37,6 @@ module.exports = function (grunt) {
             dest:   'content/<%= config.services.default %>/assets/'
         }]
     });
-
 
     grunt.config(['clean', 'allJs'], {
         src: ['content/<%= config.services.default %>/js']

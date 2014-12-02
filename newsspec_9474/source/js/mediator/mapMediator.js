@@ -85,7 +85,7 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'mediator
         mapAssetsLoaded: function (error, world, incidentsData, countriesData) {
 
             this.iraqMap = new MiniMap(this.iraqMapEl, ['Iraq', 'Syria'], 'irq_syr', 1350);
-            this.afgahnMap = new MiniMap(this.afgahnMapEl, ['Pakistan', 'Afgahnistan'], 'afg_pak', 950);
+            this.afgahnMap = new MiniMap(this.afgahnMapEl, ['Pakistan', 'Afghanistan'], 'afg_pak', 950);
             this.nigeriaMap = new MiniMap(this.nigeriaMapEl, ['Nigeria'], 'nga', 1350);
 
             this.mapBottomBar.setData({
@@ -203,11 +203,12 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'mediator
                 ctx.stroke();
 
                 if (isFinalColor) {
-                    ctx.fillStyle = "rgba(222,88,87,.4)";   
+                    ctx.fillStyle = "rgba(100,19,14,.45)";
                 }
                 else {
                     this.drawMiniMapIncident(incidentInfoObj);
-                    ctx.fillStyle = "rgba(100,19,14,.6)";
+                                        ctx.fillStyle = "rgba(222,88,87,.4)";   
+
                 }
                 ctx.fill();
 

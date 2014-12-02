@@ -18,7 +18,7 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'lib/vend
 
         this.proj                       =           null
         this.path                       =           null;
-        this.incidentsArr     =           [];
+        this.incidentsArr               =           [];
 
 
         /********************************************************

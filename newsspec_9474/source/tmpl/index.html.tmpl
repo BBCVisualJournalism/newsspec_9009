@@ -24,7 +24,7 @@
                 <div class="miniMapCanvases"></div>
             </div>
             <div class="mini-map mini-map__afgahn">
-                <h4>Afgahistan and Pakistan in detail</h4>
+                <h4>Afghanistan and Pakistan in detail</h4>
                 <div class="miniMapCanvases"></div>
             </div>
             <div class="mini-map mini-map__nigeria">
@@ -36,5 +36,9 @@
 
         </div>
     </div>
+
+    <script>
+    window.vocbas = <%= include('../vocabs/' + vocab_dir + '.json') %>;
+    </script>
 
 <%= include('includes/bottom.tmpl') %>
