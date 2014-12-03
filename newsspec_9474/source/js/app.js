@@ -36,6 +36,8 @@ define(['lib/news_special/bootstrap', 'mediator/mapMediator', 'mediator/mapToolt
             this.mapTooltipMediator = new MapTooltipMediator();
             this.miniMapTooltipMediator = new MiniMapTooltipMediator();
 
+            news.$('.main').removeClass('hideMe');
+
             news.sendMessageToremoveLoadingImage();
         }
     };

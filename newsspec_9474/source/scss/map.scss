@@ -23,21 +23,22 @@
 		bottom:0;
 		left:0;
 		width:100%;
-		height:100px;
+		height: 57px;
 		background: rgba(0,0,0,0.1);
 
 		.stat{
 			display: none;
+			padding-top: 5px;
 			float: left;
 			width: 25%;
 			color: #404040;
-			padding-top: 30px;
 			margin: 0;
-			font: bold 24px Arial;
+			font: bold 16px Arial;
 			text-align: center;
 
 			strong{
-				font: bold 42px Arial;
+				display: block;
+				font: bold 24px Arial;
 			}
 		}
 		.stat__deaths strong{

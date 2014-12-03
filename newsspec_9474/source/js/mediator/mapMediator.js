@@ -13,7 +13,7 @@ define(['lib/news_special/bootstrap', 'dataController', 'mediator/mapBottomBarMe
         this.canvasHeight               =           553;
 
         this.proj                       =           d3.geo.mercator()
-                                                        .translate([(this.canvasWidth / 8), (this.canvasHeight / 1.55)]);
+                                                        .translate([(this.canvasWidth / 8), (this.canvasHeight / 1.70)]);
 
         this.mapScale                   =           350;
 
@@ -120,6 +120,9 @@ define(['lib/news_special/bootstrap', 'dataController', 'mediator/mapBottomBarMe
                 * create the seperate canvas elements for the days in the month
             *******************/
             var itt = 0;
+
+            console.log(this.globalMapData);
+
             for (var key in this.globalMapData) {
 
                 var incidentCanvas = d3.select(this.holderEl[0]).append("canvas")
@@ -186,8 +189,10 @@ define(['lib/news_special/bootstrap', 'dataController', 'mediator/mapBottomBarMe
                     continue;
                 }
 
+                var mapScaleVal = 976 / news.$('.mapHolder')[0].clientWidth;
+
                 var incidentCenter = this.proj([Number(incidentInfoObj.longitude), Number(incidentInfoObj.latitude)]),
-                    radius = 4 + (Number(incidentInfoObj.total_killed) / 10) * 2.5;
+                    radius = (4 + (Number(incidentInfoObj.total_killed) / 10) * 2.5) * mapScaleVal;
 
                 this.incidentsArrSortedXPos.push({
                     report_number: incidentInfoObj.report_number,

@@ -1,0 +1,26 @@
+@include respondMinMax(800px, false){
+	.mini-maps{
+		display: block;
+	}
+	.mapLegend__mobile{
+		display: none;
+	}
+
+	.mapLegend__desktop{
+		display: block;
+	}
+
+	.mapHolder .mapBottomBar{
+		height: 80px;
+
+		.stat{
+			padding-top: 17px;
+			font-size: 24px;
+			strong{
+				display: inline;
+				font-size: 42px
+			}
+		}
+	}
+
+}

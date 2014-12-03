@@ -1,0 +1,40 @@
+.mapLegend__mobile{
+	padding: 16px 20px 5px;
+	background-color: #efefef;
+	color: #404040;
+	font: 16px Arial;
+	text-align: center;
+
+	h6{
+		margin: 0 0 6px 0;
+		font: bold 16px Arial;
+	}
+}
+
+.mapLegend__desktop{
+	display: none;
+	position: absolute;
+	width: 240px;
+	top: 0;
+	right: 0;
+	z-index: 2;
+	padding: 16px 20px;
+
+	background-color: #efefef;
+	color: #404040;
+	font: 16px Arial;
+
+	h6{
+		margin: 0 0 6px 0;
+		font: bold 16px Arial;
+	}
+
+	.legendKeys{
+		margin: 5px 0;
+
+		svg{
+			margin: 0 5px;
+			vertical-align:middle;
+		}
+	}
+}
