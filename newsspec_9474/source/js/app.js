@@ -1,5 +1,5 @@
-define(['lib/news_special/bootstrap', 'mediator/mapMediator', 'mediator/mapTooltipMediator', 'mediator/miniMapTooltipMediator', 'dataController'],
-    function (news, MapMediator, MapTooltipMediator, MiniMapTooltipMediator, DataController) {
+define(['lib/news_special/bootstrap', 'mediator/mapMediator', 'mediator/mapTooltipMediator', 'mediator/miniMapTooltipMediator'],
+    function (news, MapMediator, MapTooltipMediator, MiniMapTooltipMediator) {
 
     'use strict';
 
@@ -31,9 +31,6 @@ define(['lib/news_special/bootstrap', 'mediator/mapMediator', 'mediator/mapToolt
             /***************************
                 mediator store
             ***************************/
-            this.dataController = new DataController();
-
-            console.log(this.dataController.getTranslatedGlobalMap());
 
             this.mapMediator = new MapMediator();
             this.mapTooltipMediator = new MapTooltipMediator();

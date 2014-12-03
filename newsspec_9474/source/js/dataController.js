@@ -47,7 +47,7 @@ define(['lib/news_special/bootstrap', 'text!../assets/countries_data.json', 'tex
             return translateGroups;
         },
 
-        getTranslatedCountries: function () {
+        getTranslatedCountriesData: function () {
             var self = this,
                 translatedData = {};
 
@@ -72,7 +72,7 @@ define(['lib/news_special/bootstrap', 'text!../assets/countries_data.json', 'tex
             return translatedData;
         },
 
-        getTranslatedIncidents: function () {
+        getTranslatedIncidentsData: function () {
             var self = this,
                 translatedData = {};
 
@@ -94,13 +94,12 @@ define(['lib/news_special/bootstrap', 'text!../assets/countries_data.json', 'tex
             return translatedData;
         },
 
-        getTranslatedGlobalMap: function () {
+        getTranslatedGlobalMapData: function () {
             var self = this,
                 translatedData = {};
 
 
             var globalMapData = JSON.parse(globalMapJson);
-            console.log(globalMapData);
 
             news.$.each(globalMapData, function (date, globalMapItems) {
                 var translatedGlobalMapItems = [];

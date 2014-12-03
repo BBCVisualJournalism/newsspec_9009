@@ -1,4 +1,5 @@
-define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'lib/vendors/mapping/d3.v3.min', 'queue', 'lib/vendors/mapping/topojson'], function (news, MapBottomBar, d3, queue, topojson) {
+define(['lib/news_special/bootstrap', 'dataController', 'mediator/mapBottomBarMediator', 'lib/vendors/mapping/d3.v3.min', 'queue', 'lib/vendors/mapping/topojson'],
+    function (news, DataController, MapBottomBar, d3, queue, topojson) {
 
     'use strict';
 
@@ -11,7 +12,7 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'lib/vend
         this.canvasHolder               =           el.find('.miniMapCanvases');
         this.countryLabels              =           countryLabels;  
         this.countryJson                =           countryJson;   
-        this.scale                      =           scale;   
+        this.scale                      =           scale;          
 
         this.canvasWidth                =           325;
         this.canvasHeight               =           325;
@@ -34,17 +35,18 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'lib/vend
                                                         .attr("width", this.canvasWidth)
                                                         .attr("height", this.canvasHeight);
 
+        this.dataController             =           new DataController();
+        this.incidentsData              =           this.dataController.getTranslatedIncidentsData(); 
+
         this.mapCtx                     =           this.mapCanvas.node().getContext("2d");
         this.mapLabelsCtx               =           this.mapLabels.node().getContext("2d");
         this.land                       =           undefined;
         this.mapJsonLoaded              =           false;
-        this.countriesData              =           undefined;
+
         this.incidentQueue              =           [];
 
         queue()
             .defer(d3.json, 'assets/' + this.countryJson + '.json')
-            .defer(d3.json, 'assets/countries_data.json')
-            .defer(d3.json, 'assets/incidents.json')
             .await(this.mapAssetsLoaded.bind(this));
 
         /********************************************************
@@ -63,18 +65,13 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'lib/vend
             var center = d3.geo.centroid(land),
                 offset = [this.canvasWidth/2, this.canvasHeight/2];
 
-            
-
             this.proj = d3.geo.mercator().scale(this.scale).center(center).translate(offset);
 
             this.path = d3.geo.path().projection(this.proj);
         },
 
 
-        mapAssetsLoaded: function (error, country, countriesData, incidentsData) {
-
-            this.countriesData = countriesData;
-            this.incidentsData = incidentsData;
+        mapAssetsLoaded: function (error, country) {
 
             var countryProp = (this.countryJson !== 'afg_pak') ? this.countryJson : 'AFG_PAK';
             this.land = topojson.feature(country, country.objects[countryProp]);

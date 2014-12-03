@@ -11,6 +11,7 @@ module.exports = function (grunt) {
             rest_of_vocabs_dir.forEach(function (vocab_dir) {
                 grunt.log.writeln('Copying ' + default_vocab_dir + ' source into ' + vocab_dir + '...');
                 wrench.copyDirSyncRecursive('content/' + default_vocab_dir + '/js/', 'content/' + vocab_dir + '/js/');
+                wrench.copyDirSyncRecursive('source/assets/', 'content/' + vocab_dir + '/assets/');
                 wrench.copyDirSyncRecursive('content/' + default_vocab_dir + '/css/', 'content/' + vocab_dir + '/css/');
                 try {
                     if (fs.lstatSync('content/' + default_vocab_dir + '/img').isDirectory()) {

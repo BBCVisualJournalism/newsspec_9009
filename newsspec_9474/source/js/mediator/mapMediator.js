@@ -1,4 +1,5 @@
-define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'mediator/miniMapMediator', 'lib/vendors/mapping/d3.v3.min', 'queue', 'lib/vendors/mapping/topojson'], function (news, MapBottomBar, MiniMap, d3, queue, topojson) {
+define(['lib/news_special/bootstrap', 'dataController', 'mediator/mapBottomBarMediator', 'mediator/miniMapMediator', 'lib/vendors/mapping/d3.v3.min', 'queue', 'lib/vendors/mapping/topojson'],
+    function (news, DataController, MapBottomBar, MiniMap, d3, queue, topojson) {
 
     'use strict';
 
@@ -10,6 +11,7 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'mediator
         this.holderEl                   =           news.$('.mapHolder');
         this.canvasWidth                =           976;
         this.canvasHeight               =           553;
+
         this.proj                       =           d3.geo.mercator()
                                                         .translate([(this.canvasWidth / 8), (this.canvasHeight / 1.55)]);
 
@@ -21,7 +23,6 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'mediator
         this.graticule                  =           d3.geo.graticule();
 
         this.incidentsArrSortedXPos     =           [];
-        this.countriesData              =           undefined;
 
         this.dayCanvasCount             =           0;
 
@@ -45,10 +46,13 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'mediator
                                                         .attr("id", "mapBgCanvas");
         this.mapCtx                     =           this.mapCanvas.node().getContext("2d");
 
+        this.dataController             =           new DataController();
+        this.vocabs                     =           this.dataController.getVocabs();
+        this.countriesData              =           this.dataController.getTranslatedCountriesData();
+        this.globalMapData              =           this.dataController.getTranslatedGlobalMapData();
+
         queue()
             .defer(d3.json, 'assets/world_map.json')
-            .defer(d3.json, 'assets/global_map_data.json')
-            .defer(d3.json, 'assets/countries_data.json')
             .await(this.mapAssetsLoaded.bind(this));
 
         /********************************************************
@@ -82,17 +86,17 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'mediator
             return count;
         },
 
-        mapAssetsLoaded: function (error, world, incidentsData, countriesData) {
+        mapAssetsLoaded: function (error, world) {
 
-            this.iraqMap = new MiniMap(this.iraqMapEl, ['Iraq', 'Syria'], 'irq_syr', 1350);
-            this.afgahnMap = new MiniMap(this.afgahnMapEl, ['Pakistan', 'Afghanistan'], 'afg_pak', 950);
-            this.nigeriaMap = new MiniMap(this.nigeriaMapEl, ['Nigeria'], 'nga', 1350);
+            this.iraqMap = new MiniMap(this.iraqMapEl, [this.vocabs['IRQ'], this.vocabs['SYR']], 'irq_syr', 1350);
+            this.afgahnMap = new MiniMap(this.afgahnMapEl, [this.vocabs['PAK'], this.vocabs['AFG']], 'afg_pak', 950);
+            this.nigeriaMap = new MiniMap(this.nigeriaMapEl, [this.vocabs['NGA']], 'nga', 1350);
 
             this.mapBottomBar.setData({
-                days: this.countObjectProps(incidentsData),
-                countries: this.countObjectProps(countriesData.countries) -1,
-                attacks: countriesData.countries.overview.attacks_number,
-                deaths: countriesData.countries.overview.total_killed
+                days: this.countObjectProps(this.globalMapData),
+                countries: this.countObjectProps(this.countriesData.countries) -1,
+                attacks: this.countriesData.countries.overview.attacks_number,
+                deaths: this.countriesData.countries.overview.total_killed
             });
 
 
@@ -116,7 +120,7 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'mediator
                 * create the seperate canvas elements for the days in the month
             *******************/
             var itt = 0;
-            for (var key in incidentsData) {
+            for (var key in this.globalMapData) {
 
                 var incidentCanvas = d3.select(this.holderEl[0]).append("canvas")
                     .attr("width", this.canvasWidth)
@@ -125,14 +129,14 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'mediator
 
                 var indidentCanvasCtx = incidentCanvas.node().getContext("2d");
 
-                this.drawIncidents(incidentsData[key], indidentCanvasCtx);
+                this.drawIncidents(this.globalMapData[key], indidentCanvasCtx);
 
                 /*******************
                     * the delay numbers in the following setTimeout call controls the speed at which the 
                     * animation of the days incidents appears, you'll also want to check out the speed
                     * of the opacity css transition in animations.scss: .mapDayCanvasAnim
                 *******************/
-                setTimeout(this.showDayIncidents.bind(this), 500 + (itt * 300), incidentCanvas.node(), incidentsData[key]);
+                setTimeout(this.showDayIncidents.bind(this), 500 + (itt * 300), incidentCanvas.node(), this.globalMapData[key]);
                 itt ++;
                 this.dayCanvasCount++;
 
@@ -143,7 +147,6 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'mediator
             *******************/
             this.incidentsArrSortedXPos.sort(this.sortArrByXPos);
 
-            this.countriesData = countriesData;
         },
 
         showDayIncidents: function (dayCanvas, incidentsArr) {            
@@ -220,15 +223,15 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'mediator
             var miniMap = null;
 
             switch (incident.country) {
-                case 'AFG':
-                case 'PAK':
+                case this.vocabs['IRQ']:
+                case this.vocabs['PAK']:
                     miniMap = this.afgahnMap;
                     break;
-                case 'SYR':
-                case 'IRQ':
+                case this.vocabs['SYR']:
+                case this.vocabs['IRQ']:
                     miniMap = this.iraqMap;
                     break;
-                case 'NGA':
+                case this.vocabs['NGA']:
                     miniMap = this.nigeriaMap;
                     break;
             }
