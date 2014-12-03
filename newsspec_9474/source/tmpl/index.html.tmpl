@@ -1,34 +1,34 @@
 <%= include('includes/top.tmpl') %>
 
-    <div class="main">
+    <div class="main <%= is_rtl %>">
     	<div class="mapHolder">
     		<div class="mapBottomBar">
     			<div class="stat stat__days">
-    				<strong>0 </strong>days
+    				<strong>0 </strong><%= big_map_days %>
     			</div>
     			<div class="stat stat__countries">
-    				<strong>0 </strong>countries
+    				<strong>0 </strong><%= big_map_countries %>
     			</div>
     			<div class="stat stat__attacks">
-    				<strong>0 </strong>attacks
+    				<strong>0 </strong><%= big_map_attacks %>
     			</div>
     			<div class="stat stat__deaths">
-    				<strong>0 </strong>deaths
+    				<strong>0 </strong><%= big_map_death %>
     			</div>
     		</div>
             <%= include('includes/mapTooltip.tmpl') %>
     	</div>
         <div class="mini-maps">
             <div class="mini-map mini-map__iraq">
-                <h4>Iraq and Syria in detail</h4>
+                <h4><%= small_map1_title %></h4>
                 <div class="miniMapCanvases"></div>
             </div>
             <div class="mini-map mini-map__afgahn">
-                <h4>Afghanistan and Pakistan in detail</h4>
+                <h4><%= small_map2_title %></h4>
                 <div class="miniMapCanvases"></div>
             </div>
             <div class="mini-map mini-map__nigeria">
-                <h4>Nigeria in detail</h4>
+                <h4><%= small_map3_title %></h4>
                 <div class="miniMapCanvases"></div>
             </div>
             

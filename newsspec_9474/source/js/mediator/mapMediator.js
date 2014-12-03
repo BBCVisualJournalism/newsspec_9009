@@ -181,36 +181,33 @@ define(['lib/news_special/bootstrap', 'dataController', 'mediator/mapBottomBarMe
 
                 var incidentInfoObj = incidentsArr[a];
 
-                var circle = d3.geo.circle().angle(Math.sqrt(Number(incidentInfoObj.total_killed))/2).origin([Number(incidentInfoObj.longitude), Number(incidentInfoObj.latitude)])();
+                /* If we don't have a lat long, dont plot */
+                if (Number(incidentInfoObj.longitude) === 0 && Number(incidentInfoObj.latitude) === 0) {
+                    continue;
+                }
 
-                var circleBounds = this.path.bounds(circle), 
-                    circleLeft = circleBounds[0][0], 
-                    circleRight = circleBounds[1][0], 
-                    circleTop = circleBounds[0][1], 
-                    circleBottom = circleBounds[1][1];
-                    
-                var circleCenter = {x: circleLeft + ((circleRight - circleLeft) * 0.5), y: circleTop +((circleBottom - circleTop) * 0.5)}, circleRadius = (circleRight - circleLeft) * 0.5;
-                
+                var incidentCenter = this.proj([Number(incidentInfoObj.longitude), Number(incidentInfoObj.latitude)]),
+                    radius = 4 + (Number(incidentInfoObj.total_killed) / 10) * 2.5;
+
                 this.incidentsArrSortedXPos.push({
                     report_number: incidentInfoObj.report_number,
-                    centerX         : circleCenter.x,
-                    centerY         : circleCenter.y,
-                    circleRadius    : circleRadius
+                    centerX         : incidentCenter[0],
+                    centerY         : incidentCenter[1],
+                    circleRadius    : radius
                 });
 
                 ctx.beginPath();
-                this.path({type: "GeometryCollection", geometries: [circle]});
-                
-                ctx.strokeStyle = 'rgba(255,255,255,.6)';
+                ctx.arc(incidentCenter[0], incidentCenter[1], radius, 0, 2 * Math.PI, false);
                 ctx.lineWidth = 0.5;
+                ctx.strokeStyle = 'rgba(255,255,255,.6)';
                 ctx.stroke();
 
                 if (isFinalColor) {
-                    ctx.fillStyle = "rgba(100,19,14,.45)";
+                    ctx.fillStyle = "rgba(222,88,87,.4)";   
                 }
                 else {
+                    ctx.fillStyle = "rgba(100,19,14,.6)";
                     this.drawMiniMapIncident(incidentInfoObj);
-                                        ctx.fillStyle = "rgba(222,88,87,.4)";   
 
                 }
                 ctx.fill();
@@ -223,7 +220,7 @@ define(['lib/news_special/bootstrap', 'dataController', 'mediator/mapBottomBarMe
             var miniMap = null;
 
             switch (incident.country) {
-                case this.vocabs['IRQ']:
+                case this.vocabs['AFG']:
                 case this.vocabs['PAK']:
                     miniMap = this.afgahnMap;
                     break;

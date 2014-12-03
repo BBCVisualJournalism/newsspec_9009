@@ -37,6 +37,7 @@ define(['lib/news_special/bootstrap', 'dataController', 'mediator/mapBottomBarMe
 
         this.dataController             =           new DataController();
         this.incidentsData              =           this.dataController.getTranslatedIncidentsData(); 
+        this.vocabs                     =           this.dataController.getVocabs(); 
 
         this.mapCtx                     =           this.mapCanvas.node().getContext("2d");
         this.mapLabelsCtx               =           this.mapLabels.node().getContext("2d");
@@ -111,7 +112,22 @@ define(['lib/news_special/bootstrap', 'dataController', 'mediator/mapBottomBarMe
                 this.mapLabelsCtx.font = 'bold 18px Arial';
                 this.mapLabelsCtx.fillStyle = '#404040'; 
                 var countyText = this.countryLabels[i];
-                this.mapLabelsCtx.fillText(countyText , (featureCenter[0] - (this.mapLabelsCtx.measureText(countyText).width / 2)), featureCenter[1]);
+                var textXPosition = featureCenter[0],
+                    textYPosition = featureCenter[1];
+
+                /* If not right to left, take away half the text width, otherwise add it */
+                if (this.vocabs.is_rtl !== 'rtl'){
+                    textXPosition -= (this.mapLabelsCtx.measureText(countyText).width / 2);
+                } else {
+                    textXPosition += (this.mapLabelsCtx.measureText(countyText).width / 2);
+                }
+
+                /* If Iraq, push down 30px so the label isn't placed on top of bagdad */
+                if(countyText === this.vocabs['IRQ']){
+                    textYPosition += 30;
+                }
+
+                this.mapLabelsCtx.fillText(countyText, textXPosition, textYPosition);
 
             }
         },
@@ -123,31 +139,25 @@ define(['lib/news_special/bootstrap', 'dataController', 'mediator/mapBottomBarMe
             }else{
                 this.path.context(this.mapCtx)({type: "Sphere"});
 
-                var circle = d3.geo.circle().angle(Math.sqrt(Number(incident.total_killed))/ (12 - ((500 / this.scale) * 10)) ).origin([Number(incident.longitude), Number(incident.latitude)])();
+                var incidentCenter = this.proj([Number(incident.longitude), Number(incident.latitude)]),
+                    radius = 4 + (Number(incident.total_killed) / 10) * 2.5;
 
-                var circleBounds = this.path.bounds(circle), 
-                    circleLeft = circleBounds[0][0], 
-                    circleRight = circleBounds[1][0], 
-                    circleTop = circleBounds[0][1], 
-                    circleBottom = circleBounds[1][1];
-                    
-                var circleCenter = {x: circleLeft + ((circleRight - circleLeft) * 0.5), y: circleTop +((circleBottom - circleTop) * 0.5)}, circleRadius = (circleRight - circleLeft) * 0.5;
-                
+
                 this.incidentsArr.push({
                     report_number: incident.report_number,
-                    centerX         : circleCenter.x,
-                    centerY         : circleCenter.y,
-                    circleRadius    : circleRadius
+                    centerX         : incidentCenter[0],
+                    centerY         : incidentCenter[1],
+                    circleRadius    : radius
                 });
 
                 this.mapCtx.beginPath();
-                this.path({type: "GeometryCollection", geometries: [circle]});
-                
-                this.mapCtx.strokeStyle = 'rgba(255,255,255,.6)';
-                this.mapCtx.lineWidth = 0.5;
-                this.mapCtx.stroke();
-                this.mapCtx.fillStyle = "rgba(222,88,87,.4)";   
+                this.mapCtx.arc(incidentCenter[0], incidentCenter[1], radius, 0, 2 * Math.PI, false);
+                this.mapCtx.fillStyle = 'rgba(222,88,87,.4)';
                 this.mapCtx.fill();
+                this.mapCtx.lineWidth = 0.5;
+                this.mapCtx.strokeStyle = 'rgba(255,255,255,.6)';
+                this.mapCtx.stroke();
+
             }
             
         },
