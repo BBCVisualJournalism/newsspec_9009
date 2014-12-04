@@ -1,7 +1,7 @@
 <%= include('includes/top.tmpl') %>
 
     <div class="main hideMe <%= is_rtl %>">
-        <div class="mapLegend__mobile">
+        <div class="mapLegend__mobile hideLegacy">
             <h6><%= big_map_key1 %></h6>
             <p><%= big_map_key2 %></p>
             <p><%= big_map_key3 %></p>
@@ -9,8 +9,8 @@
     	<div class="mapHolder">
             <div class="mapLegend__desktop">
                 <h6><%= big_map_key1 %></h6>
-                <%= big_map_key2 %>
-                <div class="legendKeys">
+                <%= big_map_key2 %><br/>
+                <div class="legendKeys hideLegacy">
                     <svg height="10" width="10">
                         <circle cx="5" cy="5" r="4" stroke="rgba(255,255,255,.6)" stroke-width="0.5" fill="rgba(222,88,87,.4)" />
                     </svg>
@@ -26,7 +26,7 @@
                 </div>
                 <%= big_map_key3 %>
             </div>
-            <div class="restartButton">
+            <div class="restartButton hideLegacy">
                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                      width="28.109px" height="28.998px" viewBox="0 0 28.109 28.998" enable-background="new 0 0 28.109 28.998" xml:space="preserve">
                 <g>
@@ -40,7 +40,7 @@
 
                 <span><%= replay %></span>
             </div>
-            <div class="interactiveInfoOverlay">
+            <div class="interactiveInfoOverlay hideLegacy">
                 <h4>
                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                          viewBox="0 0 21.053 22.808" width="22px" height="22px"  style="enable-background:new 0 0 21.053 22.808;" xml:space="preserve">

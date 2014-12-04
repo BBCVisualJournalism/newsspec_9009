@@ -16,17 +16,14 @@ define(function (require) {
         this.statCountries = this.el.find('.stat__countries');
         this.statAttacks = this.el.find('.stat__attacks');
         this.statDeaths = this.el.find('.stat__deaths');
-
         this.model = null;
         this.statAnimationTime = 1200;
-
 
         /********************************************************
             * INIT STUFF
         ********************************************************/
         news.pubsub.on('map:finishedAnimation', this.show.bind(this));
         news.pubsub.on('map:reset', this.hide.bind(this));
-        
     };
 
     MapBottomBarMediator.prototype = {
@@ -71,7 +68,7 @@ define(function (require) {
         },
 
         show: function () {
-
+            console.log('Showing');
             var self = this;
 
             self.el.fadeIn('fast', function () {

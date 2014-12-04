@@ -25,6 +25,8 @@
 		width:100%;
 		height: 57px;
 		background: rgba(0,0,0,0.1);
+		filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#1c000000', endColorstr='#1c000000'); /* IE */
+
 
 		.stat{
 			display: none;

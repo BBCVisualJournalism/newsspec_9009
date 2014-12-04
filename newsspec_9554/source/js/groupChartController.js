@@ -67,7 +67,7 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine', 'dataC
                 self = this;
             for (var groupName in data) {
                 var percent = self.getPercentageFor(data[groupName]);
-                if (percent !== 0){
+                if (percent !== 0) {
                     orderedData.push({name: groupName, percent: percent});
                 }
             }
