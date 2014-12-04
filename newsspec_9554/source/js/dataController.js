@@ -7,6 +7,8 @@ define(['lib/news_special/bootstrap', 'text!../assets/countries_data.json'], fun
         this.data = null;
         this.vocabs = null;
         this.loadVocabs();
+
+        this.missingArray = [];
     };
 
     DataController.prototype = {
@@ -32,7 +34,16 @@ define(['lib/news_special/bootstrap', 'text!../assets/countries_data.json'], fun
 
             news.$.each(methods, function (method, total) {
                 var translatedMethodName = self.vocabs[method];
-                translateMethods[translatedMethodName] = total;
+                if (translatedMethodName === undefined) {
+                    translateMethods[method] = total;
+
+                    if (self.missingArray.indexOf(method) === -1) {
+                        console.log('Missing translation for ' + method);
+                        self.missingArray.push(method);
+                    }
+                } else {
+                    translateMethods[translatedMethodName] = total;
+                }
             });
 
             return translateMethods;
@@ -44,7 +55,16 @@ define(['lib/news_special/bootstrap', 'text!../assets/countries_data.json'], fun
 
             news.$.each(groups, function (group, total) {
                 var translatedGroupName = self.vocabs[group];
-                translateGroups[translatedGroupName] = total;
+                if (translatedGroupName === undefined) {
+                    translateGroups[group] = total;
+
+                    if (self.missingArray.indexOf(group) === -1) {
+                        console.log('Missing translation for ' + group);
+                        self.missingArray.push(group);
+                    }
+                } else {
+                    translateGroups[translatedGroupName] = total;
+                }
             });
 
             return translateGroups;

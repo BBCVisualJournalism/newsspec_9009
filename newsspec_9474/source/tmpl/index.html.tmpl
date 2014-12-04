@@ -27,7 +27,7 @@
                 <%= big_map_key3 %>
             </div>
             <div class="restartButton">
-                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                      width="28.109px" height="28.998px" viewBox="0 0 28.109 28.998" enable-background="new 0 0 28.109 28.998" xml:space="preserve">
                 <g>
                     <path fill="#FFFFFF" d="M21.221,16.786c0,4.257-3.463,7.719-7.718,7.719c-4.256,0-7.719-3.462-7.719-7.719
@@ -38,10 +38,18 @@
                 </g>
                 </svg>
 
-                <span>Replay animation</span>
+                <span><%= replay %></span>
             </div>
             <div class="interactiveInfoOverlay">
-                <h4>Click or tap to get country totals, scroll for full details</h4>
+                <h4>
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                         viewBox="0 0 21.053 22.808" width="22px" height="22px"  style="enable-background:new 0 0 21.053 22.808;" xml:space="preserve">
+                    <polygon style="fill:#FFFFFF;" points="10.526,7.024 10.526,0 7.018,0 6.227,14.111 1.754,10.527 0,12.281 8.771,22.808 
+                        21.053,22.808 21.053,10.527 "/>
+                    </svg>
+
+                    <%= cta %>
+                </h4>
             </div>
     		<div class="mapBottomBar">
     			<div class="stat stat__days">

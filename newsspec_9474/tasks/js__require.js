@@ -36,7 +36,7 @@ module.exports = function (grunt) {
             optimize: 'uglify2',
             generateSourceMaps: false,
             preserveLicenseComments: false,
-            name: './app',
+            name: './appLegacy',
             out: './content/<%= config.services.default %>/js/all-legacyie.js'
         }
     });

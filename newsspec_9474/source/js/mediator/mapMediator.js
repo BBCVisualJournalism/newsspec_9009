@@ -140,8 +140,6 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
             *******************/
             var itt = 0;
 
-            console.log(this.globalMapData);
-
             for (var key in this.globalMapData) {
 
                 var incidentCanvas = d3.select(this.holderEl[0]).append("canvas")

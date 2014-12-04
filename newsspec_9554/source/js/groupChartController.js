@@ -66,15 +66,18 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine', 'dataC
             var orderedData = [],
                 self = this;
             for (var groupName in data) {
-                orderedData.push({group: groupName, noKillings: data[groupName]});
+                var percent = self.getPercentageFor(data[groupName]);
+                if (percent !== 0){
+                    orderedData.push({name: groupName, percent: percent});
+                }
             }
             orderedData.sort(function (a, b) {
                 /* Order Unknown last, and other second to last */
-                if (a.group === self.unknownAndOtherText.unknown) {
+                if (a.name === self.unknownAndOtherText.unknown) {
                     return 1;
                 }
-                if (a.group === self.unknownAndOtherText.other) {
-                    if (b.group === self.unknownAndOtherText.unknown) {
+                if (a.name === self.unknownAndOtherText.other) {
+                    if (b.name === self.unknownAndOtherText.unknown) {
                         return -1;
                     } else {
                         return 1;
@@ -82,7 +85,7 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine', 'dataC
                 }
 
                 /* Order rest by their no killings */
-                return b.noKillings - a.noKillings;
+                return b.percent - a.percent;
             });
             
             return orderedData;
@@ -110,14 +113,7 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine', 'dataC
 
             for (var x = 0; x < orderedData.length; x++) {
 
-                var groupName = orderedData[x].group,
-                    noKillings = orderedData[x].noKillings;
-
-                var percent = self.getPercentageFor(noKillings),
-                    rowData = {
-                        percent: percent,
-                        name: groupName
-                    };
+                var rowData = orderedData[x];
 
                 self.$el.append(tmpl(self.chartTmpl, rowData));
 
@@ -125,7 +121,7 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine', 'dataC
                     $thisBar = $thisRow.find('.group-chart--bar'),
                     $thisLabel = $thisRow.find('.group-chart--label'),
                     color = self.chartColors[count % self.chartColors.length],
-                    barHeight = (percent / 100 * chartsHeight),
+                    barHeight = (rowData.percent / 100 * chartsHeight),
                     barHeightWithMargin = (barHeight + 20),
                     labelHeight = $thisLabel.height(),
                     labelHeightWithMargin = (labelHeight + 10);

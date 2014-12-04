@@ -46,7 +46,7 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine'], funct
         },
 
         setAxisScale: function () {
-            var scale = (this.isOverview) ? [0, 250, 500, 750, 1000] : [0, 100, 200, 300, 400];
+            var scale = (this.isOverview) ? [0, 625, 1250, 1875, 2500] : [0, 250, 500, 750, 1000];
             for (var i = 0; i < scale.length; i++) {
                 var $axisItem = news.$(this.$axis[i]);
                 $axisItem.text(scale[i]);
