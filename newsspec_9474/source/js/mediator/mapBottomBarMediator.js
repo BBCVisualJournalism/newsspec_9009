@@ -11,6 +11,7 @@ define(function (require) {
         ********************************************************/
         this.el = news.$('.mapBottomBar');
 
+        this.stats = this.el.find('.stat');
         this.statDays = this.el.find('.stat__days');
         this.statCountries = this.el.find('.stat__countries');
         this.statAttacks = this.el.find('.stat__attacks');
@@ -24,6 +25,7 @@ define(function (require) {
             * INIT STUFF
         ********************************************************/
         news.pubsub.on('map:finishedAnimation', this.show.bind(this));
+        news.pubsub.on('map:reset', this.hide.bind(this));
         
     };
 
@@ -78,7 +80,9 @@ define(function (require) {
 
                         self.animateDigit(self.statAttacks , self.model.attacks, function () {
 
-                            self.animateDigit(self.statDeaths , self.model.deaths);
+                            self.animateDigit(self.statDeaths , self.model.deaths, function () {
+                                news.pubsub.emit('bottomBar:complete');
+                            });
 
                         });
 
@@ -86,6 +90,19 @@ define(function (require) {
 
                 });
 
+            });
+        },
+
+        hide: function () {
+            var self = this;
+
+            this.el.fadeOut(function () {
+                self.stats.hide();
+
+                self.statDays.text('0');
+                self.statCountries.text('0');
+                self.statAttacks.text('0');
+                self.statDeaths.text('0');
             });
         }
 

@@ -1,5 +1,5 @@
-define(['lib/news_special/bootstrap', 'dataController', 'mediator/mapBottomBarMediator', 'mediator/miniMapMediator', 'lib/vendors/mapping/d3.v3.min', 'queue', 'lib/vendors/mapping/topojson'],
-    function (news, DataController, MapBottomBar, MiniMap, d3, queue, topojson) {
+define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world_map.json', 'mediator/mapBottomBarMediator', 'mediator/miniMapMediator', 'lib/vendors/mapping/d3.v3.min', 'queue', 'lib/vendors/mapping/topojson'],
+    function (news, DataController, worldJson, MapBottomBar, MiniMap, d3, queue, topojson) {
 
     'use strict';
 
@@ -9,6 +9,8 @@ define(['lib/news_special/bootstrap', 'dataController', 'mediator/mapBottomBarMe
             * VARIABLES
         ********************************************************/
         this.holderEl                   =           news.$('.mapHolder');
+        this.restartButton              =           this.holderEl.find('.restartButton');
+        this.infoOverlay                =           this.holderEl.find('.interactiveInfoOverlay');
         this.canvasWidth                =           976;
         this.canvasHeight               =           553;
 
@@ -22,7 +24,8 @@ define(['lib/news_special/bootstrap', 'dataController', 'mediator/mapBottomBarMe
                                                         .projection(this.proj);
         this.graticule                  =           d3.geo.graticule();
 
-        this.incidentsArrSortedXPos     =           [];
+        this.incidentPositions          =           [];
+        this.isInitialDraw              =           true;
 
         this.dayCanvasCount             =           0;
 
@@ -36,35 +39,42 @@ define(['lib/news_special/bootstrap', 'dataController', 'mediator/mapBottomBarMe
         this.afgahnMap                  =           null;
         this.nigeriaMap                 =           null;
 
-
         /********************************************************
-            * INIT STUFF
+            * INIT AND DRAW MAP
         ********************************************************/
-        this.mapCanvas                  =           d3.select(this.holderEl[0]).append("canvas")
-                                                        .attr("width", this.canvasWidth)
-                                                        .attr("height", this.canvasHeight)
-                                                        .attr("id", "mapBgCanvas");
-        this.mapCtx                     =           this.mapCanvas.node().getContext("2d");
-
-        this.dataController             =           new DataController();
-        this.vocabs                     =           this.dataController.getVocabs();
-        this.countriesData              =           this.dataController.getTranslatedCountriesData();
-        this.globalMapData              =           this.dataController.getTranslatedGlobalMapData();
-
-        queue()
-            .defer(d3.json, 'assets/world_map.json')
-            .await(this.mapAssetsLoaded.bind(this));
-
-        /********************************************************
-            * LISTENERS AND HANDLERS
-        ********************************************************/
-        d3.select(this.holderEl[0])
-                    .on('click', this.handleMapClick.bind(this));
-
-        news.pubsub.on('hideTooltip', this.pauseClickEventListener.bind(this));
+        this.init();
+        this.draw();
     };
 
     MapMediator.prototype = {
+
+        init: function () {
+
+            this.worldMap = JSON.parse(worldJson);
+
+            this.mapCanvas = d3.select(this.holderEl[0]).append("canvas")
+                                .attr("width", this.canvasWidth)
+                                .attr("height", this.canvasHeight)
+                                .attr("id", "mapBgCanvas");
+
+            this.mapCtx = this.mapCanvas.node().getContext("2d");
+
+            this.dataController = new DataController();
+            this.vocabs = this.dataController.getVocabs();
+            this.countriesData = this.dataController.getTranslatedCountriesData();
+            this.globalMapData = this.dataController.getTranslatedGlobalMapData();
+
+            /********************************************************
+                * LISTENERS AND HANDLERS
+            ********************************************************/
+            d3.select(this.holderEl[0]).on('click', this.handleMapClick.bind(this));
+
+            this.restartButton.on('click', this.restart.bind(this));
+
+            news.pubsub.on('bottomBar:complete', this.showOverlay.bind(this));
+            news.pubsub.on('bottomBar:complete', this.showRestart.bind(this));
+            news.pubsub.on('hideTooltip', this.pauseClickEventListener.bind(this));
+        },
 
         pauseClickEventListener: function () {
             
@@ -86,21 +96,24 @@ define(['lib/news_special/bootstrap', 'dataController', 'mediator/mapBottomBarMe
             return count;
         },
 
-        mapAssetsLoaded: function (error, world) {
+        draw: function (error) {
 
-            this.iraqMap = new MiniMap(this.iraqMapEl, [this.vocabs['IRQ'], this.vocabs['SYR']], 'irq_syr', 1350);
-            this.afgahnMap = new MiniMap(this.afgahnMapEl, [this.vocabs['PAK'], this.vocabs['AFG']], 'afg_pak', 950);
-            this.nigeriaMap = new MiniMap(this.nigeriaMapEl, [this.vocabs['NGA']], 'nga', 1350);
+            this.mapCtx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
 
-            this.mapBottomBar.setData({
-                days: this.countObjectProps(this.globalMapData),
-                countries: this.countObjectProps(this.countriesData.countries) -1,
-                attacks: this.countriesData.countries.overview.attacks_number,
-                deaths: this.countriesData.countries.overview.total_killed
-            });
+            if(this.isInitialDraw) {
+                this.iraqMap = new MiniMap(this.iraqMapEl, [this.vocabs['IRQ'], this.vocabs['SYR']], 'irq_syr', 1350);
+                this.afgahnMap = new MiniMap(this.afgahnMapEl, [this.vocabs['PAK'], this.vocabs['AFG']], 'afg_pak', 950);
+                this.nigeriaMap = new MiniMap(this.nigeriaMapEl, [this.vocabs['NGA']], 'nga', 1350);
 
+                this.mapBottomBar.setData({
+                    days: this.countObjectProps(this.globalMapData),
+                    countries: this.countObjectProps(this.countriesData.countries) -1,
+                    attacks: this.countriesData.countries.overview.attacks_number,
+                    deaths: this.countriesData.countries.overview.total_killed
+                });
+            }
 
-            var land = topojson.feature(world, world.objects.worldmap), ocean = {type: "Sphere"};
+            var land = topojson.feature(this.worldMap, this.worldMap.objects.worldmap), ocean = {type: "Sphere"};
 
             this.mapCtx.strokeStyle = '#999999';
             this.mapCtx.lineWidth = 0.2;
@@ -145,10 +158,7 @@ define(['lib/news_special/bootstrap', 'dataController', 'mediator/mapBottomBarMe
 
             }
 
-            /*******************
-                * sort the incidentsArrSortedXPos array by the 'centerX' property
-            *******************/
-            this.incidentsArrSortedXPos.sort(this.sortArrByXPos);
+            this.isInitialDraw = false;
 
         },
 
@@ -189,12 +199,17 @@ define(['lib/news_special/bootstrap', 'dataController', 'mediator/mapBottomBarMe
                     continue;
                 }
 
+                /* Draw the point on the minimaps if they're not already drawn */
+                if (this.isInitialDraw && !isFinalColor){
+                    this.drawMiniMapIncident(incidentInfoObj);
+                }
+
                 var mapScaleVal = 976 / news.$('.mapHolder')[0].clientWidth;
 
                 var incidentCenter = this.proj([Number(incidentInfoObj.longitude), Number(incidentInfoObj.latitude)]),
                     radius = (4 + (Number(incidentInfoObj.total_killed) / 10) * 2.5) * mapScaleVal;
 
-                this.incidentsArrSortedXPos.push({
+                this.incidentPositions.push({
                     report_number: incidentInfoObj.report_number,
                     centerX         : incidentCenter[0],
                     centerY         : incidentCenter[1],
@@ -206,15 +221,7 @@ define(['lib/news_special/bootstrap', 'dataController', 'mediator/mapBottomBarMe
                 ctx.lineWidth = 0.5;
                 ctx.strokeStyle = 'rgba(255,255,255,.6)';
                 ctx.stroke();
-
-                if (isFinalColor) {
-                    ctx.fillStyle = "rgba(222,88,87,.4)";   
-                }
-                else {
-                    ctx.fillStyle = "rgba(100,19,14,.6)";
-                    this.drawMiniMapIncident(incidentInfoObj);
-
-                }
+                ctx.fillStyle = (isFinalColor) ?  'rgba(222,88,87,.4)' : 'rgba(100,19,14,.6)';   
                 ctx.fill();
 
             }
@@ -249,17 +256,9 @@ define(['lib/news_special/bootstrap', 'dataController', 'mediator/mapBottomBarMe
 
             var canvasXPos = (mousePos[0] * mapScaleVal), canvasYPos = (mousePos[1] * mapScaleVal);
 
-            //loop through all the incidents and see if the mouse click was inside any of the circles
-            /**********************
-                * if the incidents array is ordered by the x position then you should be able to specify
-                * a range in the array that you can search for circles within.
-                *
-                * The x position of the canvas click would give you the left bounds array range, then add
-                * to that the width of the largest attck in the data set to get the right bounds array range
-            **********************/
-            var a, arrLength = this.incidentsArrSortedXPos.length, chosenIncident = 0, smallestDistance = 99999;
+            var a, arrLength = this.incidentPositions.length, chosenIncident = 0, smallestDistance = 99999;
             for (a = 0; a < arrLength; a++) {
-                var incidentObj = this.incidentsArrSortedXPos[a];
+                var incidentObj = this.incidentPositions[a];
 
                 var xs = incidentObj.centerX - canvasXPos, ys = incidentObj.centerY - canvasYPos;
                 xs = xs * xs;
@@ -267,8 +266,8 @@ define(['lib/news_special/bootstrap', 'dataController', 'mediator/mapBottomBarMe
 
                 var distance = Math.sqrt( xs + ys );
 
-                if (distance <= incidentObj.circleRadius) {
 
+                if (distance <= incidentObj.circleRadius) {
                     if (distance < smallestDistance) {
                         smallestDistance = distance;
                         chosenIncident = incidentObj;
@@ -284,12 +283,33 @@ define(['lib/news_special/bootstrap', 'dataController', 'mediator/mapBottomBarMe
             }
         },
 
-        /********************************************************
-            * UTIL METHODS
-        ********************************************************/
-        sortArrByXPos: function (a, b) {
-            return a.centerX - b.centerX;
+        restart: function (){
+            news.pubsub.emit('map:reset');
+            this.restartButton.fadeOut();
+            this.draw();
+        },
+
+        showOverlay: function (){
+            var self = this;
+            var viewPortWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+            if(viewPortWidth > 970){
+                this.infoOverlay.on('click', function () { self.infoOverlay.hide(); })
+                this.infoOverlay.fadeIn(1000, function () {
+                    setTimeout(function () {
+                        self.infoOverlay.fadeOut(600, function () {
+                            self.infoOverlay.off('click');
+                        });
+                    }, 3000);
+
+                });
+            }
+        },
+
+        showRestart: function (){
+            this.restartButton.fadeIn(1000);
         }
+
+
 
     };
 

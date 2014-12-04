@@ -32,13 +32,13 @@ define(['lib/news_special/bootstrap', 'mediator/mapMediator', 'mediator/mapToolt
                 mediator store
             ***************************/
 
+            news.$('.main').removeClass('hideMe');
+            news.sendMessageToremoveLoadingImage();
+
             this.mapMediator = new MapMediator();
             this.mapTooltipMediator = new MapTooltipMediator();
             this.miniMapTooltipMediator = new MiniMapTooltipMediator();
 
-            news.$('.main').removeClass('hideMe');
-
-            news.sendMessageToremoveLoadingImage();
         }
     };
 

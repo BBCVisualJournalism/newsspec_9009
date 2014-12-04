@@ -1,12 +1,16 @@
-@include respondMinMax(800px, false){
-	.mini-maps{
-		display: block;
-	}
-	.mapLegend__mobile{
-		display: none;
+@include respondMinMax(450px, false){
+
+	.mapHolder .mapBottomBar .stat{
+		padding-top: 15px;
+
+		strong{
+			display: inline;
+		}
 	}
 
-	.mapLegend__desktop{
+}
+@include respondMinMax(760px, false){
+	.mini-maps{
 		display: block;
 	}
 
@@ -20,6 +24,31 @@
 				display: inline;
 				font-size: 42px
 			}
+		}
+	}
+
+}
+
+@include respondMinMax(800px, false){
+	.mapLegend__mobile{
+		display: none;
+	}
+
+	.mapLegend__desktop{
+		display: block;
+	}
+
+	.mapHolder .restartButton{
+		right: auto;
+		left: 0;
+
+		span{
+			display: inline;
+		}
+
+		svg{
+			vertical-align: middle;
+			margin-top: -5px;
 		}
 	}
 
