@@ -30,6 +30,7 @@ define(function (require) {
         ********************************************************/
         news.pubsub.on('showMiniMapTooltip', this.showTooltip.bind(this));
         news.pubsub.on('showTooltip', this.hide.bind(this));
+        news.pubsub.on('map:reset', this.hide.bind(this));
 
         /********************************************************
             * MOUSE LISTENERS

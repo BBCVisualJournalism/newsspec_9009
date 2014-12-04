@@ -31,6 +31,7 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
 
         this.mapBottomBar               =           new MapBottomBar();
 
+        this.miniMaps                   =           news.$('.mini-maps');
         this.iraqMapEl                  =           news.$('.mini-map__iraq');
         this.afgahnMapEl                =           news.$('.mini-map__afgahn');
         this.nigeriaMapEl               =           news.$('.mini-map__nigeria');
@@ -100,10 +101,15 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
 
             this.mapCtx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
 
-            if(this.isInitialDraw) {
-                this.iraqMap = new MiniMap(this.iraqMapEl, [this.vocabs['IRQ'], this.vocabs['SYR']], 'irq_syr', 1350);
-                this.afgahnMap = new MiniMap(this.afgahnMapEl, [this.vocabs['PAK'], this.vocabs['AFG']], 'afg_pak', 950);
-                this.nigeriaMap = new MiniMap(this.nigeriaMapEl, [this.vocabs['NGA']], 'nga', 1350);
+            if (this.isInitialDraw) {
+
+                if (this.isDesktop()) { 
+                    this.iraqMap = new MiniMap(this.iraqMapEl, [this.vocabs['IRQ'], this.vocabs['SYR']], 'irq_syr', 1350);
+                    this.afgahnMap = new MiniMap(this.afgahnMapEl, [this.vocabs['PAK'], this.vocabs['AFG']], 'afg_pak', 950);
+                    this.nigeriaMap = new MiniMap(this.nigeriaMapEl, [this.vocabs['NGA']], 'nga', 1350);
+                } else {
+                    this.miniMaps.hide();
+                }
 
                 this.mapBottomBar.setData({
                     days: this.countObjectProps(this.globalMapData),
@@ -228,59 +234,66 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
         },
 
         drawMiniMapIncident: function (incident) {
+            if(this.isDesktop()) {
+                var miniMap = null;
 
-            var miniMap = null;
+                switch (incident.country) {
+                    case this.vocabs['AFG']:
+                    case this.vocabs['PAK']:
+                        miniMap = this.afgahnMap;
+                        break;
+                    case this.vocabs['SYR']:
+                    case this.vocabs['IRQ']:
+                        miniMap = this.iraqMap;
+                        break;
+                    case this.vocabs['NGA']:
+                        miniMap = this.nigeriaMap;
+                        break;
+                }
 
-            switch (incident.country) {
-                case this.vocabs['AFG']:
-                case this.vocabs['PAK']:
-                    miniMap = this.afgahnMap;
-                    break;
-                case this.vocabs['SYR']:
-                case this.vocabs['IRQ']:
-                    miniMap = this.iraqMap;
-                    break;
-                case this.vocabs['NGA']:
-                    miniMap = this.nigeriaMap;
-                    break;
-            }
-
-            if (miniMap) {
-                miniMap.drawIncident(incident);
+                if (miniMap) {
+                    miniMap.drawIncident(incident);
+                }
             }
         },
 
         handleMapClick: function () {
-            var mousePos = d3.mouse(this.holderEl[0]), 
-                mapScaleVal = 976 / news.$('.mapHolder')[0].clientWidth;
+            if(this.isDesktop()){        
+                var mousePos = d3.mouse(this.holderEl[0]), 
+                    mapScaleVal = 976 / news.$('.mapHolder')[0].clientWidth;
 
-            var canvasXPos = (mousePos[0] * mapScaleVal), canvasYPos = (mousePos[1] * mapScaleVal);
+                var canvasXPos = (mousePos[0] * mapScaleVal), canvasYPos = (mousePos[1] * mapScaleVal);
 
-            var a, arrLength = this.incidentPositions.length, chosenIncident = 0, smallestDistance = 99999;
-            for (a = 0; a < arrLength; a++) {
-                var incidentObj = this.incidentPositions[a];
+                var a, arrLength = this.incidentPositions.length, chosenIncident = 0, smallestDistance = 99999;
+                for (a = 0; a < arrLength; a++) {
+                    var incidentObj = this.incidentPositions[a];
 
-                var xs = incidentObj.centerX - canvasXPos, ys = incidentObj.centerY - canvasYPos;
-                xs = xs * xs;
-                ys = ys * ys;
+                    var xs = incidentObj.centerX - canvasXPos, ys = incidentObj.centerY - canvasYPos;
+                    xs = xs * xs;
+                    ys = ys * ys;
 
-                var distance = Math.sqrt( xs + ys );
+                    var distance = Math.sqrt( xs + ys );
 
 
-                if (distance <= incidentObj.circleRadius) {
-                    if (distance < smallestDistance) {
-                        smallestDistance = distance;
-                        chosenIncident = incidentObj;
+                    if (distance <= incidentObj.circleRadius) {
+                        if (distance < smallestDistance) {
+                            smallestDistance = distance;
+                            chosenIncident = incidentObj;
+                        }
                     }
                 }
-            }
 
-            if (chosenIncident) {
-                var countryName = this.countriesData.incidentLookup[chosenIncident.report_number];
-                var countryData = this.countriesData.countries[countryName];
+                if (chosenIncident) {
+                    var countryName = this.countriesData.incidentLookup[chosenIncident.report_number];
+                    var countryData = this.countriesData.countries[countryName];
 
-                news.pubsub.emit('showTooltip', [countryName, countryData, {x:chosenIncident.centerX / mapScaleVal, y:chosenIncident.centerY / mapScaleVal}]);
+                    news.pubsub.emit('showTooltip', [countryName, countryData, {x:chosenIncident.centerX / mapScaleVal, y:chosenIncident.centerY / mapScaleVal}]);
+                }
             }
+        },
+
+        isDesktop: function () {
+            return (Math.max(document.documentElement.clientWidth, window.innerWidth || 0) > 970);
         },
 
         restart: function (){
@@ -291,8 +304,7 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
 
         showOverlay: function (){
             var self = this;
-            var viewPortWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-            if(viewPortWidth > 970){
+            if(this.isDesktop()){
                 this.infoOverlay.on('click', function () { self.infoOverlay.hide(); })
                 this.infoOverlay.fadeIn(1000, function () {
                     setTimeout(function () {

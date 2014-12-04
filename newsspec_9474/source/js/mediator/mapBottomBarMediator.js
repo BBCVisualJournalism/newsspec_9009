@@ -44,6 +44,8 @@ define(function (require) {
             var numberRollTime = (2 / 3) * this.statAnimationTime,
                 fadeInTime = this.statAnimationTime - numberRollTime;
 
+            var $valueEl = $element.find('strong');
+
             $element.fadeIn(fadeInTime, function () {
                 var count = 0,
                     refreshTime = numberRollTime / speedVar,
@@ -53,9 +55,9 @@ define(function (require) {
                     count++;
                     var numberValue = Math.floor(incrementValue * count);
                     if (numberValue - incrementValue <= total) {
-                        $element.find('strong').text(numberValue + ' ');
+                        $valueEl.text(numberValue + ' ');
                     } else {
-                        $element.find('strong').text(total + ' ');
+                        $valueEl.text(total + ' ');
                         
                         clearInterval(timeInterval);
                         
@@ -99,10 +101,10 @@ define(function (require) {
             this.el.fadeOut(function () {
                 self.stats.hide();
 
-                self.statDays.text('0');
-                self.statCountries.text('0');
-                self.statAttacks.text('0');
-                self.statDeaths.text('0');
+                self.statDays.find('strong').text('0');
+                self.statCountries.find('strong').text('0');
+                self.statAttacks.find('strong').text('0');
+                self.statDeaths.find('strong').text('0');
             });
         }
 
