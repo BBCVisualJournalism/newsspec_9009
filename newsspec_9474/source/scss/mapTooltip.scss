@@ -25,7 +25,7 @@
 		color: #fff;
 		font-size: 1.3em;
 		@include box-sizing();
-		padding: 0 48px 5px 0;
+		padding: 0 48px 5px 14px;
 		margin: 0;
 		min-height: 33px;
 
@@ -40,6 +40,7 @@
 	.tooltipFigureHolder {
 		display: inline-block;
 		width: 50%;
+		padding-left: 15px;
 
 		h3 {
 			font-size: 1.9em;
@@ -63,7 +64,7 @@
 	}
 
 	.attackFigure {
-		color:#719C39;
+		color:#FF865B;
 	}
 
 	.arrow-left {

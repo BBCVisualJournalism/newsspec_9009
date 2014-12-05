@@ -195,6 +195,8 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
         drawIncidents: function (incidentsArr, ctx, isFinalColor) {
             this.path.context(ctx)({type: "Sphere"});
 
+            var isDesktop = this.isDesktop();
+
             var a, incidentsLength = incidentsArr.length;
             for (a = 0; a < incidentsLength; a++) {
 
@@ -210,7 +212,10 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
                     this.drawMiniMapIncident(incidentInfoObj);
                 }
 
-                var mapScaleVal = 976 / news.$('.mapHolder')[0].clientWidth;
+                var mapScaleVal = 1;
+                if (isDesktop) {
+                    mapScaleVal = 976 / news.$('.mapHolder')[0].clientWidth;
+                }
 
                 var incidentCenter = this.proj([Number(incidentInfoObj.longitude), Number(incidentInfoObj.latitude)]),
                     radius = (4 + (Number(incidentInfoObj.total_killed) / 10) * 2.5) * mapScaleVal;
@@ -227,7 +232,7 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
                 ctx.lineWidth = 0.5;
                 ctx.strokeStyle = 'rgba(255,255,255,.6)';
                 ctx.stroke();
-                ctx.fillStyle = (isFinalColor) ?  'rgba(222,88,87,.4)' : 'rgba(100,19,14,.6)';   
+                ctx.fillStyle = (isFinalColor) ?  'rgba(193,5,5,.4)' : 'rgba(255,117,48,.6)';   
                 ctx.fill();
 
             }

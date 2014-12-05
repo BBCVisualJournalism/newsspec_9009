@@ -46,7 +46,7 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine'], funct
         },
 
         setAxisScale: function () {
-            var scale = (this.isOverview) ? [0, 625, 1250, 1875, 2500] : [0, 250, 500, 750, 1000];
+            var scale = (this.isOverview) ? [0, 750, 1500, 2250, 3000] : [0, 250, 500, 750, 1000];
             for (var i = 0; i < scale.length; i++) {
                 var $axisItem = news.$(this.$axis[i]);
                 $axisItem.text(scale[i]);
@@ -112,7 +112,7 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine'], funct
             /* If we're on a larger device, calculate the chart height from groupschart */
             if (this.$groupChartEl.css('position') === 'absolute') {
                 var fullElementHeight = this.$groupChartItemsEl.height();
-                chartAreaHeight = fullElementHeight - this.$topMethodsEl.outerHeight(true) + 40;
+                chartAreaHeight = fullElementHeight - this.$topMethodsEl.outerHeight(true) + 10;
             } else {
                 chartAreaHeight = 210;
             }

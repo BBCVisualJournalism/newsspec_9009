@@ -46,16 +46,18 @@
 				left: 0;
 			}
 			.deaths-chart--axis_2{
+				display: none;
 				left: 21%;
 			}
 			.deaths-chart--axis_3{
-				left: 44%;
+				left: 35%;
 			}
 			.deaths-chart--axis_4{
+				display: none;
 				left: 66%;
 			}
 			.deaths-chart--axis_5{
-				left: 89%;
+				left: 80%;
 			}
 
 			li{
@@ -108,7 +110,7 @@
 				position: absolute;
 				font: bold 18px Arial;
 				padding-left: 10px;
-				color: #006767;
+				color: #007f7f;
 			}
 
 			.deaths-chart--bg-section__last{

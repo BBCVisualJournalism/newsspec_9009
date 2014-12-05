@@ -152,7 +152,7 @@ define(['lib/news_special/bootstrap', 'dataController', 'mediator/mapBottomBarMe
 
                 this.mapCtx.beginPath();
                 this.mapCtx.arc(incidentCenter[0], incidentCenter[1], radius, 0, 2 * Math.PI, false);
-                this.mapCtx.fillStyle = 'rgba(222,88,87,.4)';
+                this.mapCtx.fillStyle = 'rgba(193,5,5,.4)';
                 this.mapCtx.fill();
                 this.mapCtx.lineWidth = 0.5;
                 this.mapCtx.strokeStyle = 'rgba(255,255,255,.6)';
