@@ -32,34 +32,3 @@
 		}
 	}
 }
-
-.mini-maps-legend{
-	display: none;
-
-	background-color: #f7f7f7;
-	color: #404040;
-	padding: 15px 20px 10px 0;
-
-
-	h4{
-		margin: 0 20px;
-		font: bold 16px Arial;
-	}
-
-	.legnedText{
-		padding: 10px 20px;
-		display: inline-block;
-		width: 37%;
-		max-width: 320px;
-	}
-
-	.legendKeys{
-		svg{
-			vertical-align: middle;
-		}
-
-		.legacyKeyImage{
-			vertical-align: middle;
-		}
-	}
-}

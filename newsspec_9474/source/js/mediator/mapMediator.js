@@ -32,7 +32,6 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
         this.mapBottomBar               =           new MapBottomBar();
 
         this.miniMaps                   =           news.$('.mini-maps');
-        this.miniMapsLegend                   =           news.$('.mini-maps-legend');
         this.iraqMapEl                  =           news.$('.mini-map__iraq');
         this.afgahnMapEl                =           news.$('.mini-map__afgahn');
         this.nigeriaMapEl               =           news.$('.mini-map__nigeria');
@@ -110,7 +109,6 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
                     this.nigeriaMap = new MiniMap(this.nigeriaMapEl, [this.vocabs['NGA']], 'nga', 1350);
                 } else {
                     this.miniMaps.hide();
-                    this.miniMapsLegend.hide();
                 }
 
                 this.mapBottomBar.setData({
