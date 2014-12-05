@@ -34,6 +34,7 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator'], function
         $('.mini-map__iraq .miniMapCanvases').append($('<img src="img/fallback-map-irq.png" alt="Map" class="legacyMapImage" />'));
         $('.mini-map__afgahn .miniMapCanvases').append($('<img src="img/fallback-map-pak.png" alt="Map" class="legacyMapImage" />'));
         $('.mini-map__nigeria .miniMapCanvases').append($('<img src="img/fallback-map-nga.png" alt="Map" class="legacyMapImage" />'));
+        $('.legendKeys').empty().append($('<img src="img/legend-fallback.png" alt="Key" class="legacyKeyImage" />'));
     }
 
     function doBottomBar() {
