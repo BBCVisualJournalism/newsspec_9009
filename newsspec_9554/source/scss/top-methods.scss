@@ -4,7 +4,8 @@
 	overflow: hidden;
 
 	h4{
-		font: bold 24px Arial;
+		font-weight: bold;
+		font-size: 24px;
 		margin: 25px 0;
 		color: $mainTextColor;
 		text-align: center;
@@ -19,13 +20,15 @@
 		li{
 			margin: 10px auto;
 			width: 170px;
-			font: normal 18px Arial;
+			font-weight: normal;
+			font-size: 18px;
 			color: $mainTextColor;
 			text-align: center;
 
 			strong{
 				display: block;
-				font: bold 42px Arial;
+				font-weight: bold;
+				font-size: 42px;
 				color: #9a4b71;
 			}
 		}

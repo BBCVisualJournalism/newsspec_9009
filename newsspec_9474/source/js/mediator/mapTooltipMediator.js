@@ -51,15 +51,13 @@ define(function (require) {
 
             this.firstFigureEl.html(data.total_killed);
 
-            var percentOfDeathsFigure = '' + (((data.total_world_killed_percent * 10) << 0) * 0.1);
-            percentOfDeathsFigure = percentOfDeathsFigure.substr(0, percentOfDeathsFigure.indexOf('.') + 2);
-            this.seondFigureEl.html(percentOfDeathsFigure + '%');
+            var deathFigure = (data.total_world_killed_percent < 1) ? data.total_world_killed_percent.toFixed(2) : Math.round(data.total_world_killed_percent);
+            this.seondFigureEl.html(deathFigure + '%');
 
             this.thirdFigureEl.html(data.attacks_number);
 
-            var percentOfAttacksFigure = '' + (((data.total_world_attacks_percent * 10) << 0) * 0.1);
-            percentOfAttacksFigure = percentOfAttacksFigure.substr(0, percentOfAttacksFigure.indexOf('.') + 2);
-            this.fourthFigureEl.html(percentOfAttacksFigure + '%');
+            var attacksFigure = (data.total_world_attacks_percent < 1) ? data.total_world_attacks_percent.toFixed(2) : Math.round(data.total_world_attacks_percent);
+            this.fourthFigureEl.html(attacksFigure + '%');
            
             var mapHolderWidth = this.mapHolderEl.clientWidth, mapHolderHeight = this.mapHolderEl.clientHeight, tooltipWidth = this.holderEl[0].clientWidth, tooltipHeight = this.holderEl[0].clientHeight;
 

@@ -5,7 +5,8 @@
 
 	h4{
 		margin: 25px 0;
-		font: bold 24px Arial;
+		font-weight: bold;
+		font-size: 24px;
 		color: $mainTextColor;
 		text-align: center;
 	}
@@ -28,7 +29,7 @@
 				display: block;
 				margin: 5px 0 5px 20px;
 				width: 120px;
-				font: 18px Arial;
+				font-size: 18px;
 			}
 
 		}

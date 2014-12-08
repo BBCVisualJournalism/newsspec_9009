@@ -68,16 +68,23 @@
             <%= include('includes/mapTooltip.tmpl') %>
     	</div>
         <div class="mini-maps">
+            <h4 class="mini-maps__header hideLegacy">
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 21.053 22.808" width="22px" height="22px" style="enable-background:new 0 0 21.053 22.808;" xml:space="preserve">
+                    <polygon style="fill:#404040;" points="10.526,7.024 10.526,0 7.018,0 6.227,14.111 1.754,10.527 0,12.281 8.771,22.808 
+                        21.053,22.808 21.053,10.527 "></polygon>
+                </svg>
+                Explore the worst-affected countries in detail
+            </h4>
             <div class="mini-map mini-map__iraq">
-                <h4><%= small_map1_title %></h4>
+                <h4 class="hideMe showLegacy"><%= small_map1_title %></h4>
                 <div class="miniMapCanvases"></div>
             </div>
             <div class="mini-map mini-map__afgahn">
-                <h4><%= small_map2_title %></h4>
+                <h4 class="hideMe showLegacy"><%= small_map2_title %></h4>
                 <div class="miniMapCanvases"></div>
             </div>
             <div class="mini-map mini-map__nigeria">
-                <h4><%= small_map3_title %></h4>
+                <h4 class="hideMe showLegacy"><%= small_map3_title %></h4>
                 <div class="miniMapCanvases"></div>
             </div>
             

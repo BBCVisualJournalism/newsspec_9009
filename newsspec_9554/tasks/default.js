@@ -9,5 +9,8 @@ module.exports = function (grunt) {
     });
 
     grunt.loadNpmTasks('grunt-contrib-copy');
+
     grunt.registerTask('default', ['bump', 'css', 'js', 'html', 'copy:cssFurniture', 'clean:main', 'lang_font:default']);
+
+    grunt.registerTask('no_font_build', ['bump', 'css', 'js', 'html', 'copy:cssFurniture', 'clean:main']);
 };

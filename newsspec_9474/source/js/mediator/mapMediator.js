@@ -260,10 +260,11 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
             }
         },
 
-        handleMapClick: function () {
-            if(this.isDesktop()){        
-                var mousePos = d3.mouse(this.holderEl[0]), 
+        handleMapClick: function (x, y) {
+            if(this.isDesktop()){     
+                var mousePos = (x && y) ? [x, y] : d3.mouse(this.holderEl[0]), 
                     mapScaleVal = 976 / news.$('.mapHolder')[0].clientWidth;
+                console.log(mousePos);   
 
                 var canvasXPos = (mousePos[0] * mapScaleVal), canvasYPos = (mousePos[1] * mapScaleVal);
 
@@ -305,16 +306,21 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
             this.draw();
         },
 
+        showExample: function () {
+            this.handleMapClick(394.5, 102);
+        },
+
         showOverlay: function (){
             var self = this;
             if(this.isDesktop()){
-                this.infoOverlay.on('click', function () { self.infoOverlay.hide(); })
+                this.infoOverlay.on('click', function () { self.infoOverlay.hide(); self.showExample(); })
                 this.infoOverlay.fadeIn(1000, function () {
                     setTimeout(function () {
                         self.infoOverlay.fadeOut(600, function () {
                             self.infoOverlay.off('click');
+                            self.showExample();
                         });
-                    }, 3000);
+                    }, 1500);
 
                 });
             }

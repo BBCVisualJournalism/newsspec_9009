@@ -5,7 +5,8 @@
 		h4{
 			display: inline-block;
 			margin: 0.3em 0 0 0.5em;
-			font: bold 24px Arial;
+			font-weight: bold;
+			font-size: 24px;
 			vertical-align: top;
 			color: $mainTextColor;
 		}
@@ -24,7 +25,8 @@
 			text-align: right;
 			display: block;
 			margin: 6px 0 12px 0;
-			font: normal 18px Arial;
+			font-weight: normal;
+			font-size: 18px;
 		}
 	}
 
@@ -108,7 +110,8 @@
 			.deaths-chart--bar-label{
 				display: none;
 				position: absolute;
-				font: bold 18px Arial;
+				font-weight: bold;
+				font-size: 18px;
 				padding-left: 10px;
 				color: #007f7f;
 			}

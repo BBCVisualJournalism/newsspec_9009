@@ -9,7 +9,7 @@ module.exports = function (grunt) {
         },
         css: {
             files: ['Gruntfile.js', './source/scss/**/*'],
-            tasks: ['css'],
+            tasks: ['css', 'lang_font:default'],
             options: {
                 spawn: false
             }

@@ -1,4 +1,4 @@
-@include respondMinMax(450px, false){
+@include respondMinMax(540px, false){
 
 	.mapHolder .mapBottomBar .stat{
 		padding-top: 15px;
@@ -7,24 +7,17 @@
 			display: inline;
 		}
 	}
+	
+	.mapHolder .mapBottomBar .stat{
+		text-transform: uppercase;
+	}
+
 
 }
 @include respondMinMax(760px, false){
+
 	.mini-maps{
 		display: block;
-	}
-
-	.mapHolder .mapBottomBar{
-		height: 80px;
-
-		.stat{
-			padding-top: 17px;
-			font-size: 24px;
-			strong{
-				display: inline;
-				font-size: 42px
-			}
-		}
 	}
 
 }
@@ -52,4 +45,19 @@
 		}
 	}
 
+}
+@include respondMinMax(860px, false){
+	.mapHolder .mapBottomBar{
+		height: 80px;
+
+		.stat{
+			padding-top: 17px;
+			font-size: 24px;
+
+			strong{
+				display: inline;
+				font-size: 42px
+			}
+		}
+	}
 }
