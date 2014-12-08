@@ -36,12 +36,14 @@
 			width: 25%;
 			color: #404040;
 			margin: 0;
-			font: bold 16px Arial;
+			font-weight: bold;
+			font-size: 16px;
 			text-align: center;
 
 			strong{
 				display: block;
-				font: bold 24px Arial;
+				font-weight: bold;
+				font-size: 24px;
 			}
 		}
 		.stat__deaths strong{
@@ -69,7 +71,8 @@
 		 	display: block;
 		 	margin: 25% auto 0;
 		 	color: #FFF;
-		 	font: bold 24px Arial;
+		 	font-weight: bold;
+		 	font-size: 24px;
 		 	text-align: center;
 		 	max-width: 400px;
 		 }
@@ -89,7 +92,8 @@
 		span{
 			display: none;
 			color: #fff;
-			font: bold 16px Arial;
+			font-weight: bold;
+			font-size:  16px;
 		}
 	}
 }

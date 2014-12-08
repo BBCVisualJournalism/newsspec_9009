@@ -10,4 +10,6 @@ module.exports = function (grunt) {
 
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.registerTask('default', ['bump', 'copy:assets', 'css', 'js', 'html', 'copy:cssFurniture', 'clean:main', 'lang_font:default']);
+
+    grunt.registerTask('no-font-build', ['bump', 'copy:assets', 'css', 'js', 'html', 'copy:cssFurniture', 'clean:main']);
 };

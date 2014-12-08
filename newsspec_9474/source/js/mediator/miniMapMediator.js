@@ -109,7 +109,11 @@ define(['lib/news_special/bootstrap', 'dataController', 'mediator/mapBottomBarMe
             for (var i = 0; i < this.land.features.length; i++) {
                 var featureCenter = this.proj(d3.geo.centroid(this.land.features[i]));
 
-                this.mapLabelsCtx.font = 'bold 18px Arial';
+                var fontFace = news.$('body').css('font-family');
+
+                console.log('bold 18px ' + fontFace);
+
+                this.mapLabelsCtx.font = 'bold 18px ' + fontFace;
                 this.mapLabelsCtx.fillStyle = '#404040'; 
                 var countyText = this.countryLabels[i];
                 var textXPosition = featureCenter[0],

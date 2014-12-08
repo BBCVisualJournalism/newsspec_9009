@@ -256,6 +256,8 @@
 					}
 				}
 
+				countriesObj['overview'].unknown_killed = countriesObj['overview']['total_killed'] - countriesObj['overview']['civilians_killed'] - countriesObj['overview']['military_killed'] - countriesObj['overview']['police_killed'] - countriesObj['overview']['officials_killed'] - countriesObj['overview']['jihadis_killed'];
+
 				for (var key in countriesObj) {
 					var countryTotalKilled = countriesObj[key].total_killed;
 					countriesObj[key].total_world_killed_percent = (countryTotalKilled / worldKilledTotal) * 100;

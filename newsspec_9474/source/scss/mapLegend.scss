@@ -2,12 +2,13 @@
 	padding: 16px 20px 5px;
 	background-color: #efefef;
 	color: #404040;
-	font: 16px Arial;
+	font-size: 16px;
 	text-align: center;
 
 	h6{
 		margin: 0 0 6px 0;
-		font: bold 16px Arial;
+		font-weight: bold;
+		font-size: 16px;
 	}
 }
 
@@ -22,11 +23,12 @@
 
 	background-color: #efefef;
 	color: #404040;
-	font: 16px Arial;
+	font-size: 16px;
 
 	h6{
 		margin: 0 0 6px 0;
-		font: bold 16px Arial;
+		font-weight: bold;
+		font-size: 16px;
 	}
 
 	.legendKeys{

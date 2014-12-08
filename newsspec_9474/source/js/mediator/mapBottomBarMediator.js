@@ -68,7 +68,6 @@ define(function (require) {
         },
 
         show: function () {
-            console.log('Showing');
             var self = this;
 
             self.el.fadeIn('fast', function () {
