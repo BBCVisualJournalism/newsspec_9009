@@ -22,11 +22,11 @@ module.exports = function (grunt) {
         "ukrainian": "standard",
         "uzbek": "standard",
         "vietnamese": "standard",
+        "pashto": "pashto",
 
         "arabic": "ar-ur",
-        "pashto": "ar-ur",
-        "persian": "ar-ur",
-        "urdu": "ar-ur",
+        "persian": "persian",
+        "urdu": "urdu",
 
         "burmese": "my",
         "chinese": "zh-hans",

@@ -2,6 +2,8 @@
 	direction: ltr;
 }
 .rtl{
+	font-size: 11px;
+
 	direction: rtl;
 	.mapHolder{
 		 .mapBottomBar .stat{
@@ -34,4 +36,10 @@
 
 	}
 
+}
+
+@include respondMinMax(860px, false){
+	.rtl .mapHolder .mapBottomBar .stat{
+			padding-top: 6px;
+	}
 }

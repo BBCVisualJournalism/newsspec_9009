@@ -26,6 +26,7 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
 
         this.incidentPositions          =           [];
         this.isInitialDraw              =           true;
+        this.incidentTimeouts           =           [];
 
         this.dayCanvasCount             =           0;
 
@@ -73,7 +74,6 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
             this.restartButton.on('click', this.restart.bind(this));
 
             news.pubsub.on('bottomBar:complete', this.showOverlay.bind(this));
-            news.pubsub.on('bottomBar:complete', this.showRestart.bind(this));
             news.pubsub.on('hideTooltip', this.pauseClickEventListener.bind(this));
         },
 
@@ -145,7 +145,7 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
                 var incidentCanvas = d3.select(this.holderEl[0]).append('canvas')
                     .attr('width', this.canvasWidth)
                     .attr('height', this.canvasHeight)
-                    .attr('class', 'visibilityHidden mapDayCanvasAnim');
+                    .attr('class', 'mapDayCanvas visibilityHidden mapDayCanvasAnim');
 
                 var indidentCanvasCtx = incidentCanvas.node().getContext('2d');
 
@@ -156,7 +156,7 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
                     * animation of the days incidents appears, you'll also want to check out the speed
                     * of the opacity css transition in animations.scss: .mapDayCanvasAnim
                 *******************/
-                setTimeout(this.showDayIncidents.bind(this), 500 + (itt * 300), incidentCanvas.node(), this.globalMapData[key]);
+                this.incidentTimeouts[itt] = setTimeout(this.showDayIncidents.bind(this), 500 + (itt * 300), incidentCanvas.node(), this.globalMapData[key]);
                 itt ++;
                 this.dayCanvasCount++;
 
@@ -264,7 +264,6 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
             if (this.isDesktop()) {     
                 var mousePos = (x && y) ? [x, y] : d3.mouse(this.holderEl[0]), 
                     mapScaleVal = 976 / news.$('.mapHolder')[0].clientWidth;
-                console.log(mousePos);   
 
                 var canvasXPos = (mousePos[0] * mapScaleVal), canvasYPos = (mousePos[1] * mapScaleVal);
 
@@ -302,7 +301,10 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
 
         restart: function () {
             news.pubsub.emit('map:reset');
-            this.restartButton.fadeOut();
+            news.$('.mapDayCanvas').remove();
+            for (var i = 0; i < this.incidentTimeouts.length; i++) {
+                clearTimeout(this.incidentTimeouts[i]);
+            }
             this.draw();
         },
 
@@ -313,7 +315,7 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
         showOverlay: function () {
             var self = this;
             if (this.isDesktop()) {
-                this.infoOverlay.on('click', function () { self.infoOverlay.hide(); self.showExample(); })
+                this.infoOverlay.on('click', function () { self.infoOverlay.hide(); self.showExample(); });
                 this.infoOverlay.fadeIn(1000, function () {
                     setTimeout(function () {
                         self.infoOverlay.fadeOut(600, function () {
@@ -324,10 +326,6 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
 
                 });
             }
-        },
-
-        showRestart: function () {
-            this.restartButton.fadeIn(1000);
         }
 
 

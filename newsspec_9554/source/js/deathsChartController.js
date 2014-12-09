@@ -1,4 +1,4 @@
-define(['lib/news_special/bootstrap', 'lib/news_special/template_engine'], function (news, tmpl) {
+define(['lib/news_special/bootstrap', 'lib/news_special/template_engine', 'dataController'], function (news, tmpl, DataController) {
 
     'use strict';
 
@@ -49,7 +49,7 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine'], funct
             var scale = (this.isOverview) ? [0, 750, 1500, 2250, 3000] : [0, 250, 500, 750, 1000];
             for (var i = 0; i < scale.length; i++) {
                 var $axisItem = news.$(this.$axis[i]);
-                $axisItem.text(scale[i]);
+                $axisItem.text(DataController.formatNumber(scale[i]));
             }
 
             return scale;
@@ -75,7 +75,7 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine'], funct
                 total += barValues[i];
             }
 
-            this.$totalDeaths.text(total);
+            this.$totalDeaths.text(DataController.formatNumber(total));
         },
 
         setBarValues: function (maxAxis) {
@@ -92,7 +92,7 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine'], funct
 
                 /* If bar value is greater than 0, show the label */
                 var labelText = (barValues[i] > 0) ? barValues[i] : '';
-                $label.text(labelText);
+                $label.text(DataController.formatNumber(labelText));
             }
 
 

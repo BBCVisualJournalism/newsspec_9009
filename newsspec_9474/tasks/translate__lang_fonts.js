@@ -22,9 +22,9 @@ module.exports = function (grunt) {
         "vietnamese": "standard",
 
         "arabic": "ar-ur",
-        "pashto": "ar-ur",
-        "persian": "ar-ur",
-        "urdu": "ar-ur",
+        "pashto": "pashto",
+        "persian": "persian",
+        "urdu": "urdu",
 
         "burmese": "my",
         "chinese": "zh-hans",

@@ -23,7 +23,7 @@
 
 	h2 {
 		color: #fff;
-		font-size: 1.3em;
+		font-size: 2.1em;
 		@include box-sizing();
 		padding: 0 48px 5px 14px;
 		margin: 0;
@@ -43,18 +43,18 @@
 		padding-left: 15px;
 
 		h3 {
-			font-size: 1.9em;
+			font-size: 3em;
 			margin: 20px 0 5px 0;
 		}
 
 		h4 {
-			font-size: 1.6em;
+			font-size: 2.6em;
 			margin: 20px 0 5px 0;
 		}
 		
 		span {
 			display: block;
-			font-size: 1em;
+			font-size: 1.6em;
 			color: #fff;
 		}
 	}

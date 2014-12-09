@@ -121,6 +121,28 @@ define(['lib/news_special/bootstrap', 'text!../assets/countries_data.json', 'tex
 
     };
 
+    /* 
+        STATIC VARIABLE
+
+        If the current language is English or not.
+    */
+    DataController.isEnglish = news.$('.main').hasClass('lang_english');
+
+    /* 
+        STATIC METHOD
+
+        Adds commas to thousands (e.g 1000 becomes 1,000) on a given number
+
+        http://stackoverflow.com/a/25377176
+    */
+    DataController.formatNumber = function (num) {
+        if (DataController.isEnglish) {
+            return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+        } else {
+            return num;
+        }
+    };
+
     return DataController;
 
 

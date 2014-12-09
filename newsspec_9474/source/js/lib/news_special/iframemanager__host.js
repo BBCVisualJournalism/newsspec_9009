@@ -83,6 +83,7 @@
             });
 
             this.removeAppWebViewLinksFromHostPage();
+            this.removeFallbackImageFromHostPage();
         },
         addLoadingSpinner: function (link, iframeUID) {
             var spinner = document.createElement('IMG'),
@@ -236,13 +237,42 @@
                     }
                 }
             }
+        },
+        /* http://stackoverflow.com/a/901144 */
+        getQueryStringValue: function (name) {
+            var queryString = '<!--#echo var="QUERY_STRING" -->';
+            
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('(?:[\\?&]|&amp;)' + name + '=([^&#]*)'),
+                results = regex.exec(queryString);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        },
+        removeFallbackImageFromHostPage: function () {
+            var imageName = this.getQueryStringValue('fallback');
+            var fallbackImage;
+
+            if (imageName) {
+                if (typeof document.querySelector !== 'undefined') {
+                    fallbackImage = document.querySelector('img[src$="' + imageName + '"]');
+                    if (fallbackImage) {
+                        fallbackImage.parentNode.removeChild(fallbackImage);
+                    }
+                } else {
+                    // Support for older browsers
+                    fallbackImage = document.getElementsByTagName('img');
+                    for (var idx = 0; idx < fallbackImage.length; ++idx) {
+                        if (fallbackImage[idx].src.indexOf(imageName) >= 0) {
+                            fallbackImage[idx].parentNode.removeChild(fallbackImage[idx]);
+                        }
+                    }
+                }
+            }
         }
     };
 
     function cutsTheMustard() {
         
         var modernDevice =
-                document.implementation.hasFeature('http://www.w3.org/TR/SVG11/feature#BasicStructure', '1.1') &&
                 'querySelector' in document &&
                 'localStorage' in window &&
                 'addEventListener' in window,

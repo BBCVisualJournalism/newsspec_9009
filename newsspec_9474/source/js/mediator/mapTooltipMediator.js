@@ -3,6 +3,7 @@ define(function (require) {
     'use strict';
 
     var news = require('lib/news_special/bootstrap');
+    var DataController = require('dataController');
 
     var MapTooltipMediator = function () {
 
@@ -47,17 +48,17 @@ define(function (require) {
 
             this.holderEl.removeClass('hideMe');
 
-            this.tooltipTitleEl.html(countryName);
+            this.tooltipTitleEl.text(countryName);
 
-            this.firstFigureEl.html(data.total_killed);
+            this.firstFigureEl.text(DataController.formatNumber(data.total_killed));
 
-            var deathFigure = (data.total_world_killed_percent < 1) ? data.total_world_killed_percent.toFixed(2) : Math.round(data.total_world_killed_percent);
-            this.seondFigureEl.html(deathFigure + '%');
+            var deathFigure = (data.total_world_killed_percent < 0.5) ? data.total_world_killed_percent.toFixed(2) : Math.round(data.total_world_killed_percent);
+            this.seondFigureEl.text(deathFigure + '%');
 
-            this.thirdFigureEl.html(data.attacks_number);
+            this.thirdFigureEl.text(data.attacks_number);
 
-            var attacksFigure = (data.total_world_attacks_percent < 1) ? data.total_world_attacks_percent.toFixed(2) : Math.round(data.total_world_attacks_percent);
-            this.fourthFigureEl.html(attacksFigure + '%');
+            var attacksFigure = (data.total_world_attacks_percent < 0.5) ? data.total_world_attacks_percent.toFixed(2) : Math.round(data.total_world_attacks_percent);
+            this.fourthFigureEl.text(attacksFigure + '%');
            
             var mapHolderWidth = this.mapHolderEl.clientWidth, mapHolderHeight = this.mapHolderEl.clientHeight, tooltipWidth = this.holderEl[0].clientWidth, tooltipHeight = this.holderEl[0].clientHeight;
 

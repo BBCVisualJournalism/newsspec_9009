@@ -3,6 +3,7 @@ define(function (require) {
     'use strict';
 
     var news = require('lib/news_special/bootstrap');
+    var DataController = require('dataController');
 
     var MapBottomBarMediator = function () {
 
@@ -52,9 +53,9 @@ define(function (require) {
                     count++;
                     var numberValue = Math.floor(incrementValue * count);
                     if (numberValue - incrementValue <= total) {
-                        $valueEl.text(numberValue + ' ');
+                        $valueEl.text(DataController.formatNumber(numberValue) + ' ');
                     } else {
-                        $valueEl.text(total + ' ');
+                        $valueEl.text(DataController.formatNumber(total) + ' ');
                         
                         clearInterval(timeInterval);
                         

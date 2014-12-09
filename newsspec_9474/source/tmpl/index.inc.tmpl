@@ -7,4 +7,7 @@
 <style>
 <%= include("../scss/news_special/loading.css") %>
 </style>
-<script type="text/javascript"><%= include("../js/lib/news_special/iframemanager__host.js", {iframeUid: iframeUid}) %></script>
+<script type="text/javascript">
+	document.body.className += ' full-width-mode'; 
+	<%= include("../js/lib/news_special/iframemanager__host.js", {iframeUid: iframeUid}) %>
+</script>

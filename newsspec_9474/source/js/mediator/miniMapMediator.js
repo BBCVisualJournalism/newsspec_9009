@@ -17,7 +17,7 @@ define(['lib/news_special/bootstrap', 'dataController', 'mediator/mapBottomBarMe
         this.canvasWidth                =           325;
         this.canvasHeight               =           325;
 
-        this.proj                       =           null
+        this.proj                       =           null;
         this.path                       =           null;
         this.incidentsArr               =           [];
 
@@ -25,22 +25,22 @@ define(['lib/news_special/bootstrap', 'dataController', 'mediator/mapBottomBarMe
         /********************************************************
             * INIT STUFF
         ********************************************************/
-        this.mapCanvas                  =           d3.select(this.canvasHolder[0]).append("canvas")
-                                                        .attr("class", 'miniMapCanvas')
-                                                        .attr("width", this.canvasWidth)
-                                                        .attr("height", this.canvasHeight);
+        this.mapCanvas                  =           d3.select(this.canvasHolder[0]).append('canvas')
+                                                        .attr('class', 'miniMapCanvas')
+                                                        .attr('width', this.canvasWidth)
+                                                        .attr('height', this.canvasHeight);
 
-        this.mapLabels                  =           d3.select(this.canvasHolder[0]).append("canvas")
-                                                        .attr("class", 'miniMapLabels')
-                                                        .attr("width", this.canvasWidth)
-                                                        .attr("height", this.canvasHeight);
+        this.mapLabels                  =           d3.select(this.canvasHolder[0]).append('canvas')
+                                                        .attr('class', 'miniMapLabels')
+                                                        .attr('width', this.canvasWidth)
+                                                        .attr('height', this.canvasHeight);
 
         this.dataController             =           new DataController();
         this.incidentsData              =           this.dataController.getTranslatedIncidentsData(); 
         this.vocabs                     =           this.dataController.getVocabs(); 
 
-        this.mapCtx                     =           this.mapCanvas.node().getContext("2d");
-        this.mapLabelsCtx               =           this.mapLabels.node().getContext("2d");
+        this.mapCtx                     =           this.mapCanvas.node().getContext('2d');
+        this.mapLabelsCtx               =           this.mapLabels.node().getContext('2d');
         this.land                       =           undefined;
         this.mapJsonLoaded              =           false;
 
@@ -76,7 +76,7 @@ define(['lib/news_special/bootstrap', 'dataController', 'mediator/mapBottomBarMe
 
             var countryProp = (this.countryJson !== 'afg_pak') ? this.countryJson : 'AFG_PAK';
             this.land = topojson.feature(country, country.objects[countryProp]);
-            var ocean = {type: "Sphere"};
+            var ocean = {type: 'Sphere'};
 
 
             this.initMap(this.land);
@@ -111,15 +111,13 @@ define(['lib/news_special/bootstrap', 'dataController', 'mediator/mapBottomBarMe
 
                 var fontFace = news.$('body').css('font-family');
 
-                console.log('bold 18px ' + fontFace);
-
                 this.mapLabelsCtx.font = 'bold 18px ' + fontFace;
                 this.mapLabelsCtx.fillStyle = '#404040'; 
                 var countyText = this.countryLabels[i];
                 var textXPosition = featureCenter[0],
                     textYPosition = featureCenter[1];
 
-                /* If not right to left, take away half the text width, otherwise add it */
+                /* If not right to left, take away half the text width, otherwise add it (Centers the text) */
                 if (this.vocabs.is_rtl !== 'rtl'){
                     textXPosition -= (this.mapLabelsCtx.measureText(countyText).width / 2);
                 } else {
@@ -141,8 +139,6 @@ define(['lib/news_special/bootstrap', 'dataController', 'mediator/mapBottomBarMe
             if(!this.mapJsonLoaded){
                 this.incidentQueue.push(incident);
             }else{
-                this.path.context(this.mapCtx)({type: "Sphere"});
-
                 var incidentCenter = this.proj([Number(incident.longitude), Number(incident.latitude)]),
                     radius = 4 + (Number(incident.total_killed) / 10) * 2.5;
 
