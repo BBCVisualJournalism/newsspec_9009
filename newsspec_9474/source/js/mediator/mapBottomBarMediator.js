@@ -32,7 +32,7 @@ define(function (require) {
             this.model = data;
         },
 
-        animateDigit: function ($element, total, callback){
+        animateDigit: function ($element, total, callback) {
             var self = this;
 
             /* Speedbar determines how often the number increases */
@@ -46,7 +46,7 @@ define(function (require) {
             $element.fadeIn(fadeInTime, function () {
                 var count = 0,
                     refreshTime = numberRollTime / speedVar,
-                    incrementValue = total / speedVar; 
+                    incrementValue = total / speedVar;
                     
                 var timeInterval = setInterval(function () {
                     count++;
@@ -58,7 +58,7 @@ define(function (require) {
                         
                         clearInterval(timeInterval);
                         
-                        if(callback){
+                        if (callback) {
                             callback();
                         }
                     }
@@ -72,13 +72,13 @@ define(function (require) {
 
             self.el.fadeIn('fast', function () {
 
-                self.animateDigit(self.statDays , self.model.days, function () {
+                self.animateDigit(self.statDays, self.model.days, function () {
 
-                    self.animateDigit(self.statCountries , self.model.countries, function () {
+                    self.animateDigit(self.statCountries, self.model.countries, function () {
 
-                        self.animateDigit(self.statAttacks , self.model.attacks, function () {
+                        self.animateDigit(self.statAttacks, self.model.attacks, function () {
 
-                            self.animateDigit(self.statDeaths , self.model.deaths, function () {
+                            self.animateDigit(self.statDeaths, self.model.deaths, function () {
                                 news.pubsub.emit('bottomBar:complete');
                             });
 

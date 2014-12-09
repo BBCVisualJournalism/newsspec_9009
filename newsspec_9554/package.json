@@ -5,7 +5,7 @@
     "url": "http://github.com/BBCVisualJournalism/newsspec_9554"
   },
   "description":    "drop down list which displays attack data for a country",
-  "version":        "0.1.163",
+  "version":        "0.1.164",
   "devDependencies": {
     "grunt":                            "~0.4.0",
     "grunt-cli":                        "~0.1.11",
@@ -18,7 +18,7 @@
     "grunt-contrib-cssmin":             "0.9.0",
     "grunt-contrib-imagemin":           "~0.3.0",
     "grunt-contrib-jasmine":            "~0.5.x",
-    "grunt-contrib-jshint":             "0.6.4",
+    "grunt-contrib-jshint":             "~0.10.0",
     "grunt-contrib-requirejs":          "0.4.1",
     "grunt-contrib-sass":               "~0.5.0",
     "grunt-contrib-watch":              "~0.5.3",

@@ -45,6 +45,7 @@
 	"big_map_countries": "countries",
 	"big_map_days": "days",
 	"cta": "Click or tap to get country totals, scroll for full detail",
+	"mini_map_cta": "Explore the worst-affected countries in detail",
 	"big_map_key1": "Each circle is one attack",
 	"big_map_key2": "Larger circles represent more deaths",
 	"big_map_key3": "Darker shade shows repeated attacks",

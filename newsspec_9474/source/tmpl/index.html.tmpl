@@ -51,7 +51,7 @@
                     <%= cta %>
                 </h4>
             </div>
-    		<div class="mapBottomBar">
+    		<div class="mapBottomBar<% if (vocab_dir === "arabic") { %> ltr<% } %>">
     			<div class="stat stat__days">
     				<strong>0 </strong><%= big_map_days %>
     			</div>
@@ -73,7 +73,7 @@
                     <polygon style="fill:#404040;" points="10.526,7.024 10.526,0 7.018,0 6.227,14.111 1.754,10.527 0,12.281 8.771,22.808 
                         21.053,22.808 21.053,10.527 "></polygon>
                 </svg>
-                Explore the worst-affected countries in detail
+                <%= mini_map_cta %>
             </h4>
             <div class="mini-map mini-map__iraq">
                 <h4 class="hideMe showLegacy"><%= small_map1_title %></h4>

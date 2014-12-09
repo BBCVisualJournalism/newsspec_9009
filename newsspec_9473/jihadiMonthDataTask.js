@@ -184,12 +184,12 @@
 							method_totals: {}
 						};
 
-						var totalKilled = parseInt(rowArr[10], 10) || 0,
-							jihadisKilled = parseInt(rowArr[11], 10) || 0,
-							civiliansKilled = parseInt(rowArr[12], 10) || 0,
-							militaryKilled = parseInt(rowArr[13], 10) || 0,
-							policeKilled = parseInt(rowArr[14], 10) || 0,
-							officialsKilled = parseInt(rowArr[15], 10) || 0;
+						var totalKilled = parseInt(rowArr[10].trim(), 10) || 0,
+							jihadisKilled = parseInt(rowArr[11].trim(), 10) || 0,
+							civiliansKilled = parseInt(rowArr[12].trim(), 10) || 0,
+							militaryKilled = parseInt(rowArr[13].trim(), 10) || 0,
+							policeKilled = parseInt(rowArr[14].trim(), 10) || 0,
+							officialsKilled = parseInt(rowArr[15].trim(), 10) || 0;
 
 						countriesObj[countryName].total_killed += totalKilled;
 						countriesObj[countryName].jihadis_killed += jihadisKilled;
@@ -207,11 +207,8 @@
 						countriesObj['overview'].officials_killed += officialsKilled;
 						countriesObj['overview'].children_killed += parseInt(rowArr[16], 10) || 0;
 
-
-
 						/* Calculate how many unkown deaths */
-						var unknownKilled =  totalKilled - jihadisKilled - civiliansKilled - militaryKilled;
-						unknownKilled = unknownKilled - policeKilled - officialsKilled;
+						var unknownKilled =  totalKilled - jihadisKilled - civiliansKilled - militaryKilled - policeKilled - officialsKilled;
 						/* If less than 0, be 0 */
 						unknownKilled = (unknownKilled<0) ? 0 : unknownKilled;
 
@@ -255,8 +252,6 @@
 						countryLookup[parseInt(rowArr[0], 10)] = countryName;
 					}
 				}
-
-				countriesObj['overview'].unknown_killed = countriesObj['overview']['total_killed'] - countriesObj['overview']['civilians_killed'] - countriesObj['overview']['military_killed'] - countriesObj['overview']['police_killed'] - countriesObj['overview']['officials_killed'] - countriesObj['overview']['jihadis_killed'];
 
 				for (var key in countriesObj) {
 					var countryTotalKilled = countriesObj[key].total_killed;

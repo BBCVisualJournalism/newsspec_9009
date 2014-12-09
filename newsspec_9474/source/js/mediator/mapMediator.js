@@ -53,12 +53,12 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
 
             this.worldMap = JSON.parse(worldJson);
 
-            this.mapCanvas = d3.select(this.holderEl[0]).append("canvas")
-                                .attr("width", this.canvasWidth)
-                                .attr("height", this.canvasHeight)
-                                .attr("id", "mapBgCanvas");
+            this.mapCanvas = d3.select(this.holderEl[0]).append('canvas')
+                                .attr('width', this.canvasWidth)
+                                .attr('height', this.canvasHeight)
+                                .attr('id', 'mapBgCanvas');
 
-            this.mapCtx = this.mapCanvas.node().getContext("2d");
+            this.mapCtx = this.mapCanvas.node().getContext('2d');
 
             this.dataController = new DataController();
             this.vocabs = this.dataController.getVocabs();
@@ -91,7 +91,7 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
 
         countObjectProps: function (object) {
             var count = 0;
-            for(var i in object){
+            for (var i in object) {
                 count++;
             }
             return count;
@@ -103,7 +103,7 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
 
             if (this.isInitialDraw) {
 
-                if (this.isDesktop()) { 
+                if (this.isDesktop()) {
                     this.iraqMap = new MiniMap(this.iraqMapEl, [this.vocabs['IRQ'], this.vocabs['SYR']], 'irq_syr', 1350);
                     this.afgahnMap = new MiniMap(this.afgahnMapEl, [this.vocabs['PAK'], this.vocabs['AFG']], 'afg_pak', 950);
                     this.nigeriaMap = new MiniMap(this.nigeriaMapEl, [this.vocabs['NGA']], 'nga', 1350);
@@ -113,13 +113,13 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
 
                 this.mapBottomBar.setData({
                     days: this.countObjectProps(this.globalMapData),
-                    countries: this.countObjectProps(this.countriesData.countries) -1,
+                    countries: this.countObjectProps(this.countriesData.countries) - 1,
                     attacks: this.countriesData.countries.overview.attacks_number,
                     deaths: this.countriesData.countries.overview.total_killed
                 });
             }
 
-            var land = topojson.feature(this.worldMap, this.worldMap.objects.worldmap), ocean = {type: "Sphere"};
+            var land = topojson.feature(this.worldMap, this.worldMap.objects.worldmap), ocean = {type: 'Sphere'};
 
             this.mapCtx.strokeStyle = '#999999';
             this.mapCtx.lineWidth = 0.2;
@@ -142,12 +142,12 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
 
             for (var key in this.globalMapData) {
 
-                var incidentCanvas = d3.select(this.holderEl[0]).append("canvas")
-                    .attr("width", this.canvasWidth)
-                    .attr("height", this.canvasHeight)
-                    .attr("class", 'visibilityHidden mapDayCanvasAnim');
+                var incidentCanvas = d3.select(this.holderEl[0]).append('canvas')
+                    .attr('width', this.canvasWidth)
+                    .attr('height', this.canvasHeight)
+                    .attr('class', 'visibilityHidden mapDayCanvasAnim');
 
-                var indidentCanvasCtx = incidentCanvas.node().getContext("2d");
+                var indidentCanvasCtx = incidentCanvas.node().getContext('2d');
 
                 this.drawIncidents(this.globalMapData[key], indidentCanvasCtx);
 
@@ -166,7 +166,7 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
 
         },
 
-        showDayIncidents: function (dayCanvas, incidentsArr) {            
+        showDayIncidents: function (dayCanvas, incidentsArr) {
             var self = this;
 
             var $dayCanvas = news.$(dayCanvas);
@@ -178,11 +178,11 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
                 * gets to 0 then you add the 'hideMe' class back or
                 * remove the element completely depending on performance
             *******************/
-            $dayCanvas.one("webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend",
-            function(e) {
+            $dayCanvas.one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend',
+            function (e) {
                 news.$(e.target).remove();
                 self.dayCanvasCount--;
-                if(self.dayCanvasCount == 3){
+                if (self.dayCanvasCount === 3) {
                     news.pubsub.emit('map:finishedAnimation');
                 }
             });
@@ -191,7 +191,7 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
         },
 
         drawIncidents: function (incidentsArr, ctx, isFinalColor) {
-            this.path.context(ctx)({type: "Sphere"});
+            this.path.context(ctx)({type: 'Sphere'});
 
             var isDesktop = this.isDesktop();
 
@@ -206,7 +206,7 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
                 }
 
                 /* Draw the point on the minimaps if they're not already drawn */
-                if (this.isInitialDraw && !isFinalColor){
+                if (this.isInitialDraw && !isFinalColor) {
                     this.drawMiniMapIncident(incidentInfoObj);
                 }
 
@@ -230,14 +230,14 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
                 ctx.lineWidth = 0.5;
                 ctx.strokeStyle = 'rgba(255,255,255,.6)';
                 ctx.stroke();
-                ctx.fillStyle = (isFinalColor) ?  'rgba(193,5,5,.4)' : 'rgba(255,117,48,.6)';   
+                ctx.fillStyle = (isFinalColor) ?  'rgba(193,5,5,.4)' : 'rgba(255,117,48,.6)';
                 ctx.fill();
 
             }
         },
 
         drawMiniMapIncident: function (incident) {
-            if(this.isDesktop()) {
+            if (this.isDesktop()) {
                 var miniMap = null;
 
                 switch (incident.country) {
@@ -261,7 +261,7 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
         },
 
         handleMapClick: function (x, y) {
-            if(this.isDesktop()){     
+            if (this.isDesktop()) {     
                 var mousePos = (x && y) ? [x, y] : d3.mouse(this.holderEl[0]), 
                     mapScaleVal = 976 / news.$('.mapHolder')[0].clientWidth;
                 console.log(mousePos);   
@@ -300,7 +300,7 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
             return (Math.max(document.documentElement.clientWidth, window.innerWidth || 0) > 760);
         },
 
-        restart: function (){
+        restart: function () {
             news.pubsub.emit('map:reset');
             this.restartButton.fadeOut();
             this.draw();
@@ -310,9 +310,9 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
             this.handleMapClick(394.5, 102);
         },
 
-        showOverlay: function (){
+        showOverlay: function () {
             var self = this;
-            if(this.isDesktop()){
+            if (this.isDesktop()) {
                 this.infoOverlay.on('click', function () { self.infoOverlay.hide(); self.showExample(); })
                 this.infoOverlay.fadeIn(1000, function () {
                     setTimeout(function () {
@@ -326,7 +326,7 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
             }
         },
 
-        showRestart: function (){
+        showRestart: function () {
             this.restartButton.fadeIn(1000);
         }
 
