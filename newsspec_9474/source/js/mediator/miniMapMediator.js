@@ -1,4 +1,4 @@
-define(['lib/news_special/bootstrap', 'dataController', 'mediator/mapBottomBarMediator', 'lib/vendors/mapping/d3.v3.min', 'queue', 'lib/vendors/mapping/topojson'],
+define(['lib/news_special/bootstrap', 'dataController', 'mediator/mapBottomBarMediator', 'd3', 'queue', 'lib/vendors/mapping/topojson'],
     function (news, DataController, MapBottomBar, d3, queue, topojson) {
 
     'use strict';
@@ -210,7 +210,7 @@ define(['lib/news_special/bootstrap', 'dataController', 'mediator/mapBottomBarMe
             }
 
             if (chosenIncident) {
-                news.pubsub.emit('istats', ['map-clicked-incident', 'newsspec-interaction', this.incidentsData[chosenIncident.report_number]]);
+                news.pubsub.emit('istats', ['map-clicked-incident', 'newsspec-interaction', chosenIncident.report_number]);
                 news.pubsub.emit('showMiniMapTooltip', [this.incidentsData[chosenIncident.report_number], this.el, {x:chosenIncident.centerX / mapScaleVal, y:chosenIncident.centerY / mapScaleVal}]);
             }
         }

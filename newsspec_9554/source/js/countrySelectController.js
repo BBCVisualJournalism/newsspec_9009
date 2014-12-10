@@ -57,7 +57,9 @@ define(['lib/news_special/bootstrap', 'topMethodsController', 'groupChartControl
 
         updateCountry: function () {
             var selectedCountry = this.countryData[this.$el.val()];
-            
+
+            news.pubsub.emit('istats', ['interactive-show-country', 'newsspec-interaction', this.$el.val()]);
+
             this.topMethodsController.setData(selectedCountry.attacks_number, selectedCountry.method_totals);
             this.groupChartController.setData(selectedCountry.total_killed, selectedCountry.group_totals);
             this.deathsChartController.setData(selectedCountry, (this.$el.val() === 'overview'));

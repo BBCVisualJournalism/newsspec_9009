@@ -62,6 +62,8 @@
 
             this.elm = document.createElement('iframe');
             this.elm.className = 'responsive-iframe';
+            this.elm.style.marginTop = '10px';
+            this.elm.style.marginBottom = '10px';
             this.elm.style.width = '100%';
             this.elm.scrolling = 'no';
             this.elm.allowfullscreen = true;

@@ -1,4 +1,4 @@
-define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world_map.json', 'mediator/mapBottomBarMediator', 'mediator/miniMapMediator', 'lib/vendors/mapping/d3.v3.min', 'queue', 'lib/vendors/mapping/topojson'],
+define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world_map.json', 'mediator/mapBottomBarMediator', 'mediator/miniMapMediator', 'd3', 'queue', 'lib/vendors/mapping/topojson'],
     function (news, DataController, worldJson, MapBottomBar, MiniMap, d3, queue, topojson) {
 
     'use strict';
