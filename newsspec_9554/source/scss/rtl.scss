@@ -1,6 +1,7 @@
 .rtl{
 	direction: rtl;
-	
+	font-size: 11px;
+
 	.charts-wrapper{
 		direction: initial;
 	}
@@ -39,7 +40,13 @@
 	}
 
 	.top-methods{
+			margin-top: 0.7em;
+			margin-bottom: 0.7em;
 			margin-right: 0;
+
+		.top-methods--list li strong{
+			line-height: 90%;
+		}
 
 		h4{
 			margin-right: 0;

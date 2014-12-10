@@ -1,4 +1,4 @@
-define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator'], function (news, MapBottomBar) {
+define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator', 'dataController'], function (news, MapBottomBar, DataController) {
 
     'use strict';
 
@@ -37,12 +37,23 @@ define(['lib/news_special/bootstrap', 'mediator/mapBottomBarMediator'], function
         $('.legendKeys').empty().append($('<img src="img/legend-fallback.png" alt="Key" class="legacyKeyImage" />'));
     }
 
+    function countObjectProps(object) {
+        var count = 0;
+        for (var i in object) {
+            count++;
+        }
+        return count;
+    }
+
     function doBottomBar() {
+        var dataController = new DataController(),
+            countriesData = dataController.getTranslatedCountriesData();
+
         mapBottomBar.setData({
             days: 30,
-            countries: 15,
-            attacks: 666,
-            deaths: 5045
+            countries: countObjectProps(countriesData.countries) - 1,
+            attacks: countriesData.countries.overview.attacks_number,
+            deaths: countriesData.countries.overview.total_killed
         });
 
         mapBottomBar.show();

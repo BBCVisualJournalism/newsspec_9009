@@ -22,9 +22,15 @@
 		}
 	}
 
+	.mapHolder .mapBottomBar .stat{
+			padding-top: 10px;
+			line-height: 1.3em;
+	}
+
 	.mini-maps .miniMapTooltipHolder{
 		width: 280px;
-
+		line-height: 2em;
+		
 		h2{
 			padding: 0 0 5px 48px;
 		}
@@ -38,8 +44,15 @@
 
 }
 
+
+@include respondMinMax(540px, false){
+	.rtl .mapHolder .mapBottomBar .stat{
+		line-height: initial;
+	}
+}
+
 @include respondMinMax(860px, false){
 	.rtl .mapHolder .mapBottomBar .stat{
-			padding-top: 6px;
+		padding-top: 6px;
 	}
 }
