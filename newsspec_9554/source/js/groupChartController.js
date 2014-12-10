@@ -72,22 +72,16 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine', 'dataC
                 }
             }
             orderedData.sort(function (a, b) {
-                /* Order Unknown last, and other second to last */
-                if (a.name === self.unknownAndOtherText.unknown) {
-                    return 1;
+                if (b.name === self.unknownAndOtherText.other) {
+                    return -1;
                 }
                 if (a.name === self.unknownAndOtherText.other) {
-                    if (b.name === self.unknownAndOtherText.unknown) {
-                        return -1;
-                    } else {
-                        return 1;
-                    }
+                    return 1;
                 }
 
                 /* Order rest by their no killings */
                 return b.percent - a.percent;
             });
-            
             return orderedData;
         },
 

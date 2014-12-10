@@ -1,4 +1,16 @@
 @include respondMinMax(480px, false){
+	.county-select-wrapper{
+		margin: 0 auto;
+		width: 100%;
+		max-width: 460px;
+	}
+	
+	.county-select-header{
+		max-width: 460px;
+		margin: 8px auto;
+		text-align: left;
+	}
+
 	.top-methods .top-methods--list li{
 		float: left;
 		width: 33%;
@@ -50,7 +62,7 @@
 		width: 270px;
 
 		h4{
-			margin: 0 0 8px;
+			margin: 0 0 4px;
 			text-align: left;
 		}
 

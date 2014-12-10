@@ -112,7 +112,8 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine', 'dataC
             /* If we're on a larger device, calculate the chart height from groupschart */
             if (this.$groupChartEl.css('position') === 'absolute') {
                 var fullElementHeight = this.$groupChartItemsEl.height();
-                chartAreaHeight = fullElementHeight - this.$topMethodsEl.outerHeight(true) + 10;
+                var marginAmount = $('.main').hasClass('rtl') ? 0 : 20;
+                chartAreaHeight = fullElementHeight - this.$topMethodsEl.outerHeight(true) - marginAmount;
             } else {
                 chartAreaHeight = news.$('.main').hasClass('rtl') ? 310 : 210;
             }

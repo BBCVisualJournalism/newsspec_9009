@@ -16,19 +16,20 @@ define(['lib/news_special/bootstrap'], function (news) {
 
     TopMethodsController.prototype = {
 
-        setData: function (dataModel) {
+        setData: function (totalAttacks, dataModel) {
+            this.totalAttacks = totalAttacks;
             this.model = dataModel;
 
             return this;
         },
 
-        updateTopMethods: function (data, totalMethodCount) {
+        updateTopMethods: function (data) {
             this.$methodsList.hide();
 
             for (var i = 0; (i < data.length && i < 3); i++) {
                 var $methodItem = news.$(this.$methodsList[i]),
                     method = data[i],
-                    percentage = Math.round(method.count / totalMethodCount * 100);
+                    percentage = Math.round(method.count / this.totalAttacks * 100);
                     
                 $methodItem.html('<strong>' + percentage + '% </strong>' + method.method);
 
@@ -51,15 +52,9 @@ define(['lib/news_special/bootstrap'], function (news) {
 
         draw: function () {
 
-            /* Calculate the total number of methods */
-            var totalMethodCount = 0;
-            for (var method in this.model) {
-                totalMethodCount += this.model[method];
-            }
-
             var orderedData = this.order(this.model);
 
-            this.updateTopMethods(orderedData, totalMethodCount);
+            this.updateTopMethods(orderedData);
 
         }
 

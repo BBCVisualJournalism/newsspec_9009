@@ -2,25 +2,23 @@
 
     <div class="main hideMe <%= is_rtl %> lang_<%= vocab_dir %>">
         <div class="mapLegend__mobile hideLegacy">
-            <h6><%= big_map_key1 %></h6>
             <p><%= big_map_key2 %></p>
             <p><%= big_map_key3 %></p>
         </div>
     	<div class="mapHolder">
             <div class="mapLegend__desktop">
-                <h6><%= big_map_key1 %></h6>
                 <%= big_map_key2 %><br/>
                 <div class="legendKeys">
                     <svg height="10" width="10">
-                        <circle cx="5" cy="5" r="4" stroke="rgba(255,255,255,.6)" stroke-width="0.5" fill="rgba(193,5,5,.8)" />
+                        <circle cx="4" cy="4" r="3" stroke="rgba(255,255,255,.6)" stroke-width="0.5" fill="rgba(193,5,5,.8)" />
                     </svg>
                     1
-                    <svg height="14" width="14">
-                        <circle cx="7" cy="7" r="6" stroke="rgba(255,255,255,.6)" stroke-width="0.5" fill="rgba(193,5,5,.8)" />
+                    <svg height="22" width="22">
+                        <circle cx="11" cy="11" r="10" stroke="rgba(255,255,255,.6)" stroke-width="0.5" fill="rgba(193,5,5,.8)" />
                     </svg>
                     10
-                    <svg height="60" width="60">
-                        <circle cx="30" cy="30" r="29" stroke="rgba(255,255,255,.6)" stroke-width="0.5" fill="rgba(193,5,5,.8)" />
+                    <svg height="64" width="64">
+                        <circle cx="32" cy="32" r="31" stroke="rgba(255,255,255,.6)" stroke-width="0.5" fill="rgba(193,5,5,.8)" />
                     </svg>
                     100
                 </div>
@@ -91,7 +89,7 @@
             <%= include('includes/miniMapTooltip.tmpl') %>
         </div>
         <div class="bottomChartsHolder">
-            <img src="img/groups_killing_<%= vocab_dir %>.gif" alt="" class="bottomChartImg"/><img src="img/most_deadly_<%= vocab_dir %>.gif" alt="" class="bottomChartImg"/>
+            <img src="img/most_deadly_<%= vocab_dir %>.gif" alt="" class="bottomChartImg"/><img src="img/groups_killing_<%= vocab_dir %>.gif" alt="" class="bottomChartImg"/>
         </div>
     </div>
 

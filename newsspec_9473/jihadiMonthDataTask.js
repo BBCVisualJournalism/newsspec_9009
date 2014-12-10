@@ -232,12 +232,8 @@
 						countriesObj['overview'].method_totals[method] = countriesObj['overview'].method_totals[method] || 0;
 
 						/* Add the groups total */
-						countriesObj[countryName].method_totals[method] += parseInt(rowArr[10], 10);
-						countriesObj['overview'].method_totals[method] += parseInt(rowArr[10], 10);
-
-
-
-
+						countriesObj[countryName].method_totals[method] += 1;
+						countriesObj['overview'].method_totals[method] += 1;
 
 
 						countriesObj[countryName].attacks_number += 1;

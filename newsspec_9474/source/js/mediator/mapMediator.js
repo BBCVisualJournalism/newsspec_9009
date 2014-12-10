@@ -184,6 +184,7 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
                 self.dayCanvasCount--;
                 if (self.dayCanvasCount === 3) {
                     news.pubsub.emit('map:finishedAnimation');
+                    news.pubsub.emit('istats', ['app', 'newsspec-interaction', 'map-animation-finished']);
                 }
             });
 
@@ -216,7 +217,8 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
                 }
 
                 var incidentCenter = this.proj([Number(incidentInfoObj.longitude), Number(incidentInfoObj.latitude)]),
-                    radius = (4 + (Number(incidentInfoObj.total_killed) / 10) * 2.5) * mapScaleVal;
+                    radius = (Math.sqrt(Number(incidentInfoObj.total_killed) * 10)) * mapScaleVal;
+                    // radius = (4 + (Number(incidentInfoObj.total_killed) / 10) * 2.5) * mapScaleVal;
 
                 this.incidentPositions.push({
                     report_number: incidentInfoObj.report_number,
@@ -289,7 +291,7 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
                 if (chosenIncident) {
                     var countryName = this.countriesData.incidentLookup[chosenIncident.report_number];
                     var countryData = this.countriesData.countries[countryName];
-
+                    news.pubsub.emit('istats', ['map-clicked-country', 'newsspec-interaction', countryName]);
                     news.pubsub.emit('showTooltip', [countryName, countryData, {x:chosenIncident.centerX / mapScaleVal, y:chosenIncident.centerY / mapScaleVal}]);
                 }
             }
@@ -302,10 +304,13 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
         restart: function () {
             news.pubsub.emit('map:reset');
             news.$('.mapDayCanvas').remove();
+            this.dayCanvasCount = 0;
             for (var i = 0; i < this.incidentTimeouts.length; i++) {
                 clearTimeout(this.incidentTimeouts[i]);
             }
             this.draw();
+        
+            news.pubsub.emit('istats', ['button-clicked', 'newsspec-interaction', 'restart-map']);
         },
 
         showExample: function () {
@@ -322,7 +327,7 @@ define(['lib/news_special/bootstrap', 'dataController', 'text!../../assets/world
                             self.infoOverlay.off('click');
                             self.showExample();
                         });
-                    }, 1500);
+                    }, 3000);
 
                 });
             }

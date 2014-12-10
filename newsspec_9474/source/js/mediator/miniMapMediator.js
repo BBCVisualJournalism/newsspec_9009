@@ -140,7 +140,9 @@ define(['lib/news_special/bootstrap', 'dataController', 'mediator/mapBottomBarMe
                 this.incidentQueue.push(incident);
             }else{
                 var incidentCenter = this.proj([Number(incident.longitude), Number(incident.latitude)]),
-                    radius = 4 + (Number(incident.total_killed) / 10) * 2.5;
+                    // radius = 4 + (Number(incident.total_killed) / 10) * 2.5;
+                    radius = (Math.sqrt(Number(incident.total_killed) * 10));
+
 
 
                 this.incidentsArr.push({
@@ -208,6 +210,7 @@ define(['lib/news_special/bootstrap', 'dataController', 'mediator/mapBottomBarMe
             }
 
             if (chosenIncident) {
+                news.pubsub.emit('istats', ['map-clicked-incident', 'newsspec-interaction', this.incidentsData[chosenIncident.report_number]]);
                 news.pubsub.emit('showMiniMapTooltip', [this.incidentsData[chosenIncident.report_number], this.el, {x:chosenIncident.centerX / mapScaleVal, y:chosenIncident.centerY / mapScaleVal}]);
             }
         }

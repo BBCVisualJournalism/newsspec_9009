@@ -57,9 +57,14 @@
 
 @include respondMinMax(480px, false){
 	.rtl{
+		.county-select-header{
+			text-align: right;
+		}
+
 		.top-methods .top-methods--list li{
 			float: right;
 		}
+
 	}
 }
 
