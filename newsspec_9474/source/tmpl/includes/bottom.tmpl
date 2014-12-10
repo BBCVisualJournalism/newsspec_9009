@@ -4,8 +4,7 @@
 
         if ('querySelector' in document && document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#Image", "1.1") && 'localStorage' in window && 'addEventListener' in window) {
             browserType = 'html5';
-        }
-        else if (document.documentMode && (document.documentMode < 9)) {
+        } else {
             browserType = 'legacyie';
         }
 

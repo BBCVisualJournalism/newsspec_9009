@@ -5,3 +5,14 @@
 		width: 270px;
 	}
 }
+
+.lang_hausa{
+	.mapHolder .mapBottomBar{
+		font-size: 8px;
+	}
+	@include respondMinMax(860px, false){
+		.mapHolder .mapBottomBar .stat{
+			padding-top: 25px;
+		}
+	}
+}
