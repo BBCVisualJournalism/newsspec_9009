@@ -20,6 +20,15 @@
 		display: block;
 	}
 
+	.bottomChartsHolder {
+		padding-top: 0;
+
+		.bottomChartImg {
+			width: 50%;
+			padding: 0;
+		}
+	}
+
 }
 
 @include respondMinMax(800px, false){

@@ -90,11 +90,11 @@
             
             <%= include('includes/miniMapTooltip.tmpl') %>
         </div>
+        <div class="bottomChartsHolder">
+            <img src="img/groups_killing_<%= vocab_dir %>.gif" alt="" class="bottomChartImg"/><img src="img/most_deadly_<%= vocab_dir %>.gif" alt="" class="bottomChartImg"/>
+        </div>
     </div>
-    <div class="bottomChartsHolder">
-    <%= small_map1_title %>
-        <img src="img/groups_killing_<%= vocab_dir %>.gif" alt="" class="bottomChartImg"/><img src="img/most_deadly_<%= vocab_dir %>.gif" alt="" class="bottomChartImg"/>
-    </div>
+
 
     <script>
     window.vocbas = <%= include('../vocabs/' + vocab_dir + '.json') %>;

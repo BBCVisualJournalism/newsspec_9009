@@ -114,7 +114,7 @@ define(['lib/news_special/bootstrap', 'lib/news_special/template_engine', 'dataC
                 var fullElementHeight = this.$groupChartItemsEl.height();
                 chartAreaHeight = fullElementHeight - this.$topMethodsEl.outerHeight(true) + 10;
             } else {
-                chartAreaHeight = 210;
+                chartAreaHeight = news.$('.main').hasClass('rtl') ? 310 : 210;
             }
 
             this.$chartArea.height(chartAreaHeight);

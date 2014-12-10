@@ -39,7 +39,7 @@
 		}
 
 		.top-methods--list li strong{
-			font-size: 48px;
+			font-size: 4.8em;
 		}
 	}
 
@@ -70,6 +70,6 @@
 
 @include respondMinMax(900px, false){
 	.top-methods .top-methods--list li strong{
-		font-size: 56px;
+		font-size: 5.6em;
 	}
 }
