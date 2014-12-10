@@ -1,0 +1,19 @@
+.bottomChartsHolder {
+	width: 100%;
+	display: block;
+
+	.bottomChartImg {
+		display: inline-block;
+		width: 100%;
+		height: auto;
+	}
+}
+
+@include respondMinMax(860px, false){
+	.bottomChartsHolder {
+
+		.bottomChartImg {
+			width: 50%;
+		}
+	}
+}
