@@ -206,8 +206,6 @@
                 this.data.hostPageCallback &&
                 (!this.iframeInstructionsRan)
             ) {
-                /* jshint evil:true */
-                (new Function(this.data.hostPageCallback)());
                 this.iframeInstructionsRan = true;
             }
         },
